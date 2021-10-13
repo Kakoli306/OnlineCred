@@ -29,8 +29,8 @@
 <!-- Sidebar  -->
 <div class="iq-sidebar">
     <div class="iq-sidebar-logo d-flex justify-content-between">
-        <a href="index.html">
-            <img src="{{asset('assets/dashboard/')}}/images/plus.png" class="img-fluid align-middle" alt="aba+">
+        <a href="{{route('admin.dashboard')}}">
+            <img src="{{asset('assets/dashboard/')}}/images/logo_new.png" class="img-fluid align-middle" alt="aba+">
             <span>Credential<span class="pms">Managemnt System</span></span>
         </a>
         <div class="iq-menu-bt-sidebar">
@@ -53,11 +53,13 @@
                     <a href="{{route('admin.providers')}}" class="iq-waves-effect"><i
                             class="fa fa-user-plus"></i><span>Provider</span></a>
                 </li>
-                <li><a href="report.html" class="iq-waves-effect"><i
+                <li><a href="{{route('admin.report')}}" class="iq-waves-effect"><i
                             class="las la-chart-bar"></i><span>Report</span></a></li>
-                <li><a href="account-activity.html" class="iq-waves-effect"><i
+                <li><a href="{{route('admin.account.activity')}}" class="iq-waves-effect"><i
                             class="las la-file-archive"></i><span>Account Activity</span></a></li>
-                <li><a href="#" class="iq-waves-effect"><i class="las la-bell"></i><span>Reminders</span></a>
+                <li><a href="{{route('admin.reminder')}}" class="iq-waves-effect"><i class="las la-bell"></i><span>Reminders</span></a>
+                </li>
+                <li><a href="{{route('admin.practice.lists')}}" class="iq-waves-effect"><i class="ri-settings-line"></i><span>Update Practice</span></a>
                 </li>
             </ul>
         </nav>
@@ -227,48 +229,7 @@
             </div>
         </div>
         <!-- Create provider modal -->
-        <div class="modal fade" id="createProvider" data-backdrop="static">
-            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4>Create Provider</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <form action="{{route('admin.provider.save')}}" method="post">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6 mb-2">
-                                    <label>Name<span class="text-danger">*</span></label>
-                                    <input type="text" name="name" class="form-control form-control-sm" required>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <label>Contact Info<span class="text-danger">*</span></label>
-                                    <input type="text" name="contact_info" class="form-control form-control-sm" data-mask="(000)-000-0000" pattern=".{14,}" required="" autocomplete="off" maxlength="14">
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <label>DOB<span class="text-danger">*</span></label>
-                                    <input type="date" name="dob" class="form-control form-control-sm" required>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <label>Gender<span class="text-danger">*</span></label>
-                                    <select class="form-control form-control-sm" name="gender">
-                                        <option name="Male">Male</option>
-                                        <option name="Female">Female</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Create & Continue
-{{--                                <i class='bx bx-loader align-middle ml-2'></i>--}}
-                            </button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+
         <!-- Main Content-->
         <div class="container-fluid">
             <div class="iq-card">

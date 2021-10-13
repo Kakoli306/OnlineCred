@@ -29,7 +29,7 @@
             <div class="col-md-6"></div>
             <div class="col-md-6 align-self-center">
                 <div class="sign-in-from">
-                    <img src="{{asset('assets/dashboard/')}}/images/logo.png" class="img-fluid d-block mx-auto mb-3" alt="">
+                    <img src="{{asset('assets/dashboard/')}}/images/logo_new.png" style="height: 50px;width: 50%" class="img-fluid d-block mx-auto mb-3" alt="">
                     <form action="{{route('user.login.submit')}}" method="post" class="needs-validation mt-3" novalidate>
                         @csrf
                         <div class="form-group">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Provider;
+use App\Models\provider_activity;
 use App\Models\provider_address;
 use App\Models\provider_contract;
 use App\Models\provider_contract_note;
@@ -24,8 +25,10 @@ class AdminProviderController extends Controller
     {
         $new_provider = new Provider();
         $new_provider->admin_id = Auth::user()->id;
-        $new_provider->first_name = $request->name;
-        $new_provider->phone = $request->contact_info;
+        $new_provider->facility_id = $request->fac_id;
+        $new_provider->first_name = $request->first_name;
+        $new_provider->first_name = $request->last_name;
+        $new_provider->phone = $request->phone_num;
         $new_provider->dob = Carbon::parse($request->dob)->format('Y-m-d');
         $new_provider->gender = $request->gender;
         $new_provider->save();
@@ -35,8 +38,12 @@ class AdminProviderController extends Controller
         $proider_info->provider_id = $new_provider->id;
         $proider_info->save();
 
-
-
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $new_provider->id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Crated";
+        $new_act->save();
         return back()->with('success','Provider Successfully Created');
     }
 
@@ -144,7 +151,12 @@ class AdminProviderController extends Controller
         }
 
 
-
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $proider->id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Info Updated";
+        $new_act->save();
 
 
         return back()->with('success','Provider Successfully Updated');
@@ -155,6 +167,14 @@ class AdminProviderController extends Controller
     public function provider_info_exists_phone_delete(Request $request)
     {
         $delete_phon = provider_phone::where('id',$request->phonid)->first();
+
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $delete_phon->provider_id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Phone Deleted";
+        $new_act->save();
+
         $delete_phon->delete();
         return response()->json('done',200);
     }
@@ -162,6 +182,14 @@ class AdminProviderController extends Controller
     public function provider_info_exists_email_delete(Request $request)
     {
         $delete_email = provider_email::where('id',$request->emailid)->first();
+
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $delete_email->provider_id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Email Deleted";
+        $new_act->save();
+
         $delete_email->delete();
         return response()->json('done',200);
     }
@@ -169,6 +197,14 @@ class AdminProviderController extends Controller
     public function provider_info_exists_address_delete(Request $request)
     {
         $delete_address = provider_address::where('id',$request->addressid)->first();
+
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $delete_address->provider_id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Address Deleted";
+        $new_act->save();
+
         $delete_address->delete();
         return response()->json('done',200);
     }
@@ -194,6 +230,14 @@ class AdminProviderController extends Controller
         $new_contract->pin_no = $request->pin_no;
         $new_contract->save();
 
+
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $new_contract->provider_id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Contract Created";
+        $new_act->save();
+
         return back()->with('success','Provider Contract Successfully Created');
     }
 
@@ -206,6 +250,14 @@ class AdminProviderController extends Controller
         $update_contract->contract_type = $request->contract_type;
         $update_contract->pin_no = $request->pin_no;
         $update_contract->save();
+
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $update_contract->provider_id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Contract Updated";
+        $new_act->save();
+
         return back()->with('success','Provider Contract Successfully Updated');
     }
 
@@ -213,6 +265,15 @@ class AdminProviderController extends Controller
     {
         $delete_contract = provider_contract::where('id',$id)->first();
         if ($delete_contract) {
+
+
+            $new_act = new provider_activity();
+            $new_act->admin_id = Auth::user()->id;
+            $new_act->provider_id = $delete_contract->provider_id;
+            $new_act->created_by = Auth::user()->name;
+            $new_act->message = "Provider Contract Deleted";
+            $new_act->save();
+
             $delete_contract->delete();
             return back()->with('success','Provider Contract Successfully Deleted');
         }else{
@@ -233,6 +294,15 @@ class AdminProviderController extends Controller
         $new_note->followup_date = $request->followup_date;
         $new_note->note = $request->note;
         $new_note->save();
+
+
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $new_note->provider_id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Contract Note Added";
+        $new_act->save();
+
         return back()->with('success','Provider Contract Note Successfully Added');
     }
 
@@ -271,6 +341,15 @@ class AdminProviderController extends Controller
         $new_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
         $new_doc->created_by = Auth::user()->name;
         $new_doc->save();
+
+
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $new_doc->provider_id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Document Added";
+        $new_act->save();
+
         return back()->with('success','Provider Document Successfully Added');
     }
 
@@ -292,6 +371,15 @@ class AdminProviderController extends Controller
         $update_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
         $update_doc->created_by = Auth::user()->name;
         $update_doc->save();
+
+
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $update_doc->provider_id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Document Updated";
+        $new_act->save();
+
         return back()->with('success','Provider Document Successfully Updated');
     }
 
@@ -299,7 +387,15 @@ class AdminProviderController extends Controller
     {
         $delete_doc = provider_document::where('id',$id)->first();
         if ($delete_doc) {
-            unlink($delete_doc->file);
+//            unlink($delete_doc->file);
+
+            $new_act = new provider_activity();
+            $new_act->admin_id = Auth::user()->id;
+            $new_act->provider_id = $delete_doc->provider_id;
+            $new_act->created_by = Auth::user()->name;
+            $new_act->message = "Provider Document Deleted";
+            $new_act->save();
+
             $delete_doc->delete();
             return back()->with('success','Provider Document Successfully Deleted');
         }else{
@@ -330,6 +426,14 @@ class AdminProviderController extends Controller
         $portal->acc_bill = $request->acc_bill;
         $portal->pay_bal = $request->pay_bal;
         $portal->save();
+
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $portal->provider_id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Portal Updated";
+        $new_act->save();
+
         return back()->with('success','Provider Portal Successfully Updated');
     }
 
@@ -350,6 +454,14 @@ class AdminProviderController extends Controller
         $new_access->user_name = $request->user_name;
         $new_access->password = $request->password;
         $new_access->save();
+
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $new_access->provider_id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Online Access Created";
+        $new_act->save();
+
         return back()->with('success','Provider Online Access Successfully Created');
     }
 

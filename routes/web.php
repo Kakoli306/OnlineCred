@@ -36,6 +36,9 @@ Route::group(['middleware' => ['auth:admin']], function() {
 
         //preactice
         Route::post('/practice-save', [Controllers\Admin\AdminPracticeController::class,'practice_save'])->name('admin.practice.save');
+        Route::get('/practice-lists', [Controllers\Admin\AdminPracticeController::class,'practice_lists'])->name('admin.practice.lists');
+        Route::post('/practice-update', [Controllers\Admin\AdminPracticeController::class,'practice_update'])->name('admin.practice.update');
+        Route::get('/practice-delete/{id}', [Controllers\Admin\AdminPracticeController::class,'practice_delete'])->name('admin.practice.delete');
 
         //provider
         Route::post('/provider-save', [Controllers\Admin\AdminProviderController::class,'provider_save'])->name('admin.provider.save');
@@ -73,5 +76,12 @@ Route::group(['middleware' => ['auth:admin']], function() {
 
         //provider activity
         Route::get('/provider-activity/{id}', [Controllers\Admin\AdminProviderController::class,'provider_activity'])->name('admin.provider.activity');
+
+        //report
+        Route::get('/report', [Controllers\Admin\AdminReportController::class,'report'])->name('admin.report');
+
+        //account activity
+        Route::get('/account-activity', [Controllers\Admin\AdminActivityController::class,'account_activity'])->name('admin.account.activity');
+        Route::get('/reminder', [Controllers\Admin\AdminReminderController::class,'reminder'])->name('admin.reminder');
     });
 });
