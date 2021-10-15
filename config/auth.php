@@ -52,6 +52,19 @@ return [
             'driver' => 'token',
             'provider' => 'admins',
         ],
+
+
+        // this guard  for provider
+        'provider' => [
+            'driver' => 'session',
+            'provider' => 'providers',
+        ],
+
+        //this is for admin api
+        'provider-api' => [
+            'driver' => 'token',
+            'provider' => 'providers',
+        ],
     ],
 
     /*
@@ -81,6 +94,11 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => \App\Models\Admin::class,
+        ],
+
+        'providers' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\Provider::class,
         ],
 
         // 'users' => [
@@ -114,6 +132,13 @@ return [
 
         'admins' => [
             'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'providers' => [
+            'provider' => 'providers',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

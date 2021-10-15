@@ -87,6 +87,7 @@
                             <button type="submit" class="btn btn-sm btn-primary mt-2">Save
                                 Features</button>
                         </div>
+
                         <div class="col-md-6 mb-2">
                             <h4 class="common-title">Provider Portal Access</h4>
                             <label class="d-block mb-2 text-muted">Provider will create their own
@@ -94,9 +95,14 @@
                             <label>Email: </label>
                             <div class="d-inline-block">
                                 <select class="form-control form-control-sm">
-                                    <option value="kcorliss878@hotmail.com">
-                                        kcorliss878@hotmail.com Home (current)
+                                    <option value="{{$provider->email}}">
+                                        {{$provider->email}}
                                     </option>
+                                    @foreach($provider_all_email as $proemail)
+                                    <option value="{{$proemail->email}}">
+                                        {{$proemail->email}}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="alert alert-danger alert-dismissible mt-2 mb-2" role="alert">

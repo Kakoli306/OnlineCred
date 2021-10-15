@@ -93,3 +93,20 @@ Route::group(['middleware' => ['auth:admin']], function() {
         Route::get('/reminder', [Controllers\Admin\AdminReminderController::class,'reminder'])->name('admin.reminder');
     });
 });
+
+
+Route::prefix('provider')->group(function (){
+    Route::get('/login', [Controllers\Auth\ProviderLoginController::class,'provider_login_form'])->name('provider.login');
+    Route::post('/login', [Controllers\Auth\ProviderLoginController::class,'provider_login'])->name('provider.login.submit');
+    Route::get('/logout', [Controllers\Auth\ProviderLoginController::class,'provider_logout'])->name('provider.logout');
+});
+
+
+
+Route::group(['middleware' => ['auth:provider']], function() {
+    Route::prefix('provider')->group(function() {
+        Route::get('/', [Controllers\Provider\ProiderController::class,'index'])->name('provider.dashboard');
+    });
+});
+
+

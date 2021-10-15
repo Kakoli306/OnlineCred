@@ -36,7 +36,6 @@ class AdminProviderController extends Controller
         $new_provider->phone = $request->phone_num;
         $new_provider->dob = Carbon::parse($request->dob)->format('Y-m-d');
         $new_provider->gender = $request->gender;
-        $new_provider->password = Hash::make($request->password);
         $new_provider->save();
 
         $proider_info = new Provider_info();
@@ -415,6 +414,7 @@ class AdminProviderController extends Controller
     {
         $provider = Provider::where('id',$id)->first();
         $check_provider_portal = provider_portal::where('admin_id',Auth::user()->id)->where('provider_id',$id)->first();
+        $provider_all_email = provider_email::where('provider_id',$id)->get();
         if ($check_provider_portal) {
             $portal = $check_provider_portal;
         }else{
@@ -423,7 +423,7 @@ class AdminProviderController extends Controller
             $portal->provider_id = $id;
             $portal->save();
         }
-        return view('admin.provider.providerPortal',compact('provider','portal'));
+        return view('admin.provider.providerPortal',compact('provider','portal','provider_all_email'));
     }
 
     public function provider_portal_save(Request $request)
