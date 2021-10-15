@@ -39,6 +39,13 @@ Route::group(['middleware' => ['auth:admin']], function() {
         Route::get('/practice-lists', [Controllers\Admin\AdminPracticeController::class,'practice_lists'])->name('admin.practice.lists');
         Route::post('/practice-update', [Controllers\Admin\AdminPracticeController::class,'practice_update'])->name('admin.practice.update');
         Route::get('/practice-delete/{id}', [Controllers\Admin\AdminPracticeController::class,'practice_delete'])->name('admin.practice.delete');
+        Route::post('/practice-get-all', [Controllers\Admin\AdminPracticeController::class,'practice_get_all'])->name('admin.get.all.practice');
+        Route::post('/practice-add-provider', [Controllers\Admin\AdminPracticeController::class,'practice_add_provider'])->name('admin.add.facility.provider');
+        Route::post('/practice-remove-provider', [Controllers\Admin\AdminPracticeController::class,'practice_remove_provider'])->name('admin.remove.facility.provider');
+        Route::post('/practice-assign-get', [Controllers\Admin\AdminPracticeController::class,'practice_assign_get'])->name('admin.get.assin.practice');
+
+        //practice assign
+        Route::get('/practice-assign', [Controllers\Admin\AdminPracticeController::class,'practice_assign'])->name('admin.practice.assign');
 
         //provider
         Route::post('/provider-save', [Controllers\Admin\AdminProviderController::class,'provider_save'])->name('admin.provider.save');
@@ -48,6 +55,7 @@ Route::group(['middleware' => ['auth:admin']], function() {
         Route::post('/provider-info-exists-phone-delete', [Controllers\Admin\AdminProviderController::class,'provider_info_exists_phone_delete'])->name('admin.delete.exist.provider.phone');
         Route::post('/provider-info-exists-email-delete', [Controllers\Admin\AdminProviderController::class,'provider_info_exists_email_delete'])->name('admin.delete.exist.provider.email');
         Route::post('/provider-info-exists-address-delete', [Controllers\Admin\AdminProviderController::class,'provider_info_exists_address_delete'])->name('admin.delete.exist.provider.address');
+        Route::post('/get-all-provider', [Controllers\Admin\AdminProviderController::class,'get_all_provider'])->name('admin.get.all.provider');
 
         //provider contract
         Route::get('/provider-contract/{id}', [Controllers\Admin\AdminProviderController::class,'provider_contract'])->name('admin.provider.contract');

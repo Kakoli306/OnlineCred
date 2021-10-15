@@ -49,6 +49,7 @@
                     <a href="{{route('admin.dashboard')}}" class="iq-waves-effect"><i
                             class="ri-home-4-line"></i><span>Dashboard </span></a>
                 </li>
+
                 <li>
                     <a href="{{route('admin.providers')}}" class="iq-waves-effect"><i
                             class="fa fa-user-plus"></i><span>Provider</span></a>
@@ -60,6 +61,10 @@
                 <li><a href="{{route('admin.reminder')}}" class="iq-waves-effect"><i class="las la-bell"></i><span>Reminders</span></a>
                 </li>
                 <li><a href="{{route('admin.practice.lists')}}" class="iq-waves-effect"><i class="ri-settings-line"></i><span>Update Practice</span></a>
+                </li>
+                <li>
+                    <a href="{{route('admin.practice.assign')}}" class="iq-waves-effect"><i
+                            class="ri-water-flash-line"></i><span>Assign Practice</span></a>
                 </li>
             </ul>
         </nav>
@@ -100,10 +105,7 @@
                                        data-target="#createPractice">
                                         <i class="ri-user-line mr-2"></i>Create Practice
                                     </a>
-                                    <a class="dropdown-item" href="#" data-toggle="modal"
-                                       data-target="#createProvider">
-                                        <i class="ri-user-add-line mr-2"></i>Create Provider
-                                    </a>
+
                                 </div>
                             </li>
                         </ul>

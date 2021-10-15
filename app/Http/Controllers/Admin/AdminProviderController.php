@@ -17,20 +17,26 @@ use App\Models\provider_portal;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 
 class AdminProviderController extends Controller
 {
+
+
+
     public function provider_save(Request $request)
     {
+
         $new_provider = new Provider();
         $new_provider->admin_id = Auth::user()->id;
-        $new_provider->facility_id = $request->fac_id;
+        $new_provider->full_name = $request->first_name.' '.$request->last_name;
         $new_provider->first_name = $request->first_name;
-        $new_provider->first_name = $request->last_name;
+        $new_provider->last_name = $request->last_name;
         $new_provider->phone = $request->phone_num;
         $new_provider->dob = Carbon::parse($request->dob)->format('Y-m-d');
         $new_provider->gender = $request->gender;
+        $new_provider->password = Hash::make($request->password);
         $new_provider->save();
 
         $proider_info = new Provider_info();
@@ -67,6 +73,7 @@ class AdminProviderController extends Controller
     public function provider_info_update(Request $request)
     {
         $proider = Provider::where('id',$request->provider_id)->first();
+        $proider->full_name = $request->first_name.' '.$request->middle_name.' '.$request->last_name;
         $proider->first_name = $request->first_name;
         $proider->middle_name = $request->middle_name;
         $proider->last_name = $request->last_name;
@@ -476,6 +483,13 @@ class AdminProviderController extends Controller
         $provider = Provider::where('id',$id)->first();
         return view('admin.provider.providerActivity',compact('provider'));
     }
+
+    public function get_all_provider(Request $request)
+    {
+        $all_provider = Provider::all();
+        return response()->json($all_provider,200);
+    }
+
 
 
 }

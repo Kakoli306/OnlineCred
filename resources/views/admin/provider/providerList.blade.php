@@ -36,14 +36,22 @@
                     <form action="#">
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-6 mb-2">
+                                <div class="col-md-4 ">
                                     <label>First Name<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm first_name" required>
                                 </div>
-                                <div class="col-md-6 mb-2">
+                                <div class="col-md-4 ">
                                     <label>Last Name<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm last_name" required>
                                 </div>
+                                <div class="col-md-4 ">
+                                    <label>Account Password<span class="text-danger">*</span></label>
+                                    <input type="password" class="form-control form-control-sm last_name" required>
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
                                 <div class="col-md-4 mb-2">
                                     <label>Contact Info<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm phone_num" data-mask="(000)-000-0000" pattern=".{14,}" required="" autocomplete="off" maxlength="14">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\assign_practice;
 use App\Models\practice;
 use App\Models\Provider;
 use Illuminate\Http\Request;
@@ -66,6 +67,74 @@ class AdminPracticeController extends Controller
         }
 
     }
+
+
+    public function practice_assign()
+    {
+        return view('admin.facility.facilityAssign');
+    }
+
+
+    public function practice_get_all(Request $request)
+    {
+        $prac = assign_practice::where('provider_id',$request->pro_id)->get();
+        $ids = [];
+        foreach ($prac as $prc){
+            array_push($ids,$prc->practice_id);
+        }
+
+        $all_practice = practice::whereNotIn('id',$ids )->get();
+        return response()->json($all_practice,200);
+    }
+
+    public function practice_assign_get(Request $request)
+    {
+        $prac = assign_practice::where('provider_id',$request->pro_id)->get();
+        $ids = [];
+        foreach ($prac as $prc){
+            array_push($ids,$prc->practice_id);
+        }
+
+        $get_all_prac = practice::whereIn('id',$ids)->get();
+        return response()->json($get_all_prac,200);
+
+    }
+
+
+    public function practice_add_provider(Request $request)
+    {
+        $fac_ids = $request->fac_id;
+        $provder_id = $request->pro_id;
+
+        for ($i=0;$i<count($fac_ids);$i++){
+            assign_practice::create([
+                'admin_id' => Auth::user()->id,
+                'provider_id' => $provder_id,
+                'practice_id' => $fac_ids[$i],
+            ]);
+        }
+
+        return response()->json('done',200);
+
+
+    }
+
+    public function practice_remove_provider(Request $request)
+    {
+        $assign_prac = $request->assign_prac;
+        $pro_id = $request->pro_id;
+
+        foreach ($assign_prac as $prc ){
+            $del_ass_prc = assign_practice::where('admin_id',Auth::user()->id)->where('provider_id',$pro_id)->where('practice_id',$prc)->first();
+            if ($del_ass_prc) {
+                $del_ass_prc->delete();
+            }
+        }
+        return response()->json('done',200);
+
+    }
+
+
 
 
 
