@@ -28,7 +28,7 @@ class ProviderLoginController extends Controller
             'email' => 'required',
             'password' => 'required|min:8'
         ]);
-        if(Auth::guard('provider')->attempt(['email'=>$request->email,'password'=>$request->password],$request->remember)){
+        if(Auth::guard('provider')->attempt(['login_email'=>$request->email,'password'=>$request->password],$request->remember)){
             return redirect(route('provider.dashboard'));
         }
 

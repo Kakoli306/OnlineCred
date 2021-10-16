@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AccessEmail;
+use App\Models\portal_access_email;
 use App\Models\Provider;
 use App\Models\provider_activity;
 use App\Models\provider_address;
@@ -18,6 +20,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class AdminProviderController extends Controller
@@ -443,6 +447,55 @@ class AdminProviderController extends Controller
 
         return back()->with('success','Provider Portal Successfully Updated');
     }
+
+    public function provider_portal_send_access(Request $request)
+    {
+        $email =$request->access_email;
+        $provider_id = $request->portal_acess_id;
+
+        $provider = Provider::where('id',$provider_id)->where('email',$email)->first();
+        $provider_emails = provider_email::where('provider_id',$provider_id)->where('email',$email)->first();
+        if ($provider) {
+
+            $new_access = new portal_access_email();
+            $new_access->admin_id = Auth::user()->id;
+            $new_access->provider_id = $provider_id;
+            $new_access->email = $email;
+            $new_access->verify_id = rand(00000,99999).$provider_id.rand(00,99).rand(00000,999999);
+            $new_access->is_use = 0;
+            $new_access->save();
+
+
+            $to = $email;
+            $url = route('access.email',$new_access->verify_id);
+            $msg = [
+                'name' => $provider->full_name,
+                'url'=>$url
+            ];
+            Mail::to($to)->send(new AccessEmail($msg));
+            return back()->with('success','Portal Link Has Been Send');
+
+        }elseif ($provider_emails){
+            $new_access = new portal_access_email();
+            $new_access->admin_id = Auth::user()->id;
+            $new_access->provider_id = $provider_id;
+            $new_access->email = $email;
+            $new_access->verify_id = rand(00000,99999).$provider_id.rand(00,99).rand(00000,999999);
+            $new_access->is_use = 0;
+            $new_access->save();
+
+            return back()->with('success','Portal Link Has Been Send');
+
+        }else{
+            return back()->with('alert','Something Went Wrong');
+        }
+
+
+
+
+
+    }
+
 
     public function provider_online_access($id)
     {

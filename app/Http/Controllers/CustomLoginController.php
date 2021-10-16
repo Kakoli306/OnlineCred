@@ -22,7 +22,12 @@ class CustomLoginController extends Controller
         if(Auth::guard('admin')->attempt(['email'=>$request->email,'password'=>$request->password],$request->remember)){
             return redirect(route('admin.dashboard'));
         }
+        elseif(Auth::guard('provider')->attempt(['login_email'=>$request->email,'password'=>$request->password],$request->remember)){
+            return redirect(route('provider.dashboard'));
+        }else{
+            return redirect()->back()->with('alert',"Invalid Credential");
+        }
 
-        return redirect()->back();
+
     }
 }

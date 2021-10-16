@@ -14,12 +14,34 @@ use App\Http\Controllers;
 |
 */
 
+
+Route::get('/cache_clear',function(){
+    Artisan::call('cache:clear');
+});
+
+Route::get('/view_clear',function(){
+    Artisan::call('view:clear');
+});
+Route::get('/config_clear',function(){
+    Artisan::call('config:cache');
+});
+Route::get('/route_clear',function(){
+    Artisan::call('route:clear');
+});
+
+
+
+
 Route::get('/', [Controllers\CustomLoginController::class, 'user_login'])->name('user.login');
 Route::post('/user-login-submit', [Controllers\CustomLoginController::class, 'user_login_submit'])->name('user.login.submit');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//access email
+Route::get('/account-setup/{token}', [App\Http\Controllers\VisitorController::class, 'account_setup'])->name('access.email');
+Route::post('/account-password-setup', [App\Http\Controllers\VisitorController::class, 'account_password_setup'])->name('provider.account.pass.setup');
 
 
 
@@ -74,6 +96,7 @@ Route::group(['middleware' => ['auth:admin']], function() {
         //provider portal
         Route::get('/provider-portal/{id}', [Controllers\Admin\AdminProviderController::class,'provider_portal'])->name('admin.provider.portal');
         Route::post('/provider-portal-save', [Controllers\Admin\AdminProviderController::class,'provider_portal_save'])->name('admin.provider.portal.save');
+        Route::post('/provider-portal-send-access', [Controllers\Admin\AdminProviderController::class,'provider_portal_send_access'])->name('admin.provider.send.access');
 
         //online access
         Route::get('/provider-online-access/{id}', [Controllers\Admin\AdminProviderController::class,'provider_online_access'])->name('admin.provider.online.access');

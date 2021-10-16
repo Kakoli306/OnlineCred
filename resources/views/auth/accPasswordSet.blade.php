@@ -19,8 +19,6 @@
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/css/style.css">
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/css/responsive.css">
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/css/custom.css">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/')}}/toastr/build/toastr.min.css">
-    @yield('css')
 </head>
 <body>
 <!-- Sign in Start -->
@@ -32,25 +30,21 @@
             <div class="col-md-6 align-self-center">
                 <div class="sign-in-from">
                     <img src="{{asset('assets/dashboard/')}}/images/logo_new.png" style="height: 50px;width: 50%" class="img-fluid d-block mx-auto mb-3" alt="">
-                    <form action="{{route('user.login.submit')}}" method="post" class="needs-validation mt-3" novalidate>
+                    <form action="{{route('provider.account.pass.setup')}}" method="post" class="needs-validation mt-3" novalidate>
                         @csrf
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email Address</label>
-                            <input type="email" name="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Enter Email" required>
-                            <div class="invalid-feedback">Enter Email</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <a href="#" class="float-right">Forgot Password?</a>
-                            <input type="password" name="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password" required>
+                            <label for="exampleInputEmail1">New Password</label>
+                            <input type="password" name="pass" class="form-control mb-0" id="exampleInputEmail1" placeholder="Enter Email" required>
+                            <input type="hidden" name="token_id" value="{{$access->verify_id}}" required>
                             <div class="invalid-feedback">Enter Password</div>
                         </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Confirm Password</label>
+                            <input type="password" name="cpass" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password" required>
+                            <div class="invalid-feedback">Enter Confirm Password</div>
+                        </div>
                         <div class="d-inline-block w-100">
-                            <div class="custom-control custom-checkbox d-inline-block pt-1">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                <label class="custom-control-label" for="customCheck1">Remember Me</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary float-right">Sign in</button>
+                            <button type="submit" class="btn btn-primary float-right">Setup</button>
                         </div>
                     </form>
                 </div>
@@ -77,16 +71,5 @@
 <script src="{{asset('assets/dashboard/')}}/vendor/particle-js/app.js"></script>
 <!-- Custom JavaScript -->
 <script src="{{asset('assets/dashboard/')}}/js/custom.js"></script>
-
-
-<script src="{{asset('assets/toastr/')}}/build/toastr.min.js"></script>
-
-<!-- toastr init -->
-<script src="{{asset('assets/toastr/')}}/toastr.init.js"></script>
-<!-- Custom JavaScript -->
-<script src="{{asset('assets/dashboard/js/bootstrap-notify.min.js')}}"></script>
-
-@include('layouts.message')
-
 </body>
 </html>

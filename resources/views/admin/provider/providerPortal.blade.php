@@ -59,10 +59,11 @@
                 </li>
             </ul>
             <div class="all_content flex-fill">
-                <form action="{{route('admin.provider.portal.save')}}" method="post">
-                    @csrf
+
                     <div class="row">
                         <div class="col-md-6 mb-2">
+                            <form action="{{route('admin.provider.portal.save')}}" method="post">
+                                @csrf
                             <h4 class="common-title">Provider Portal Features</h4>
                             <label class="d-block text-muted">Select which features are available for
                                 this Provider Portal.</label>
@@ -86,15 +87,18 @@
                             </div>
                             <button type="submit" class="btn btn-sm btn-primary mt-2">Save
                                 Features</button>
+                            </form>
                         </div>
 
                         <div class="col-md-6 mb-2">
+                            <form action="{{route('admin.provider.send.access')}}" method="post">
+                                @csrf
                             <h4 class="common-title">Provider Portal Access</h4>
                             <label class="d-block mb-2 text-muted">Provider will create their own
                                 accounts to access your Provider Portal.</label>
                             <label>Email: </label>
                             <div class="d-inline-block">
-                                <select class="form-control form-control-sm">
+                                <select class="form-control form-control-sm" name="access_email">
                                     <option value="{{$provider->email}}">
                                         {{$provider->email}}
                                     </option>
@@ -104,6 +108,7 @@
                                     </option>
                                     @endforeach
                                 </select>
+                                <input type="hidden" name="portal_acess_id" value="{{$provider->id}}">
                             </div>
                             <div class="alert alert-danger alert-dismissible mt-2 mb-2" role="alert">
                                 Invitation sent — provider has not signed in yet.
@@ -111,11 +116,12 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <button type="button" class="btn btn-sm btn-secondary">Send
+                            <button type="submit" class="btn btn-sm btn-secondary">Send
                                 Invitation</button>
+                            </form>
                         </div>
                     </div>
-                </form>
+
             </div>
         </div>
     </div>
