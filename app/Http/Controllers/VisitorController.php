@@ -21,11 +21,15 @@ class VisitorController extends Controller
 
     public function account_password_setup(Request $request)
     {
+
+
         $pass = $request->pass;
         $cpass = $request->cpass;
 
         if ($pass != $cpass) {
             return back()->with('alert','Password Not Match');
+        }elseif(trim($pass) > 8 || trim($cpass) > 8){
+            return back()->with('alert','Password and Confirm Password must be at least 8 characters with special characters');
         }else{
             $access = portal_access_email::where('verify_id',$request->token_id)->first();
             $access->is_use = 1;

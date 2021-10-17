@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/css/style.css">
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/css/responsive.css">
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/')}}/toastr/build/toastr.min.css">
+    @yield('css')
 </head>
 <body>
 <!-- Sign in Start -->
@@ -34,13 +36,23 @@
                         @csrf
                         <div class="form-group">
                             <label for="exampleInputEmail1">New Password</label>
-                            <input type="password" name="pass" class="form-control mb-0" id="exampleInputEmail1" placeholder="Enter Email" required>
+                            <input type="password" name="pass" class="form-control mb-0{{ $errors->has('pass') ? ' has-error' : '' }}" id="exampleInputEmail1" placeholder="Enter Password" required>
                             <input type="hidden" name="token_id" value="{{$access->verify_id}}" required>
+                            @if ($errors->has('pass'))
+                                <span class="help-block">
+                                        <strong style="color: red">{{ $errors->first('pass') }}</strong>
+                                    </span>
+                            @endif
                             <div class="invalid-feedback">Enter Password</div>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Confirm Password</label>
-                            <input type="password" name="cpass" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password" required>
+                            <input type="password" name="cpass" class="form-control mb-0{{ $errors->has('cpass') ? ' has-error' : '' }}" id="exampleInputPassword1" placeholder="Enter Confirm Password" required>
+                            @if ($errors->has('cpass'))
+                                <span class="help-block">
+                                        <strong style="color: red">{{ $errors->first('cpass') }}</strong>
+                                    </span>
+                            @endif
                             <div class="invalid-feedback">Enter Confirm Password</div>
                         </div>
                         <div class="d-inline-block w-100">
@@ -71,5 +83,13 @@
 <script src="{{asset('assets/dashboard/')}}/vendor/particle-js/app.js"></script>
 <!-- Custom JavaScript -->
 <script src="{{asset('assets/dashboard/')}}/js/custom.js"></script>
+<script src="{{asset('assets/toastr/')}}/build/toastr.min.js"></script>
+
+<!-- toastr init -->
+<script src="{{asset('assets/toastr/')}}/toastr.init.js"></script>
+<!-- Custom JavaScript -->
+<script src="{{asset('assets/dashboard/js/bootstrap-notify.min.js')}}"></script>
+
+@include('layouts.message')
 </body>
 </html>

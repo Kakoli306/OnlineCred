@@ -471,15 +471,15 @@ a:hover {
 .sign-in-page-bg {
     width: 100%;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
     z-index: 2;
 }
 .sign-in-from {
-    min-height: 500px;
+    min-height: 100vh;
     padding: 70px;
-    border-radius: 37px;
+    /* border-radius: 37px; */
     position: relative;
     z-index: 3;
     background: #fff;

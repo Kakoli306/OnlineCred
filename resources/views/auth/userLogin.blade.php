@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Aba+</title>
+    <title>CredenGo</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="images/favicon.png">
     <!-- Bootstrap CSS -->
@@ -20,29 +21,30 @@
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/css/responsive.css">
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/css/custom.css">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/')}}/toastr/build/toastr.min.css">
-    @yield('css')
 </head>
+
 <body>
 <!-- Sign in Start -->
 <section class="sign-in-page">
     <div id="particles-js"></div>
-    <div class="container sign-in-page-bg">
+    <div class="container sign-in-page-bg p-0">
         <div class="row no-gutters">
-            <div class="col-md-6"></div>
-            <div class="col-md-6 align-self-center">
+            <div class="col-lg-5 col-md-6">
                 <div class="sign-in-from">
-                    <img src="{{asset('assets/dashboard/')}}/images/logo_new.png" style="height: 50px;width: 50%" class="img-fluid d-block mx-auto mb-3" alt="">
-                    <form action="{{route('user.login.submit')}}" method="post" class="needs-validation mt-3" novalidate>
+                    <img src="{{asset('assets/dashboard/')}}/images/logo.png" class="img-fluid d-block mx-auto mb-3" alt="">
+                    <form class="needs-validation mt-3" action="{{route('user.login.submit')}}" method="post" novalidate>
                         @csrf
                         <div class="form-group">
                             <label for="exampleInputEmail1">Email Address</label>
-                            <input type="email" name="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Enter Email" required>
+                            <input type="email" name="email" class="form-control mb-0" id="exampleInputEmail1"
+                                   placeholder="Enter Email" required>
                             <div class="invalid-feedback">Enter Email</div>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
                             <a href="#" class="float-right">Forgot Password?</a>
-                            <input type="password" name="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password" required>
+                            <input type="password" name="password" class="form-control mb-0" id="exampleInputPassword1"
+                                   placeholder="Password" required>
                             <div class="invalid-feedback">Enter Password</div>
                         </div>
                         <div class="d-inline-block w-100">
@@ -89,4 +91,5 @@
 @include('layouts.message')
 
 </body>
+
 </html>
