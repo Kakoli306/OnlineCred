@@ -46,17 +46,17 @@ import Css
 General
 -----------------------------------------------------------------------*/
 *::-moz-selection {
-  background: #089bab;
+  background: #375EB7;
   color: #ffffff;
   text-shadow: none;
 }
 ::-moz-selection {
-  background: #089bab;
+  background: #375EB7;
   color: #ffffff;
   text-shadow: none;
 }
 ::selection {
-  background: #089bab;
+  background: #375EB7;
   color: #ffffff;
   text-shadow: none;
 }
@@ -85,7 +85,7 @@ btn {
   outline: medium none !important;
 }
 a {
-  color: #089bab;
+  color: #375EB7;
 }
 .uppercase {
   text-transform: uppercase;
@@ -135,7 +135,7 @@ Input
 }
 .form-control:focus {
   color: #495057;
-  border-color: #089bab;
+  border-color: #375EB7;
   box-shadow: none;
 }
 /* Definition Lists */
@@ -506,14 +506,7 @@ Background Color
 .bg-primary,
 .badge-primary {
   color: #ffffff;
-  background: rgba(8, 155, 171, 1);
-  background: -moz-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
-  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(8, 155, 171, 1)), color-stop(100%, rgba(13, 181, 200, 1)));
-  background: -webkit-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
-  background: -o-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
-  background: -ms-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
-  background: linear-gradient(to right, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#089bab', endColorstr='#0db5c8', GradientType=1);
+  background: #375EB7!important;
 }
 .bg-secondary,
 .badge-secondary {
@@ -602,7 +595,7 @@ Background Color Opacity
 ------------------------------------------------*/
 .iq-bg-primary {
   background: #ceebee !important;
-  color: #089bab !important;
+  color: #375EB7 !important;
 }
 .iq-bg-secondary {
   background: #f1f2f1 !important;
@@ -654,7 +647,7 @@ Background Color Opacity
 Text Color
 ------------------------------------------------*/
 .text-primary {
-  color: #089bab !important;
+  color: #375EB7 !important;
 }
 .text-secondary {
   color: #a09e9e !important;
@@ -856,11 +849,11 @@ Card
 }
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
-  color: #089bab;
+  color: #375EB7;
   background: #ceebee;
 }
 .nav-pills .nav-link:hover {
-  color: #089bab;
+  color: #375EB7;
 }
 /*--------------*/
 .nav-tabs {
@@ -878,23 +871,23 @@ Card
 }
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
-  border-bottom: 2px solid #089bab;
-  color: #089bab;
+  border-bottom: 2px solid #375EB7;
+  color: #375EB7;
 }
 .page-item.disabled .page-link {
-  border-color: #089bab;
+  border-color: #375EB7;
 }
 .page-link {
-  color: #089bab;
-  border-color: #089bab;
+  color: #375EB7;
+  border-color: #375EB7;
 }
 .page-item.active .page-link {
-  background-color: #089bab;
-  border-color: #089bab;
+  background-color: #375EB7;
+  border-color: #375EB7;
 }
 .page-link:hover {
-  color: #089bab;
-  border-color: #089bab;
+  color: #375EB7;
+  border-color: #375EB7;
 }
 /*---------------------------------------------------------------------
 Background overlay color
@@ -1044,8 +1037,8 @@ Buttons
   background: -o-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
   background: -ms-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
   background: linear-gradient(to right, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#089bab', endColorstr='#0db5c8', GradientType=1);
-  border-color: #089bab;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#375EB7', endColorstr='#0db5c8', GradientType=1);
+  border-color: #375EB7;
 }
 .btn-secondary {
   color: #ffffff;
@@ -1105,14 +1098,8 @@ Buttons
 /*--------------*/
 .btn-primary:hover {
   background: rgba(13, 181, 200, 1);
-  background: -moz-linear-gradient(left, rgba(13, 181, 200, 1) 0%, rgba(8, 155, 171, 1) 100%);
-  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(13, 181, 200, 1)), color-stop(100%, rgba(8, 155, 171, 1)));
-  background: -webkit-linear-gradient(left, rgba(13, 181, 200, 1) 0%, rgba(8, 155, 171, 1) 100%);
-  background: -o-linear-gradient(left, rgba(13, 181, 200, 1) 0%, rgba(8, 155, 171, 1) 100%);
-  background: -ms-linear-gradient(left, rgba(13, 181, 200, 1) 0%, rgba(8, 155, 171, 1) 100%);
-  background: linear-gradient(to right, rgba(13, 181, 200, 1) 0%, rgba(8, 155, 171, 1) 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0db5c8', endColorstr='#089bab', GradientType=1);
-  border-color: #0db5c8;
+  background: #375EB7;
+  border-color: #375EB7;
 }
 a.bg-primary:focus,
 a.bg-primary:hover,
@@ -1124,13 +1111,13 @@ button.bg-primary:hover {
   background: -webkit-linear-gradient(left, rgba(13, 181, 200, 1) 0%, rgba(8, 155, 171, 1) 100%);
   background: -o-linear-gradient(left, rgba(13, 181, 200, 1) 0%, rgba(8, 155, 171, 1) 100%);
   background: -ms-linear-gradient(left, rgba(13, 181, 200, 1) 0%, rgba(8, 155, 171, 1) 100%);
-  background: linear-gradient(to right, rgba(13, 181, 200, 1) 0%, rgba(8, 155, 171, 1) 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0db5c8', endColorstr='#089bab', GradientType=1);
+  background: #375EB7 !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0db5c8', endColorstr='#375EB7', GradientType=1);
 }
 /*--------------*/
 .btn-outline-primary {
-  color: #089bab;
-  border-color: #089bab;
+  color: #375EB7;
+  border-color: #375EB7;
 }
 .btn-outline-secondary {
   color: #a09e9e;
@@ -1160,8 +1147,8 @@ button.bg-primary:hover {
 Alert
 ------------------------------------------------*/
 .alert-primary {
-  color: #089bab;
-  border-color: #089bab;
+  color: #375EB7;
+  border-color: #375EB7;
   background-color: #eff7f8;
 }
 .alert-secondary {
@@ -1246,7 +1233,7 @@ list Group
 ------------------------------------------------*/
 .list-group-item-primary {
   background-color: #eff7f8;
-  color: #089bab;
+  color: #375EB7;
 }
 .list-group-item-secondary {
   color: #a09e9e;
@@ -1280,14 +1267,14 @@ list Group
   color: #3f414d;
 }
 .list-group-item.active {
-  background-color: #089bab;
-  border-color: #089bab;
+  background-color: #375EB7;
+  border-color: #375EB7;
 }
 /*----------------------------------------------
 Border Color
 ------------------------------------------------*/
 .border-primary {
-  border-color: #089bab !important;
+  border-color: #375EB7 !important;
 }
 .border-secondary {
   border-color: #d6d8d5 !important;

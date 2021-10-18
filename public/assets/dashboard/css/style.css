@@ -60,17 +60,17 @@ NOTE: This file contains the styling for responsive Template.
                             General
 ---------------------------------------------------------------------*/
 *::-moz-selection {
-    background: #089bab;
+    background: #375EB7;
     color: #fff;
     text-shadow: none;
 }
 ::-moz-selection {
-    background: #089bab;
+    background: #375EB7;
     color: #fff;
     text-shadow: none;
 }
 ::selection {
-    background: #089bab;
+    background: #375EB7;
     color: #fff;
     text-shadow: none;
 }
@@ -85,7 +85,7 @@ dl dd:last-child {
 .cmn_a,
 a:hover {
     text-decoration: none;
-    color: #02818f;
+    color: rgba(0,0,0,0.1);
 }
 .dropdown-item {
     font-size: 13px;
@@ -93,22 +93,22 @@ a:hover {
 /* scroller */
 .scroller {
     overflow-y: auto;
-    scrollbar-color: #089bab #eff7f8;
+    scrollbar-color: #375EB7 #eff7f8;
     scrollbar-width: thin;
 }
 .scroller::-webkit-scrollbar-thumb {
-    background-color: #089bab;
+    background-color: #375EB7;
 }
 .scroller::-webkit-scrollbar-track {
     background-color: #eff7f8;
 }
 #sidebar-scrollbar {
     overflow-y: auto;
-    scrollbar-color: #089bab #eff7f8;
+    scrollbar-color: #375EB7 #eff7f8;
     scrollbar-width: thin;
 }
 #sidebar-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #089bab;
+    background-color: #375EB7;
 }
 #sidebar-scrollbar::-webkit-scrollbar-track {
     background-color: #eff7f8;
@@ -307,7 +307,7 @@ a:hover {
     font-size: 60px;
     display: inline-block;
     width: 100%;
-    color: #089bab;
+    color: #375EB7;
 }
 .countdown li:last-child {
     margin-right: 0;
@@ -345,7 +345,7 @@ a:hover {
 .iq-card-header .dropdown-bg {
     background: #ceebee;
     padding: 8px 15px;
-    color: #089bab;
+    color: #375EB7;
     border-radius: 15px;
 }
 .iq-card-header .dropdown-menu {
@@ -370,7 +370,7 @@ a:hover {
 .dropdown-menu .dropdown-item:focus,
 .dropdown-menu .dropdown-item:hover {
     background: transparent;
-    color: #089bab;
+    color: #375EB7;
 }
 /*--------------*/
 .iq-card-header select.form-control {
@@ -416,7 +416,7 @@ a:hover {
 .iq-list-style-1 li a:hover,
 .iq-list-style-1 li a:focus {
     text-decoration: none;
-    color: #089bab;
+    color: #375EB7;
 }
 .iq-list-style-1.text-white li a,
 .iq-list-style-1.text-white li a i {
@@ -650,11 +650,11 @@ a:hover {
 }
 .iq-sidebar-menu .iq-menu li a:hover {
     color: #fff;
-    background: #02818f;
+    background: rgba(0,0,0,0.1);
 }
 .iq-sidebar-menu .iq-menu li.active>a,
 .iq-sidebar-menu .iq-menu li.main-active>a {
-    color: #089bab;
+    color: #375EB7;
     background-color: #ffffff;
     text-decoration: none;
     transition: none;
@@ -679,7 +679,7 @@ a:hover {
 }
 .iq-sidebar-menu .iq-menu li.active .iq-submenu li.active>a {
     background: #ceebee;
-    color: #089bab;
+    color: #375EB7;
     border-radius: 0;
 }
 .iq-sidebar-menu .iq-menu li.active .iq-submenu li:last-child>a {
@@ -729,7 +729,7 @@ body.sidebar-main-menu .iq-sidebar-menu .iq-menu li ul ul {
     padding: 12px 15px;
 }
 .iq-sidebar-menu .iq-menu li ul a:hover {
-    color: #089bab;
+    color: #375EB7;
     text-decoration: none;
     background: transparent;
 }
@@ -872,7 +872,7 @@ body.sidebar-main-menu .iq-sidebar-menu .iq-menu li ul ul {
     font-size: 18px;
     padding: 0 15px;
     line-height: 36px;
-    color: #089bab;
+    color: #375EB7;
     display: block;
     min-height: 0px;
 }
@@ -967,7 +967,7 @@ div#lottie-fullscreen {
 div#lottie-beil svg path,
 div#lottie-mail svg path,
 div#lottie-fullscreen svg path {
-    stroke: #089bab;
+    stroke: #375EB7;
 }
 .navbar-list li .caption {
     line-height: 16px;
@@ -989,7 +989,7 @@ div#lottie-fullscreen svg path {
 }
 .topnav-toolbar li.active a {
     background: #eff7f8;
-    color: #089bab;
+    color: #375EB7;
 }
 .topnav-toolbar ul li {
     list-style: none;
@@ -1059,7 +1059,7 @@ div#lottie-fullscreen svg path {
     text-decoration: none;
 }
 .iq-sidebar-logo img {
-    width: 45px;
+    /* width: 45px; */
 }
 .iq-top-navbar .iq-navbar-custom .iq-menu-bt-sidebar .iq-menu-bt {
     display: block;
@@ -1092,7 +1092,7 @@ body.sidebar-main .iq-menu-bt-sidebar .iq-menu-bt {
     transition: transform 330ms ease-out;
 }
 .line-menu {
-    background-color: #089bab;
+    background-color: #375EB7;
     border-radius: 90px;
     width: 100%;
     height: 2px;
@@ -1257,7 +1257,7 @@ body.sidebar-main .iq-menu-bt-sidebar .iq-menu-bt {
     background: -o-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
     background: -ms-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
     background: linear-gradient(to right, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#089bab', endColorstr='#0db5c8', GradientType=1);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#375EB7', endColorstr='#0db5c8', GradientType=1);
 }
 .content-page {
     margin-left: 260px;
@@ -1687,7 +1687,7 @@ div#blog-slider:hover .slick-arrow {
     position: absolute;
     top: 20px;
     left: -24px;
-    border: 3px solid #089bab;
+    border: 3px solid #375EB7;
     border-radius: 90px;
     padding: 5px;
     background: #fff;
@@ -1696,7 +1696,7 @@ div#blog-slider:hover .slick-arrow {
     position: absolute;
     top: 20px;
     left: -23px;
-    background: #089bab;
+    background: #375EB7;
     border-radius: 90px;
     padding: 7px;
 }
@@ -1754,7 +1754,7 @@ div#blog-slider:hover .slick-arrow {
     box-shadow: 0px 10px 30px 0px rgba(57, 60, 82, 0.1);
 }
 .user-add-plus:hover {
-    background: #089bab;
+    background: #375EB7;
     color: #ffffff;
     text-decoration: none;
 }
@@ -1814,7 +1814,7 @@ div#blog-slider:hover .slick-arrow {
 .iq-email-list .iq-email-ui li.active a,
 .iq-email-list .iq-email-ui li a:hover {
     text-decoration: none;
-    color: #089bab;
+    color: #375EB7;
 }
 .iq-email-list .iq-email-ui li {
     list-style-type: none;
@@ -1850,7 +1850,7 @@ div#blog-slider:hover .slick-arrow {
     width: auto;
 }
 .iq-email-to-list ul li>a {
-    color: #089bab;
+    color: #375EB7;
     text-align: center;
     line-height: 38px;
     display: inline-block;
@@ -1869,7 +1869,7 @@ div#blog-slider:hover .slick-arrow {
 }
 .iq-email-to-list ul li a:hover,
 .iq-email-to-list ul li.q-list a:hover {
-    color: #089bab;
+    color: #375EB7;
     text-decoration: none;
 }
 .iq-email-to-list ul li .custom-control-label::before {
@@ -1891,7 +1891,7 @@ div#blog-slider:hover .slick-arrow {
     right: 15px;
     font-size: 18px;
     line-height: 38px;
-    color: #089bab;
+    color: #375EB7;
 }
 .iq-email-search .search-link:hover {
     text-decoration: none;
@@ -1929,7 +1929,7 @@ div#blog-slider:hover .slick-arrow {
     text-decoration: none;
 }
 .iq-email-listbox .iq-email-sender-list li.iq-unread a {
-    color: #089bab;
+    color: #375EB7;
     font-weight: 500;
 }
 .iq-email-listbox .iq-email-sender-list li.iq-unread li a {
@@ -2071,7 +2071,7 @@ div#blog-slider:hover .slick-arrow {
     opacity: 0;
 }
 .slick-slide.slick-active.slick-center .iq-booking-date {
-    background: #089bab;
+    background: #375EB7;
     color: #ffffff;
     -webkit-box-shadow: 0px 10px 30px 0px rgba(0, 132, 255, 0.4);
     -moz-box-shadow: 0px 10px 30px 0px rgba(0, 132, 255, 0.4);
@@ -2396,7 +2396,7 @@ div#blog-slider:hover .slick-arrow {
     left: -10px;
     height: 20px;
     width: 20px;
-    background: #089bab;
+    background: #375EB7;
     -webkit-border-radius: 90px;
     -moz-border-radius: 90px;
     border-radius: 90px;
@@ -2408,7 +2408,7 @@ div#blog-slider:hover .slick-arrow {
     right: -10px;
     height: 20px;
     width: 20px;
-    background: #089bab;
+    background: #375EB7;
     -webkit-border-radius: 90px;
     -moz-border-radius: 90px;
     border-radius: 90px;
@@ -2557,7 +2557,7 @@ Footer
     color: #777D74;
 }
 .iq-footer ul li a:hover {
-    color: #089bab;
+    color: #375EB7;
     text-decoration: none;
 }
 .bg-banner-image.style-three {
@@ -2577,7 +2577,7 @@ Footer
     display: inline-block;
     width: 100%;
     height: 3px;
-    background: #089bab;
+    background: #375EB7;
     content: "";
     position: absolute;
     left: 0;
@@ -2737,8 +2737,8 @@ button.close-popup {
 .custom-radio.custom-radio-color input.bg-primary~label::before,
 .custom-radio.custom-radio-color-checked input:checked.bg-primary~label::before,
 .custom-switch.custom-switch-color input:checked.bg-primary~label::before {
-    background-color: #089bab !important;
-    border-color: #089bab !important;
+    background-color: #375EB7 !important;
+    border-color: #375EB7 !important;
 }
 .custom-checkbox.custom-checkbox-color input.bg-success~label::before,
 .custom-checkbox.custom-checkbox-color-check input:checked.bg-success~label::before,
@@ -2788,8 +2788,8 @@ button.close-popup {
     background-color: #ceebee;
 }
 .custom-control-input:checked~.custom-control-label::before {
-    border-color: #089bab;
-    background-color: #089bab;
+    border-color: #375EB7;
+    background-color: #375EB7;
 }
 .custom-checkbox.checkbox-icon label i {
     position: absolute;
@@ -2971,7 +2971,7 @@ ul#doster-list-slide .slick-arrow {
     background: #ceebee;
     height: 30px;
     width: 30px;
-    color: #089bab;
+    color: #375EB7;
     border: none;
     padding: 0;
     line-height: 30px;
@@ -2987,7 +2987,7 @@ Calender
 -----------------------------------------------------------------------*/
 .fc-unthemed .fc-toolbar .fc-button {
     background: #eff7f8;
-    color: #089bab;
+    color: #375EB7;
     border: none;
     text-transform: capitalize;
     border-radius: 25px;
@@ -2997,7 +2997,7 @@ Calender
 .fc-unthemed .fc-toolbar .fc-button:active,
 .fc-unthemed .fc-toolbar .fc-button:focus {
     color: #fff;
-    background-color: #089bab;
+    background-color: #375EB7;
 }
 .job-classification li,
 .today-schedule li {
@@ -3026,14 +3026,14 @@ Calender
 }
 .calender-small .flatpickr-day.today {
     color: #fff;
-    border-color: #089bab;
-    background: #089bab;
+    border-color: #375EB7;
+    background: #375EB7;
 }
 .calender-small .flatpickr-day.today:hover,
 .calender-small .flatpickr-day.today:focus {
     color: #fff;
-    border-color: #089bab;
-    background: #089bab
+    border-color: #375EB7;
+    background: #375EB7
 }
 .calender-small .flatpickr-months {
     margin-bottom: 10px;
@@ -3043,7 +3043,7 @@ Calender
 }
 .calender-small .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
     background: transparent;
-    color: #089bab;
+    color: #375EB7;
 }
 .calender-small .flatpickr-current-month input.cur-year {
     font-size: 16px;
@@ -3074,8 +3074,8 @@ Calender
 .calender-small .flatpickr-day.startRange.nextMonthDay,
 .calender-small .flatpickr-day.endRange.nextMonthDay {
     color: #fff;
-    border-color: #089bab;
-    background: #089bab;
+    border-color: #375EB7;
+    background: #375EB7;
 }
 .calender-small .flatpickr-day.inRange,
 .calender-small .flatpickr-day.prevMonthDay.inRange,
@@ -3090,7 +3090,7 @@ Calender
 .calender-small .flatpickr-day.prevMonthDay:focus,
 .calender-small .flatpickr-day.nextMonthDay:focus {
     background: #eff7f8;
-    color: #089bab;
+    color: #375EB7;
     border-color: transparent;
 }
 .smaill-calender-home .flatpickr-calendar.animate.inline {
@@ -3120,9 +3120,9 @@ Calender
 .smaill-calender-home .flatpickr-day.endRange.nextMonthDay {
     color: #ffffff;
     text-decoration: none;
-    background-color: #089bab;
+    background-color: #375EB7;
     text-decoration: none;
-    border-color: #089bab;
+    border-color: #375EB7;
 }
 .smaill-calender-home .flatpickr-days,
 .smaill-calender-home .dayContainer {
@@ -3133,8 +3133,8 @@ Calender
 }
 .smaill-calender-home .flatpickr-day.today {
     color: #fff;
-    border-color: #089bab;
-    background: #089bab;
+    border-color: #375EB7;
+    background: #375EB7;
 }
 /*---------------------------------------------------------------------
  Wizard
@@ -3166,7 +3166,7 @@ Calender
     color: #777D74;
 }
 #top-tab-list .active {
-    color: #089bab;
+    color: #375EB7;
 }
 #top-tab-list li {
     list-style-type: none;
@@ -3187,11 +3187,11 @@ Calender
     border-radius: 50%;
     margin: 0 15px 0 0;
     color: #ffffff;
-    background: #089bab;
+    background: #375EB7;
 }
 #top-tab-list li.active a {
     color: #fff;
-    background: #089bab;
+    background: #375EB7;
 }
 #top-tab-list li.active.done a {
     background: #27b345;
@@ -3207,7 +3207,7 @@ Calender
 }
 #top-tab-list li a {
     background: #eff7f8;
-    color: #089bab;
+    color: #375EB7;
     display: block;
     padding: 15px;
     margin: 0 10px;
@@ -3217,7 +3217,7 @@ Calender
 }
 #top-tab-list li.active i {
     background-color: #fff;
-    color: #089bab;
+    color: #375EB7;
 }
 .fit-image {
     width: 100%;
@@ -3268,11 +3268,11 @@ Calender
     border-radius: 50%;
     margin: 0 auto 20px;
     color: #ffffff;
-    background: #089bab;
+    background: #375EB7;
 }
 .stepwizard-row #user.active a {
     background: #eff7f8;
-    border-color: #089bab;
+    border-color: #375EB7;
 }
 .stepwizard-row #document.active a {
     background: #fff5f4;
@@ -3288,7 +3288,7 @@ Calender
 }
 .stepwizard-row .wizard-step#user i {
     background: #eff7f8;
-    color: #089bab;
+    color: #375EB7;
 }
 .stepwizard-row .wizard-step#document i {
     background: #fff5f4;
@@ -3348,7 +3348,7 @@ fieldset[disabled] .btn {
     margin: 0 -20px 60px;
 }
 #top-tabbar-vertical .active {
-    color: #089bab;
+    color: #375EB7;
 }
 #top-tabbar-vertical li {
     list-style-type: none;
@@ -3370,7 +3370,7 @@ fieldset[disabled] .btn {
 }
 #top-tabbar-vertical li#personal i {
     background: #eff7f8;
-    color: #089bab;
+    color: #375EB7;
 }
 #top-tabbar-vertical li#contact i {
     background: #fff5f4;
@@ -3400,7 +3400,7 @@ fieldset[disabled] .btn {
 }
 #top-tabbar-vertical li.active i {
     background-color: #fff;
-    color: #089bab;
+    color: #375EB7;
 }
 #top-tabbar-vertical #personal.active a {
     background: #eff7f8;
@@ -3430,7 +3430,7 @@ Chat
     position: absolute;
     top: 8px;
     left: 15px;
-    color: #089bab;
+    color: #375EB7;
     font-size: 16px;
 }
 .chat-sidebar-name {
@@ -3467,7 +3467,7 @@ span.avatar-status {
     border-color: transparent;
 }
 .nav-pills li a.active {
-    color: #089bab;
+    color: #375EB7;
     background-color: #ffffff;
 }
 .iq-chat-ui li:last-child a {
@@ -3495,7 +3495,7 @@ span.avatar-status {
     height: 40px;
     font-size: 20px;
     margin: 0 5px 0 0;
-    color: #089bab;
+    color: #375EB7;
     display: inline-block;
     text-align: center;
     line-height: 40px;
@@ -3531,7 +3531,7 @@ span.avatar-status {
     clear: both;
     word-break: break-word;
     color: #FFF;
-    background: #089bab;
+    background: #375EB7;
     border-radius: 25px;
     box-shadow: 0 2px 4px 0 rgba(8, 155, 171, .6);
 }
@@ -3569,7 +3569,7 @@ span.iq-start-icon {
     width: 100px;
     text-align: center;
     border-radius: 50%;
-    border: 3px solid #089bab;
+    border: 3px solid #375EB7;
 }
 .chat-attagement {
     font-size: 20px;
@@ -3721,7 +3721,7 @@ ul.header-nav li a {
     border-radius: 50%;
     line-height: 40px;
     text-align: center;
-    color: #089bab;
+    color: #375EB7;
     font-size: 18px;
     margin: 0 15px 0 0;
 }
@@ -3737,13 +3737,13 @@ ul.header-nav li a {
 .profile-feed-items li a {
     text-decoration: none;
     text-transform: capitalize;
-    color: #089bab;
+    color: #375EB7;
     background-color: #ceebee;
     margin: 0 20px 0 0;
 }
 .nav-pills.profile-feed-items li a.active {
     color: #fff;
-    background: #089bab;
+    background: #375EB7;
 }
 .news-icon {
     font-size: 18px;
@@ -3754,7 +3754,7 @@ ul.profile-img-gallary {
     margin: 0 -1px 0 -4px !important;
 }
 .twit-feed p span i {
-    background: #089bab;
+    background: #375EB7;
     color: #fff;
     height: 10px;
     width: 10px;
@@ -3762,7 +3762,7 @@ ul.profile-img-gallary {
     font-size: 10px;
 }
 .twit-feed .twit-meta-tag {
-    color: #089bab;
+    color: #375EB7;
 }
 .twit-feed .media-support-user-img img {
     height: 50px;
@@ -3772,7 +3772,7 @@ ul.media-story img {
     padding: 2px;
 }
 ul.media-story li.active img {
-    border-color: #089bab;
+    border-color: #375EB7;
 }
 .add-suggestion {
     border: 1px solid #007bff;
@@ -3799,7 +3799,7 @@ ul.post-comments {
 .comment-activity>a {
     margin-right: 10px;
     text-transform: capitalize;
-    color: #089bab;
+    color: #375EB7;
     text-decoration: none;
 }
 form.comment-text {
@@ -3863,7 +3863,7 @@ Profile Edit
     right: 8px;
     bottom: 10px;
     transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
-    background: #089bab;
+    background: #375EB7;
     color: #fff;
     border-radius: 50%;
     height: 30px;
@@ -3887,7 +3887,7 @@ Profile Edit
 .iq-edit-profile.nav-pills .nav-link.active,
 .iq-edit-profile.nav-pills .show>.nav-link {
     color: #fff;
-    background-color: #089bab;
+    background-color: #375EB7;
 }
 ul.iq-edit-profile li:first-child a {
     border-radius: 15px 0 0 15px;
@@ -3950,12 +3950,12 @@ Todo Page
     -webkit-border-radius: 5px;
 }
 .iq-todo-page ul>li[aria-expanded="true"]>a {
-    color: #089bab;
+    color: #375EB7;
     background: #eff7f8;
 }
 .iq-todo-page ul>li li:hover a,
 .iq-todo-page ul>li li.active a {
-    color: #089bab;
+    color: #375EB7;
     background: #eff7f8;
 }
 ul.todo-task-lists li:hover {
@@ -4016,7 +4016,7 @@ User List Page
 }
 .iq-doc-social-info ul li a {
     display: block;
-    color: #089bab;
+    color: #375EB7;
     background: #ceebee;
     height: 30px;
     width: 30px;
@@ -4058,7 +4058,7 @@ small {
 }
 .pagination .active {
     color: #fff;
-    background: #089CAC;
+    background: #375EB7;
 }
 .bar-pagination input {
     font-size: 12px;

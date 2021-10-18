@@ -30,8 +30,7 @@
 <div class="iq-sidebar">
     <div class="iq-sidebar-logo d-flex justify-content-between">
         <a href="{{route('admin.dashboard')}}">
-            <img src="{{asset('assets/dashboard/')}}/images/logo_new.png" class="img-fluid align-middle" alt="aba+">
-            <span>Credential<span class="pms">Managemnt System</span></span>
+            <img src="{{asset('assets/dashboard/')}}/images/plus.png" class="img-fluid align-middle" alt="aba+">
         </a>
         <div class="iq-menu-bt-sidebar">
             <div class="iq-menu-bt align-self-center">

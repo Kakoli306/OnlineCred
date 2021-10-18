@@ -32,7 +32,7 @@ Route::get('/route_clear',function(){
 
 
 
-Route::get('/', [Controllers\CustomLoginController::class, 'user_login'])->name('user.login');
+Route::get('/', [Controllers\CustomLoginController::class, 'index'])->name('user.login');
 Route::post('/user-login-submit', [Controllers\CustomLoginController::class, 'user_login_submit'])->name('user.login.submit');
 
 Auth::routes();

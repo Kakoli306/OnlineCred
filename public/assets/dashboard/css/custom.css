@@ -33,7 +33,7 @@
     bottom: 5px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #089BAB;
+    border-top-color: #375EB7;
     -webkit-animation: spin 3s linear infinite;
     animation: spin 3s linear infinite;
 }
@@ -109,7 +109,7 @@
     text-shadow: 2px 2px 4px #00000052;
 }
 .iq-sidebar {
-    background: linear-gradient(to right, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
+    background: #375EB7;
 }
 @media (max-width: 991px) {
     .iq-top-navbar .iq-navbar-custom .iq-menu-bt,
@@ -144,7 +144,7 @@ body.sidebar-main-menu .content-page {
 }
 /* Tabs */
 .nav-tabs .nav-link.active {
-    border-top: 2px solid #089bab;
+    border-top: 2px solid #375EB7;
     border-bottom: transparent;
 }
 .nav-tabs .nav-item a {
@@ -152,21 +152,21 @@ body.sidebar-main-menu .content-page {
 }
 .icon {
     font-size: 20px;
-    color: #089BAB;
+    color: #375EB7;
 }
 .setting_menu {
     margin-right: 16px;
 }
 .setting_menu .nav-item {
     margin-bottom: 10px;
-    border: 1px solid #089BAB;
+    border: 1px solid #375EB7;
     border-bottom: 0;
     border-radius: 3px;
     min-width: 180px;
 }
 .setting_menu .nav-item .active {
     color: #fff;
-    background: #089BAB;
+    background: #375EB7;
     border-bottom-color: #fff;
 }
 .setting_menu i {
@@ -176,7 +176,7 @@ body.sidebar-main-menu .content-page {
     white-space: nowrap;
     text-transform: capitalize;
     padding: 4px 8px;
-    border-bottom: 1px solid #089BAB;
+    border-bottom: 1px solid #375EB7;
     display: block;
     position: relative;
     transition: 0.3s ease;
@@ -187,7 +187,7 @@ body.sidebar-main-menu .content-page {
     top: 50%;
     transform: translateY(-50%);
     right: 0;
-    color: #089BAB;
+    color: #375EB7;
     margin: 0 8px;
 }
 .setting_menu .nav-link.active::before {
@@ -264,7 +264,7 @@ body.sidebar-main-menu .content-page {
     position: absolute;
     top: 20px;
     left: -9px;
-    border: 3px solid #089bab;
+    border: 3px solid #375EB7;
     border-radius: 90px;
     padding: 5px;
     background: #fff;
@@ -279,14 +279,14 @@ body.sidebar-main-menu .content-page {
     text-transform: capitalize;
     padding: 2px 8px;
     margin-bottom: 8px;
-    border: 1px solid #089BAB;
+    border: 1px solid #375EB7;
     display: block;
     position: relative;
     transition: 0.3s ease;
 }
 .employee_menu li a.active {
     color: #fff;
-    background: #089BAB;
+    background: #375EB7;
 }
 /* Scheduler */
 .a_client_name,
@@ -335,7 +335,7 @@ body.sidebar-main-menu .content-page {
 }
 .dashboard-card .card-header {
     padding: 6px 16px;
-    background: #089BAB;
+    background: #375EB7;
 }
 .dashboard-card .card-title {
     color: #fff;
@@ -368,7 +368,7 @@ fieldset {
 legend {
     font-size: 16px;
     font-weight: 500;
-    color: #089BAB;
+    color: #375EB7;
     margin-bottom: 0;
     width: inherit;
 }
@@ -508,9 +508,9 @@ tfoot td {
 .c_table {
     text-align: center;
 }
-.c_table thead {
+.c_table thead ,.btn-primary{
     color: #fff;
-    background: #089BAB;
+    background: #375EB7;
 }
 .c_table thead th {
     text-transform: capitalize;
@@ -527,7 +527,7 @@ tfoot td {
     background: #fff;
 }
 .d_table thead tr:first-child th {
-    color: #089bab;
+    color: #375EB7;
     text-shadow: none;
     border: none;
 }
@@ -545,7 +545,7 @@ tfoot td {
     position: sticky;
     top: 0;
     z-index: 2;
-    background: #089BAB;
+    background: #375EB7;
 }
 .p_table::-webkit-scrollbar,
 .process_list_table::-webkit-scrollbar,

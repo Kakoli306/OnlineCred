@@ -15,7 +15,8 @@ class AdminLoginController extends Controller
 
     public function showLoginform()
     {
-        return view('auth.userLogin');
+        return redirect(route('login'));
+//        return view('auth.userLogin');
     }
 
 

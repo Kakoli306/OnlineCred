@@ -7,9 +7,22 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomLoginController extends Controller
 {
+
+    public function index()
+    {
+        return redirect(route('login'));
+    }
+
     public function user_login()
     {
-        return view('auth.userLogin');
+        if (Auth::guard('admin')->check()) {
+            return redirect(route('admin.dashboard'));
+        }elseif (Auth::guard('provider')->check()){
+            return redirect(route('provider.dashboard'));
+        }else{
+            return view('auth.userLogin');
+        }
+//        return view('auth.userLogin');
     }
 
 

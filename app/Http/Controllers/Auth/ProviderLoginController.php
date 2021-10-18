@@ -16,7 +16,8 @@ class ProviderLoginController extends Controller
 
     public function provider_login_form()
     {
-        return view('auth.providerLogin');
+        return redirect(route('login'));
+//        return view('auth.providerLogin');
     }
 
 
