@@ -13,6 +13,9 @@
     </div>
 @endsection
 @section('admin')
+    <div class="loading2">
+        <div class="table-loading"></div>
+    </div>
     <div class="iq-card-body">
         <div class="d-flex justify-content-between mb-3">
             <div class="mr-3 align-self-center">
@@ -33,28 +36,29 @@
                         <h4>Create Provider</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <form action="#">
+                    <form action="{{route('admin.provider.save')}}" method="post">
+                        @csrf
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6 mb-2">
                                     <label>First Name<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm first_name" required>
+                                    <input type="text" class="form-control form-control-sm first_name" name="first_name" required>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label>Last Name<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm last_name" required>
+                                    <input type="text" class="form-control form-control-sm last_name" name="last_name" required>
                                 </div>
                                 <div class="col-md-4 mb-2">
                                     <label>Contact Info<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm phone_num" data-mask="(000)-000-0000" pattern=".{14,}" required="" autocomplete="off" maxlength="14">
+                                    <input type="text" class="form-control form-control-sm phone_num" name="phone" data-mask="(000)-000-0000" pattern=".{14,}" required="" autocomplete="off" maxlength="14">
                                 </div>
                                 <div class="col-md-4 mb-2">
                                     <label>DOB<span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control form-control-sm dob" required>
+                                    <input type="date" class="form-control form-control-sm dob" name="dob" required>
                                 </div>
                                 <div class="col-md-4 mb-2">
                                     <label>Gender<span class="text-danger">*</span></label>
-                                    <select class="form-control form-control-sm gender">
+                                    <select class="form-control form-control-sm gender" name="gender">
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
                                     </select>
@@ -62,7 +66,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="createProvider">Create & Continue<i class='bx bx-loader align-middle ml-2'></i></button>
+                            <button type="submit" class="btn btn-primary" id="createProvider">Create & Continue</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
                     </form>
@@ -72,117 +76,51 @@
 
 
 
-        <div class="table-responsive">
-            <table class="table table-sm table-bordered c_table">
-                <thead>
-                <tr>
-                    <th style="width: 150px;">name</th>
-                    <th style="width: 150px;">contact info</th>
-                    <th style="width: 150px;">DOB</th>
-                    <th style="width: 150px;">gender</th>
-                    <th style="width: 150px;">Credential</th>
-                    <th>Speciality</th>
-                    <th>Contract</th>
-                    <th>Status</th>
-                    <th>manage</th>
-                </tr>
-                </thead>
-                <tbody class="text-center">
-                @foreach($providers as $provider)
-                <tr>
-                    <td><a href="{{route('admin.provider.info',$provider->id)}}" class="mr-2">{{$provider->full_name}}</a></td>
-                    <td>
-                        <p>{{$provider->phone}}</p>
-                    </td>
-                    <td>{{\Carbon\Carbon::parse($provider->dob)->format('m/d/Y')}}</td>
-                    <td>{{$provider->gender}}</td>
-                    <td>Loren</td>
-                    <td>Miami</td>
-                    <td>
-                        <a href="#mycontract{{$provider->id}}" data-toggle="modal"><i class="fa fa-id-card-o" aria-hidden="true"></i></a>
-                        <!-- Contract Modal -->
-                        <div class="modal fade" id="mycontract{{$provider->id}}" data-backdrop="static">
-                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4>All Contracts</h4>
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h5 class="common-title">Contract List</h5>
-                                        <table class="table table-sm c_table table-bordered">
-                                            <thead>
-                                            <tr>
-                                                <th>Contract Name</th>
-                                                <th>Onset Date</th>
-                                                <th>End Date</th>
-                                                <th>Contract Type</th>
-                                                <th>Pin No</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php
-                                                $provider_cons = \App\Models\provider_contract::where('provider_id',$provider->id)->get();
-                                            ?>
-                                            @foreach($provider_cons as $conts)
-                                            <tr>
-                                                <td>{{$conts->contract_name}}</td>
-                                                <td>{{\Carbon\Carbon::parse($conts->onset_date)->format('m/d/Y')}}</td>
-                                                <td>{{\Carbon\Carbon::parse($conts->end_date)->format('m/d/Y')}}</td>
-                                                <td>commercial</td>
-                                                <td>{{$conts->pin_no}}</td>
-                                                <td>
-                                                    <i class="ri-checkbox-blank-circle-fill text-success" title="Active"></i>
-                                                </td>
-                                                <td><a href="{{route('admin.provider.contract',$conts->provider_id)}}">Go To Contract</a>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="{{route('admin.provider.contract',$provider->id)}}" class="btn btn-primary border-white">Add Contract</a>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td><i class="ri-checkbox-blank-circle-fill text-success" title="Active"></i>
-                    </td>
-                    <td>
-                        <div class="dropdown">
-                            <a class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
-                                Manage
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{{route('admin.provider.info',$provider->id)}}">Edit provider
-                                    info</a>
-                                <a class="dropdown-item text-danger" href="#">Make inactive</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
+        <div class="table-responsive pro_lists">
 
-                </tbody>
-            </table>
-            <!-- pagination -->
-            <nav class="overflow-hidden">
-                {{$providers->links()}}
-            </nav>
         </div>
     </div>
 @endsection
 @section('js')
     <script>
+
+        $(window).on('hashchange', function() {
+            if (window.location.hash) {
+                var page = window.location.hash.replace('#', '');
+                if (page == Number.NaN || page <= 0) {
+                    return false;
+                }else{
+                    getData(page);
+                }
+            }
+        });
         $(document).ready(function () {
+            $('.loading2').hide();
+            $(document).on('click', '.pagination a',function(event)
+            {
+                event.preventDefault();
 
 
-            $('#createProvider').click(function () {
+                $('li').removeClass('active');
+                $(this).parent('li').addClass('active');
+
+                var myurl = $(this).attr('href');
+                // console.log(myurl);
+                var newurl = myurl.substr(0,myurl.length-1);
+
+                var page=$(this).attr('href').split('page=')[1];
+                var newurldata = (newurl+page);
+                // console.log(newurldata);
+                getData(myurl);
+            });
+
+
+
+
+
+
+            $('#createProvider').click(function (e) {
+                e.preventDefault();
                 let fac_id = $('.fac_id').val();
                 let first_name = $('.first_name').val();
                 let last_name = $('.last_name').val();
@@ -190,27 +128,119 @@
                 let dob = $('.dob').val();
                 let gender = $('.gender').val();
 
+                if(fac_id == 0){
+                    toastr["error"]("Please Select Facility",'ALERT!');
+                }else if(first_name == ""){
+                    toastr["error"]("Please Enter First Name",'ALERT!');
+                }else if(last_name == ""){
+                    toastr["error"]("Please Enter Last Name",'ALERT!');
+                }else if(phone_num == ""){
+                    toastr["error"]("Please Enter Phone Number",'ALERT!');
+                }else if(dob == ""){
+                    toastr["error"]("Please Enter DOB",'ALERT!');
+                }else {
+                    $.ajax({
+                        type : "POST",
+                        url: "{{route('admin.provider.save')}}",
+                        data : {
+                            '_token' : "{{csrf_token()}}",
+                            'fac_id' : fac_id,
+                            'first_name' : first_name,
+                            'last_name' : last_name,
+                            'phone_num' : phone_num,
+                            'dob' : dob,
+                            'gender' : gender,
+                        },
+                        success:function(data){
+                            console.log(data);
+                            getProFacId();
+                            $('#createProviderNew').modal('hide');
+                            toastr["success"]("Provider Successfully Created",'SUCCESS!');
+                            $('.first_name').val('');
+                            $('.last_name').val('');
+                            $('.phone_num').val('');
+                            $('.dob').val('');
+                            $('.gender').val('');
+
+                        }
+                    });
+                }
+            });
+
+
+            function getProFacId(){
+                $('.loading2').show();
+                let f_id = $('.fac_id').val();
                 $.ajax({
                     type : "POST",
-                    url: "{{route('admin.provider.save')}}",
+                    url: "{{route('admin.provider.list.all.get.fid')}}",
                     data : {
                         '_token' : "{{csrf_token()}}",
-                        'fac_id' : fac_id,
-                        'first_name' : first_name,
-                        'last_name' : last_name,
-                        'phone_num' : phone_num,
-                        'dob' : dob,
-                        'gender' : gender,
+                        'f_id' : f_id
                     },
                     success:function(data){
                         console.log(data);
-                        location.reload();
+                        $('.pro_lists').empty().append(data.view)
+                        $('.pro_lists').show();
+                        $('.loading2').hide();
+
+
+
+
                     }
                 });
-            })
+            }
 
 
 
-        })
+            $('.fac_id').change(function () {
+                $('.loading2').show();
+                let f_id = $(this).val();
+                $.ajax({
+                    type : "POST",
+                    url: "{{route('admin.provider.list.all.get.fid')}}",
+                    data : {
+                        '_token' : "{{csrf_token()}}",
+                        'f_id' : f_id
+                    },
+                    success:function(data){
+                        console.log(data);
+                        $('.pro_lists').empty().append(data.view)
+                        $('.pro_lists').show();
+                        $('.loading2').hide();
+                    }
+                });
+            });
+
+
+
+        });
+
+
+
+        function getData(myurl){
+            $('.loading2').show();
+            let f_id = $('.fac_id').val();
+            $.ajax(
+                {
+                    url: myurl,
+                    type: "get",
+                    data : {
+                        '_token' : "{{csrf_token()}}",
+                       'f_id':f_id
+                    },
+                    datatype: "html"
+                }).done(function(data){
+                // console.log(data)
+                $('.pro_lists').empty().append(data.view)
+                $('.pro_lists').show();
+                // location.hash = myurl;
+                $('.loading2').hide();
+            }).fail(function(jqXHR, ajaxOptions, thrownError){
+                alert('No response from server');
+                $('.loading2').hide();
+            });
+        }
+
     </script>
 @endsection

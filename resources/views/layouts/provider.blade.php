@@ -49,6 +49,11 @@
                             class="ri-home-4-line"></i><span>Dashboard </span></a>
                 </li>
 
+                <li>
+                    <a href="{{route('providers.info')}}" class="iq-waves-effect"><i
+                            class="fa fa-user-plus"></i><span>Info</span></a>
+                </li>
+
 
             </ul>
         </nav>

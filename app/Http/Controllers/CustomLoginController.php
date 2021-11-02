@@ -20,7 +20,7 @@ class CustomLoginController extends Controller
         }elseif (Auth::guard('provider')->check()){
             return redirect(route('provider.dashboard'));
         }else{
-            return view('auth.userLogin');
+            return view('auth.login');
         }
 //        return view('auth.userLogin');
     }

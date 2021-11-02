@@ -1,17 +1,26 @@
-@extends('layouts.admin')
+@extends('layouts.provider')
 @section('headerselect')
     <div class="iq-search-bar">
-        <h5>ABC Behavioral Therapy Center</h5>
+        <?php
+            $assign_prc = \App\Models\assign_practice::where('provider_id',Auth::user()->id)->first();
+            if ($assign_prc) {
+                $prc_name = \App\Models\practice::where('id',$assign_prc->practice_id)->first();
+            }
+        ?>
+        @if ($assign_prc && $prc_name)
+                <h5>{{$prc_name->business_name}}</h5>
+        @endif
+
     </div>
 @endsection
-@section('admin')
+@section('proider')
     <div class="iq-card-body">
         <div class="d-flex justify-content-between mb-3">
             <div class="align-self-center">
                 <h5><a href="#" class="cmn_a">{{$provider->first_name}} {{$provider->middle_name}} {{$provider->last_name}}</a> |
                     <small>
                         <span class="font-weight-bold text-orange">DOB:</span>
-                       {{\Carbon\Carbon::parse($provider->dob)->format('m/d/Y')}} |
+                        {{\Carbon\Carbon::parse($provider->dob)->format('m/d/Y')}} |
                         <span class="font-weight-bold text-orange">Phone:</span>
                         {{$provider->phone}} |
                         <span class="font-weight-bold text-orange">Address:</span>
@@ -20,9 +29,7 @@
                 </h5>
             </div>
             <div class="align-self-center">
-                <a href="{{route('admin.providers')}}" class="btn btn-sm btn-primary">
-                    <i class="ri-arrow-left-circle-line"></i>Back
-                </a>
+
             </div>
         </div>
         <div class="d-lg-flex">
@@ -38,25 +45,25 @@
                     </li>
                     <!--/ Profile Picture -->
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{route('admin.provider.info',$provider->id)}}">Provider Info</a>
+                        <a class="nav-link active" href="{{route('providers.info')}}">Provider Info</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.provider.contract',$provider->id)}}">Contracts</a>
+                        <a class="nav-link" href="{{route('provider.contract')}}">Contracts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.provider.document',$provider->id)}}">Documents</a>
+                        <a class="nav-link" href="{{route('provider.document')}}">Documents</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.provider.portal',$provider->id)}}">Provider Portal</a>
+                        <a class="nav-link" href="{{route('provider.portal')}}">Provider Portal</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.provider.online.access',$provider->id)}}">Online Access</a>
+                        <a class="nav-link" href="{{route('provider.online.access')}}">Online Access</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.provider.tracking.user',$provider->id)}}">Tracking Muster</a>
+                        <a class="nav-link" href="{{route('provider.tracking.user')}}">Tracking Muster</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.provider.activity',$provider->id)}}">Provider Activity</a>
+                        <a class="nav-link" href="{{route('provider.activity')}}">Provider Activity</a>
                     </li>
                 </ul>
             </div>
@@ -73,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="{{route('admin.provider.info.update')}}" method="post" enctype="multipart/form-data" class="provider-edit-form">
+                <form action="{{route('provider.info.update')}}" method="post" enctype="multipart/form-data" class="provider-edit-form">
                     @csrf
                     <div class="row">
                         <!-- First Name -->
@@ -94,8 +101,8 @@
                         </div>
                         <!-- Suffix -->
                         <div class="col-md-4 col-xl-2 mb-2">
-                            <label class="font-weight-bold">Suffix</label>
-                            <input type="text" class="form-control form-control-sm" name="suffix" value="{{$provider_info->suffix}}">
+                            <label class="font-weight-bold">Suffix<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" name="suffix" value="{{$provider_info->suffix}}" required>
                         </div>
                         <!-- Date of Birth -->
                         <div class="col-md-4 col-xl-2 mb-2">
@@ -115,7 +122,9 @@
                             <label class="font-weight-bold">Speciality
                                 <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control form-control-sm" name="speciality" value="{{$provider_info->speciality}}" required>
+                            <select class="form-control form-control-sm" name="speciality" required>
+                                <option value="0"></option>
+                            </select>
                         </div>
                         <!-- Tax Id -->
                         <div class="col-md-4 col-xl-2 mb-2">
@@ -124,7 +133,7 @@
                             </label>
                             <input type="text" class="form-control form-control-sm" name="tax_id" value="{{$provider_info->tax_id}}" data-mask="00-0000000" pattern=".{10}" required>
                         </div>
-
+                        <!-- SSN -->
                         <div class="col-md-4 col-xl-2 mb-2">
                             <label class="font-weight-bold">SSN
                                 <span class="text-danger">*</span>
@@ -161,16 +170,16 @@
                         </div>
                         <!-- Number of Patient -->
                         <div class="col-md-4 col-xl-2 mb-2">
-                            <label class="font-weight-bold">Provider's Degree</label>
-                            <input type="number" class="form-control form-control-sm" name="provider_degree" value="{{$provider_info->provider_degree}}">
+                            <label class="font-weight-bold">Number of Patient</label>
+                            <input type="number" class="form-control form-control-sm" name="patient_number" value="{{$provider_info->patient_number}}">
                         </div>
                         <!-- Phone -->
-                        @include('admin.provider.include.providerPhone')
-                        <!-- Email -->
-                        @include('admin.provider.include.providerEmail')
-                        <!-- Address -->
-                        @include('admin.provider.include.providerAddress')
-                        <!-- Signature Date -->
+                    @include('admin.provider.include.providerPhone')
+                    <!-- Email -->
+                    @include('admin.provider.include.providerEmail')
+                    <!-- Address -->
+                    @include('admin.provider.include.providerAddress')
+                    <!-- Signature Date -->
                         <div class="col-md-4 col-xl-3 mb-2">
                             <label class="font-weight-bold">Signature Date
                                 <span class="text-danger">*</span>
@@ -198,9 +207,9 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 @if (!empty($provider_info->sig_file) && file_exists($provider_info->sig_file))
-                                <img src="{{asset($provider_info->sig_file)}}" id="wizardPicturePreview" class="img-fluid" width="70" alt="aba+">
+                                    <img src="{{asset($provider_info->sig_file)}}" id="wizardPicturePreview" class="img-fluid" width="70" alt="aba+">
                                 @else
-                                <img src="{{asset('assets/dashboard/')}}/images/client/contact.png" id="wizardPicturePreview" class="img-fluid" width="70" alt="aba+">
+                                    <img src="{{asset('assets/dashboard/')}}/images/client/contact.png" id="wizardPicturePreview" class="img-fluid" width="70" alt="aba+">
                                 @endif
                             </div>
                         </div>
@@ -281,7 +290,7 @@
                                 <div class="col-md-5">
                                     <div class="form-check-inline">
                                         <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="pdop" value="1" {{$provider_info->rp == 1 ? 'checked' : ''}}>Yes
+                                            <input type="radio" class="form-check-input" name="pdop" value="1" {{$provider_info->pdop == 1 ? 'checked' : ''}}>Yes
                                         </label>
                                     </div>
                                     <div class="form-check-inline">
@@ -321,7 +330,7 @@
     </div>
 @endsection
 @section('js')
-    <script src="{{asset('assets/dashboard/custom/provider.js')}}"></script>
+    <script src="{{asset('assets/dashboard/provider/provider.js')}}"></script>
     <script>
         $(document).ready(function () {
             $("#fileup").change(function(){
@@ -350,7 +359,7 @@
                 $(this).closest('.removeexistphondiv').remove();
                 $.ajax({
                     type : "POST",
-                    url: "{{route('admin.delete.exist.provider.phone')}}",
+                    url: "{{route('provider.delete.exist.phone')}}",
                     data : {
                         '_token' : "{{csrf_token()}}",
                         'phonid' : phonid
@@ -367,7 +376,7 @@
                 $(this).closest('.existsemailsection').remove();
                 $.ajax({
                     type : "POST",
-                    url: "{{route('admin.delete.exist.provider.email')}}",
+                    url: "{{route('provider.delete.exist.email')}}",
                     data : {
                         '_token' : "{{csrf_token()}}",
                         'emailid' : emailid
@@ -384,7 +393,7 @@
                 $(this).closest('.existsaddresssection').remove();
                 $.ajax({
                     type : "POST",
-                    url: "{{route('admin.delete.exist.provider.address')}}",
+                    url: "{{route('provider.delete.exist.address')}}",
                     data : {
                         '_token' : "{{csrf_token()}}",
                         'addressid' : addressid

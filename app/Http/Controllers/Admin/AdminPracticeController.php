@@ -39,6 +39,23 @@ class AdminPracticeController extends Controller
     public function practice_update(Request $request)
     {
         $update_prac = practice::where('id',$request->prc_edit_id)->first();
+
+        if ($request->hasFile('doc_file')) {
+
+            if (!empty($update_prac->doc_file) && file_exists($update_prac->doc_file)) {
+                unlink($update_prac->doc_file);
+            }
+
+            $image=$request->file('doc_file');
+            $name=$image->getClientOriginalName();
+            $uploadPath='assets/dashboard/providerdoc/';
+            $image->move($uploadPath,$name);
+            $imageUrl=$uploadPath.$name;
+
+            $update_prac->doc_file = $imageUrl;
+        }
+
+
         $update_prac->admin_id = Auth::user()->id;
         $update_prac->business_name = $request->business_name;
         $update_prac->dba_name = $request->dba_name;
@@ -105,16 +122,23 @@ class AdminPracticeController extends Controller
     {
         $fac_ids = $request->fac_id;
         $provder_id = $request->pro_id;
+        $checkprc = assign_practice::where('admin_id',Auth::user()->id)->where('provider_id',$provder_id)->count();
+        if (count($fac_ids) > 1) {
+            return response()->json('more_prc',200);
+        }elseif ($checkprc >= 1){
+            return response()->json('already_have',200);
+        }else{
+            for ($i=0;$i<count($fac_ids);$i++){
+                assign_practice::create([
+                    'admin_id' => Auth::user()->id,
+                    'provider_id' => $provder_id,
+                    'practice_id' => $fac_ids[$i],
+                ]);
+            }
 
-        for ($i=0;$i<count($fac_ids);$i++){
-            assign_practice::create([
-                'admin_id' => Auth::user()->id,
-                'provider_id' => $provder_id,
-                'practice_id' => $fac_ids[$i],
-            ]);
+            return response()->json('done',200);
         }
 
-        return response()->json('done',200);
 
 
     }

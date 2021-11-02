@@ -69,8 +69,18 @@
             $('#addbtn').click(function () {
                 let pro_id = $('.all_provider_id').val();
                 let fac_id = $('.all_practice').val();
+
+                let arr = [];
+               $('.all_practice').each(function () {
+                   arr.push($(this).val())
+               })
+
+                console.log(fac_id)
+
                 if(pro_id == 0){
                     toastr["error"]("Please Select Provider ",'ALERT!');
+                }else if(fac_id == null || fac_id == ""){
+                    toastr["error"]("Please Select Practice ",'ALERT!');
                 }else {
                     $.ajax({
                         type : "POST",
@@ -81,6 +91,13 @@
                             'fac_id' : fac_id,
                         },
                         success:function(data){
+                            if (data == 'more_prc'){
+                                toastr["error"]("You Have Select Multiple Practice",'ALERT!');
+                            }else if(data == 'already_have'){
+                                toastr["error"]("Provider Already Have One Practice",'ALERT!');
+                            }else {
+                                toastr["success"]("Practice Successfully Assigned.",'SUCCESS!');
+                            }
                             getAllShow();
                             $('.loading2').hide();
                         }

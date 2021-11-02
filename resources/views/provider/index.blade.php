@@ -1,5 +1,18 @@
 @extends('layouts.provider')
+@section('headerselect')
+    <div class="iq-search-bar">
+        <?php
+        $assign_prc = \App\Models\assign_practice::where('provider_id',Auth::user()->id)->first();
+        if ($assign_prc) {
+            $prc_name = \App\Models\practice::where('id',$assign_prc->practice_id)->first();
+        }
+        ?>
+        @if ($assign_prc && $prc_name)
+            <h5>{{$prc_name->business_name}}</h5>
+        @endif
 
+    </div>
+@endsection
 @section('proider')
     <div class="iq-card">
         <div class="iq-card-body">

@@ -1,10 +1,19 @@
-@extends('layouts.admin')
+@extends('layouts.provider')
 @section('headerselect')
     <div class="iq-search-bar">
-        <h5>ABC Behavioral Therapy Center</h5>
+        <?php
+        $assign_prc = \App\Models\assign_practice::where('provider_id',Auth::user()->id)->first();
+        if ($assign_prc) {
+            $prc_name = \App\Models\practice::where('id',$assign_prc->practice_id)->first();
+        }
+        ?>
+        @if ($assign_prc && $prc_name)
+            <h5>{{$prc_name->business_name}}</h5>
+        @endif
+
     </div>
 @endsection
-@section('admin')
+@section('proider')
     <div class="iq-card-body">
         <div class="d-flex justify-content-between mb-3">
             <div class="align-self-center">
@@ -20,9 +29,7 @@
                 </h5>
             </div>
             <div class="align-self-center">
-                <a href="{{route('admin.providers')}}" class="btn btn-sm btn-primary">
-                    <i class="ri-arrow-left-circle-line"></i>Back
-                </a>
+
             </div>
         </div>
         <div class="d-lg-flex">
@@ -37,44 +44,44 @@
                 </li>
                 <!--/ Profile Picture -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('admin.provider.info',$provider->id)}}">Provider Info</a>
+                    <a class="nav-link" href="{{route('providers.info')}}">Provider Info</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="{{route('admin.provider.contract',$provider->id)}}">Contracts</a>
+                    <a class="nav-link " href="{{route('provider.contract')}}">Contracts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('admin.provider.document',$provider->id)}}">Documents</a>
+                    <a class="nav-link" href="{{route('provider.document')}}">Documents</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('admin.provider.portal',$provider->id)}}">Provider Portal</a>
+                    <a class="nav-link" href="{{route('provider.portal')}}">Provider Portal</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('admin.provider.online.access',$provider->id)}}">Online Access</a>
+                    <a class="nav-link" href="{{route('provider.online.access')}}">Online Access</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('admin.provider.tracking.user',$provider->id)}}">Tracking Muster</a>
+                    <a class="nav-link" href="{{route('provider.tracking.user')}}">Tracking Muster</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{route('admin.provider.activity',$provider->id)}}">Provider Activity</a>
+                    <a class="nav-link active" href="{{route('provider.activity')}}">Provider Activity</a>
                 </li>
             </ul>
             <div class="all_content flex-fill">
                 <h5 class="common-title">Provider Activity</h5>
                 <!-- single activity-->
                 @foreach($activity as $act)
-                <div class="d-flex">
-                    <div class="mr-4 datetime">
-                        <p class="today mb-0">{{\Carbon\Carbon::parse($act->created_at)->format('m/d/Y')}}</p>
-                        <p class="time">{{\Carbon\Carbon::parse($act->created_at)->format('g:i a')}}</p>
-                    </div>
-                    <div class="flex-fill timeline">
-                        <div class="history">
-                            <h6>Provider</h6>
-                            <p>{!! $act->message !!}<a href="#">View Details</a></p>
+                    <div class="d-flex">
+                        <div class="mr-4 datetime">
+                            <p class="today mb-0">{{\Carbon\Carbon::parse($act->created_at)->format('m/d/Y')}}</p>
+                            <p class="time">{{\Carbon\Carbon::parse($act->created_at)->format('g:i a')}}</p>
                         </div>
-                        <div class="timeline-dots"></div>
+                        <div class="flex-fill timeline">
+                            <div class="history">
+                                <h6>Provider</h6>
+                                <p>{!! $act->message !!}<a href="#">View Details</a></p>
+                            </div>
+                            <div class="timeline-dots"></div>
+                        </div>
                     </div>
-                </div>
             @endforeach
                 <!-- single activity-->
             {{$activity->links()}}

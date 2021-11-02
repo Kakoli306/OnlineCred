@@ -72,6 +72,14 @@ Route::group(['middleware' => ['auth:admin']], function() {
         //provider
         Route::post('/provider-save', [Controllers\Admin\AdminProviderController::class,'provider_save'])->name('admin.provider.save');
         Route::get('/provider-list', [Controllers\Admin\AdminProviderController::class,'provider_list'])->name('admin.providers');
+
+        //get all provider
+        Route::post('/provider-list-all-get', [Controllers\Admin\AdminProviderController::class,'provider_list_get'])->name('admin.provider.list.all.get');
+        Route::get('/provider-list-all-get', [Controllers\Admin\AdminProviderController::class,'provider_list_get_next']);
+        Route::post('/provider-list-all-get-fid', [Controllers\Admin\AdminProviderController::class,'provider_list_get_fid'])->name('admin.provider.list.all.get.fid');
+        Route::get('/provider-list-all-get-fid', [Controllers\Admin\AdminProviderController::class,'provider_list_get_fid_next']);
+
+        //provider info
         Route::get('/provider-info/{id}', [Controllers\Admin\AdminProviderController::class,'provider_info'])->name('admin.provider.info');
         Route::post('/provider-info-update', [Controllers\Admin\AdminProviderController::class,'provider_info_update'])->name('admin.provider.info.update');
         Route::post('/provider-info-exists-phone-delete', [Controllers\Admin\AdminProviderController::class,'provider_info_exists_phone_delete'])->name('admin.delete.exist.provider.phone');
@@ -129,6 +137,42 @@ Route::prefix('provider')->group(function (){
 Route::group(['middleware' => ['auth:provider']], function() {
     Route::prefix('provider')->group(function() {
         Route::get('/', [Controllers\Provider\ProiderController::class,'index'])->name('provider.dashboard');
+
+        //info
+        Route::get('/info', [Controllers\Provider\ProiderInfoController::class,'info'])->name('providers.info');
+        Route::post('/info-update', [Controllers\Provider\ProiderInfoController::class,'info_update'])->name('provider.info.update');
+        Route::post('/delete-exits-phone', [Controllers\Provider\ProiderInfoController::class,'delete_exists_phone'])->name('provider.delete.exist.phone');
+        Route::post('/delete-exits-email', [Controllers\Provider\ProiderInfoController::class,'delete_exists_email'])->name('provider.delete.exist.email');
+        Route::post('/delete-exits-address', [Controllers\Provider\ProiderInfoController::class,'delete_exists_address'])->name('provider.delete.exist.address');
+
+        //provider contract
+        Route::get('/contract', [Controllers\Provider\ProiderInfoController::class,'contract'])->name('provider.contract');
+        Route::post('/contract-save', [Controllers\Provider\ProiderInfoController::class,'contract_save'])->name('provider.contract.save');
+        Route::post('/contract-update', [Controllers\Provider\ProiderInfoController::class,'contract_update'])->name('provider.contract.update');
+        Route::get('/contract-delete/{id}', [Controllers\Provider\ProiderInfoController::class,'contract_delete'])->name('provider.contract.delete');
+        Route::post('/contract-add-note', [Controllers\Provider\ProiderInfoController::class,'contract_add_note'])->name('provider.contract.add.note');
+        Route::post('/contract-get-note', [Controllers\Provider\ProiderInfoController::class,'contract_get_note'])->name('provider.get.contract.note');
+
+        //document
+        Route::get('/document', [Controllers\Provider\ProiderInfoController::class,'document'])->name('provider.document');
+        Route::post('/document-save', [Controllers\Provider\ProiderInfoController::class,'document_save'])->name('provider.document.save');
+        Route::post('/document-update', [Controllers\Provider\ProiderInfoController::class,'document_update'])->name('provider.document.update');
+        Route::get('/document-delete/{id}', [Controllers\Provider\ProiderInfoController::class,'document_delete'])->name('provider.document.delete');
+
+        //portal
+        Route::get('/portal', [Controllers\Provider\ProiderInfoController::class,'portal'])->name('provider.portal');
+        Route::post('/portal-save', [Controllers\Provider\ProiderInfoController::class,'portal_save'])->name('provider.portal.save');
+        Route::post('/portal-send-access', [Controllers\Provider\ProiderInfoController::class,'portal_send_access'])->name('provider.send.access');
+
+        //online acccess
+        Route::get('/online-access', [Controllers\Provider\ProiderInfoController::class,'online_access'])->name('provider.online.access');
+        Route::post('/online-access-save', [Controllers\Provider\ProiderInfoController::class,'online_access_save'])->name('provider.online.access.save');
+
+        //tracking user
+        Route::get('/tracking-user', [Controllers\Provider\ProiderInfoController::class,'tracking_user'])->name('provider.tracking.user');
+
+        //activity
+        Route::get('/activity', [Controllers\Provider\ProiderInfoController::class,'activity'])->name('provider.activity');
     });
 });
 

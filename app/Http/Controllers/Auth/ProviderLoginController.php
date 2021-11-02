@@ -43,6 +43,6 @@ class ProviderLoginController extends Controller
     public function provider_logout()
     {
         Auth::guard('provider')->logout();
-        return redirect(route('user.login'));
+        return redirect(route('login'));
     }
 }

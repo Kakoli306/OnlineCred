@@ -50,7 +50,7 @@
                                             <button type="button" class="close"
                                                     data-dismiss="modal">&times;</button>
                                         </div>
-                                        <form action="{{route('admin.practice.update')}}" method="post">
+                                        <form action="{{route('admin.practice.update')}}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="modal-body">
                                                 <div class="row">
@@ -124,6 +124,20 @@
                                                                 class="text-danger">*</span></label>
                                                         <input type="text" name="medicaid" value="{{$prc->medicaid}}"
                                                                class="form-control form-control-sm" required>
+                                                    </div>
+                                                    <div class="col-md-6 mb-2" >
+                                                        <label>Document<span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="file" name="doc_file"
+                                                               class="form-control form-control-sm">
+                                                    </div>
+                                                    <div class="col-md-6 mb-2" style="margin-top: 30px;">
+                                                        @if (!empty($prc->doc_file) && file_exists($prc->doc_file))
+                                                            <a href="{{asset($prc->doc_file)}}" target="_blank">View Document</a>
+                                                        @else
+                                                            <a target="_blank">View Document</a>
+                                                        @endif
+
                                                     </div>
                                                 </div>
                                             </div>

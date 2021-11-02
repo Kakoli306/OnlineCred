@@ -138,7 +138,7 @@ body.sidebar-main-menu .content-page {
 }
 .fileupsvg {
     width: 40px;
-    fill: #089DAD;
+    fill: #375EB7;
     margin: 0 auto 8px;
     display: block;
 }
@@ -390,21 +390,8 @@ select.form-control[size] {
     font-size: 16px;
     margin-bottom: 0;
 }
-.btn-secondary {
-    border: 1px solid #17a2b8 !important;
-    background: #17a2b8 !important;
-}
 .daterangepicker .drp-buttons .btn {
     padding: 0 8px;
-}
-.btn-dark {
-    color: #fff !important;
-    background: linear-gradient(to right, rgba(216, 74, 69, 1) 0%, rgba(242, 99, 97, 1) 100%) !important;
-    border-color: #d84a45 !important;
-}
-.btn-teal {
-    color: #fff !important;
-    background: teal !important;
 }
 .dropdown-toggle::after {
     border: none;
@@ -454,7 +441,7 @@ textarea.form-control-sm {
 }
 .modal-header,
 .modal-footer {
-    background: linear-gradient(to right, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
+    background: #375EB7;
 }
 .modal-header h4 {
     font-size: 18px;
@@ -470,8 +457,8 @@ textarea.form-control-sm {
 }
 .modal-footer .btn:first-child {
     color: #fff !important;
-    background: #0e4c8e !important;
-    border: 1px solid #0e4c8e !important;
+    background: #1d3752 !important;
+    border: 1px solid #1d3752 !important;
 }
 .modal-footer .btn:last-child {
     color: #fff !important;
@@ -508,9 +495,10 @@ tfoot td {
 .c_table {
     text-align: center;
 }
-.c_table thead ,.btn-primary{
+.c_table thead,
+.btn-primary {
     color: #fff;
-    background: #375EB7;
+    background: #375EB7 !important;
 }
 .c_table thead th {
     text-transform: capitalize;
@@ -589,4 +577,11 @@ tfoot td {
     border-top: 10px solid transparent;
     border-right: 20px solid #00B9F1;
     border-bottom: 10px solid transparent;
+}
+.iq-top-navbar .navbar-toggler,
+.wrapper-menu {
+    color: #375EB7;
+}
+body.sidebar-main .iq-sidebar {
+    background: #375EB7 !important;
 }

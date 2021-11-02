@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Aba+</title>
+    <title>CredenGo</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="images/favicon.png">
     <!-- Bootstrap CSS -->
@@ -20,43 +21,34 @@
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/css/responsive.css">
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/css/custom.css">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/')}}/toastr/build/toastr.min.css">
-    @yield('css')
 </head>
+
 <body>
 <!-- Sign in Start -->
 <section class="sign-in-page">
     <div id="particles-js"></div>
-    <div class="container sign-in-page-bg">
+    <div class="container sign-in-page-bg p-0">
         <div class="row no-gutters">
-            <div class="col-md-6"></div>
-            <div class="col-md-6 align-self-center">
+            <div class="col-lg-5 col-md-6">
                 <div class="sign-in-from">
-                    <img src="{{asset('assets/dashboard/')}}/images/logo_new.png" style="height: 50px;width: 50%" class="img-fluid d-block mx-auto mb-3" alt="">
-                    <form action="{{route('provider.account.pass.setup')}}" method="post" class="needs-validation mt-3" novalidate>
+                    <img src="{{asset('assets/dashboard/')}}/images/logo.png" class="img-fluid d-block mx-auto mb-3" alt="">
+                    <form class="needs-validation mt-3" action="{{route('provider.account.pass.setup')}}" method="post" novalidate>
                         @csrf
                         <div class="form-group">
                             <label for="exampleInputEmail1">New Password</label>
-                            <input type="password" name="pass" class="form-control mb-0{{ $errors->has('pass') ? ' has-error' : '' }}" id="exampleInputEmail1" placeholder="Enter Password" required>
+                            <input type="password" name="pass" class="form-control mb-0" id="exampleInputEmail1"
+                                   placeholder="New Password" required>
                             <input type="hidden" name="token_id" value="{{$access->verify_id}}" required>
-                            @if ($errors->has('pass'))
-                                <span class="help-block">
-                                        <strong style="color: red">{{ $errors->first('pass') }}</strong>
-                                    </span>
-                            @endif
-                            <div class="invalid-feedback">Enter Password</div>
+                            <div class="invalid-feedback">Enter New Password</div>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Confirm Password</label>
-                            <input type="password" name="cpass" class="form-control mb-0{{ $errors->has('cpass') ? ' has-error' : '' }}" id="exampleInputPassword1" placeholder="Enter Confirm Password" required>
-                            @if ($errors->has('cpass'))
-                                <span class="help-block">
-                                        <strong style="color: red">{{ $errors->first('cpass') }}</strong>
-                                    </span>
-                            @endif
+                            <input type="password" name="cpass" class="form-control mb-0" id="exampleInputPassword1"
+                                   placeholder="Confirm Password" required>
                             <div class="invalid-feedback">Enter Confirm Password</div>
                         </div>
                         <div class="d-inline-block w-100">
-                            <button type="submit" class="btn btn-primary float-right">Setup</button>
+                            <button type="submit" class="btn btn-primary float-right">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -83,6 +75,8 @@
 <script src="{{asset('assets/dashboard/')}}/vendor/particle-js/app.js"></script>
 <!-- Custom JavaScript -->
 <script src="{{asset('assets/dashboard/')}}/js/custom.js"></script>
+
+
 <script src="{{asset('assets/toastr/')}}/build/toastr.min.js"></script>
 
 <!-- toastr init -->
@@ -91,5 +85,7 @@
 <script src="{{asset('assets/dashboard/js/bootstrap-notify.min.js')}}"></script>
 
 @include('layouts.message')
+
 </body>
+
 </html>
