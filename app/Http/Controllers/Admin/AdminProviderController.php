@@ -11,6 +11,7 @@ use App\Models\provider_address;
 use App\Models\provider_contract;
 use App\Models\provider_contract_note;
 use App\Models\provider_document;
+use App\Models\provider_document_type;
 use App\Models\provider_email;
 use App\Models\Provider_info;
 use App\Models\provider_online_access;
@@ -411,9 +412,14 @@ class AdminProviderController extends Controller
             $new_doc->file = $imageUrl;
         }
 
+
+        $doc_type_name = provider_document_type::where('id',$request->doc_type_id)->first();
+
+
         $new_doc->admin_id = Auth::user()->id;
         $new_doc->provider_id = $request->provider_id;
-        $new_doc->doc_type = $request->doc_type;
+        $new_doc->doc_type_id = isset($doc_type_name) ? $doc_type_name->id : null;
+        $new_doc->doc_type = isset($doc_type_name) ? $doc_type_name->doc_type_name : null;
         $new_doc->description = $request->description;
         $new_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
         $new_doc->created_by = Auth::user()->name;
@@ -478,6 +484,23 @@ class AdminProviderController extends Controller
         } else {
             return back()->with('alert', 'Provider Document Not Found');
         }
+    }
+
+
+    public function provider_document_type_get_all(Request $request)
+    {
+        $all_doc_type = provider_document_type::where('admin_id',Auth::user()->id)->get();
+        return response()->json($all_doc_type,200);
+    }
+
+
+    public function provider_document_type_save(Request $request)
+    {
+        $new_doc_type = new provider_document_type();
+        $new_doc_type->admin_id = Auth::user()->id;
+        $new_doc_type->doc_type_name = $request->type_name;
+        $new_doc_type->save();
+        return response()->json('done',200);
     }
 
 

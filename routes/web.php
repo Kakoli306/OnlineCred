@@ -45,6 +45,13 @@ Route::post('/account-password-setup', [App\Http\Controllers\VisitorController::
 
 
 
+
+Route::get('/test-update-data', [Controllers\FrontendController::class,'test_update_data'])->name('test.update.data');
+
+
+
+
+
 Route::prefix('admin')->group(function (){
     Route::get('/login', [Controllers\Auth\AdminLoginController::class,'showLoginform'])->name('admin.login');
     Route::post('/login', [Controllers\Auth\AdminLoginController::class,'login'])->name('admin.login.submit');
@@ -100,6 +107,8 @@ Route::group(['middleware' => ['auth:admin']], function() {
         Route::post('/provider-document-save', [Controllers\Admin\AdminProviderController::class,'provider_document_save'])->name('admin.provider.document.save');
         Route::post('/provider-document-update', [Controllers\Admin\AdminProviderController::class,'provider_document_update'])->name('admin.provider.document.update');
         Route::get('/provider-document-delete/{id}', [Controllers\Admin\AdminProviderController::class,'provider_document_delete'])->name('admin.provider.document.delete');
+        Route::post('/provider-document-type-get-all', [Controllers\Admin\AdminProviderController::class,'provider_document_type_get_all'])->name('admin.provider.get.all.doc.type');
+        Route::post('/provider-document-type-save', [Controllers\Admin\AdminProviderController::class,'provider_document_type_save'])->name('admin.provider.document.type.save');
 
         //provider portal
         Route::get('/provider-portal/{id}', [Controllers\Admin\AdminProviderController::class,'provider_portal'])->name('admin.provider.portal');

@@ -63,6 +63,7 @@
                     <div class="float-left">
                         <h2 class="common-title">Provider Documents</h2>
                     </div>
+                    <div class="float-right" style="margin-left: 5px;"><a href="#addocType" data-toggle="modal" class="btn btn-sm btn-primary">+ Create Document Type</a></div>
                     <div class="float-right"><a href="#addoc" data-toggle="modal" class="btn btn-sm btn-primary">+ Add
                             Document</a></div>
                 </div>
@@ -80,7 +81,7 @@
                                     <div class="row no-gutters">
                                         <div class="col-md-3 pr-2">
                                             <label>Document Type</label>
-                                            <select class="form-control form-control-sm" name="doc_type">
+                                            <select class="form-control form-control-sm all_doc_type" name="doc_type_id">
                                                 <option value="Information Form">Information Form</option>
                                                 <option value="License Copy">License Copy</option>
                                                 <option value="Resume">Resume</option>
@@ -115,6 +116,36 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div class="modal fade" id="addocType" data-backdrop="static">
+                    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4>Add Document</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <form action="{{route('admin.provider.document.type.save')}}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="row no-gutters">
+
+                                        <div class="col-md-12 pr-2">
+                                            <label>Document Type Name</label>
+                                            <input type="text" class="form-control form-control-sm doc_type_name" name="description">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" id="saveodctype">Save</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="table-responsive">
                     <table class="table table-sm table-bordered c_table">
                         <thead>
@@ -210,5 +241,63 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        $(document).ready(function () {
+            $('#saveodctype').click(function (e) {
+                e.preventDefault();
+                let type_name = $('.doc_type_name').val();
+
+                if(type_name == null || type_name == ""){
+                    toastr["error"]("Please Enter Document Type Name",'ALERT!');
+                }else {
+                    $.ajax({
+                        type : "POST",
+                        url: "{{route('admin.provider.document.type.save')}}",
+                        data : {
+                            '_token' : "{{csrf_token()}}",
+                            'type_name' : type_name,
+                        },
+                        success:function(data){
+                            console.log(data);
+                            $('.doc_type_name').val('');
+                            $('#addocType').modal('hide');
+                            toastr["success"]("Document Type Successfully Created",'SUCCESS!');
+                            getAllType();
+
+                        }
+                    });
+                }
+
+
+            });
+
+            const getAllType = () =>{
+                $.ajax({
+                    type : "POST",
+                    url: "{{route('admin.provider.get.all.doc.type')}}",
+                    data : {
+                        '_token' : "{{csrf_token()}}",
+                    },
+                    success:function(data){
+                        $('.all_doc_type').empty();
+                        $.each(data,function (index,value) {
+                            $('.all_doc_type').append(
+                                `<option value="${value.id}">${value.doc_type_name}</option>`
+                            )
+                        })
+
+
+                    }
+                });
+            };
+
+
+            getAllType();
+
+
+        })
+    </script>
 @endsection
 
