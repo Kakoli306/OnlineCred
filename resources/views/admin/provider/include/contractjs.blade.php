@@ -1,6 +1,9 @@
 @section('js')
     <script>
         $(document).ready(function () {
+
+
+
             $('.show_chat').click(function () {
                 var id = $(this).data('id');
                 $.ajax({

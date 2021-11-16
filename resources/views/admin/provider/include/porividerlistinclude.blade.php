@@ -5,7 +5,6 @@
         <th style="width: 150px;">contact info</th>
         <th style="width: 150px;">DOB</th>
         <th style="width: 150px;">gender</th>
-        <th style="width: 150px;">Credential</th>
         <th>Speciality</th>
         <th>Contract</th>
         <th>Status</th>
@@ -21,8 +20,7 @@
             </td>
             <td>{{\Carbon\Carbon::parse($provider->dob)->format('m/d/Y')}}</td>
             <td>{{$provider->gender}}</td>
-            <td>Loren</td>
-            <td>Miami</td>
+            <td>{{$provider->speciality}}</td>
             <td>
                 <a href="#mycontract{{$provider->id}}" data-toggle="modal"><i class="fa fa-id-card-o" aria-hidden="true"></i></a>
                 <!-- Contract Modal -->

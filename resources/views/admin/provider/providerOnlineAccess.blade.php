@@ -1,7 +1,14 @@
 @extends('layouts.admin')
 @section('headerselect')
     <div class="iq-search-bar">
-        <h5>ABC Behavioral Therapy Center</h5>
+        <?php
+        $practice_name = \App\Models\practice::select('business_name')->where('id',$provider->practice_id)->first();
+        ?>
+        <h5>
+            @if ($practice_name)
+                {{$practice_name->business_name}}
+            @endif
+        </h5>
     </div>
 @endsection
 @section('admin')
@@ -20,7 +27,7 @@
                 </h5>
             </div>
             <div class="align-self-center">
-                <a href="{{route('admin.providers')}}" class="btn btn-sm btn-primary">
+                <a href="{{route('admin.providers')}}" class="btn btn-sm btn-primary go_back">
                     <i class="ri-arrow-left-circle-line"></i>Back
                 </a>
             </div>
@@ -123,6 +130,7 @@
                             <th>Url</th>
                             <th>User Name</th>
                             <th>Password</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -132,7 +140,64 @@
                             <td>{{$access->url}}</td>
                             <td>{{$access->user_name}}</td>
                             <td>{{$access->password}}</td>
+                            <td>
+                                <a href="#editonlibeaccess{{$access->id}}" title="Edit" data-toggle="modal">
+                                    <i class="ri-pencil-line mr-2"></i>
+                                </a>
+                                <a href="{{route('admin.provider.online.access.delete',$access->id)}}" title="Delete">
+                                    <i class="ri-delete-bin-6-line text-danger"></i>
+                                </a>
+                            </td>
                         </tr>
+
+
+                        <div class="modal fade" id="editonlibeaccess{{$access->id}}" data-backdrop="static">
+                            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4>Edit Access</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <form action="{{route('admin.provider.online.access.update')}}" method="post">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-4 mb-2">
+                                                    <label>Access Name</label>
+                                                </div>
+                                                <div class="col-md-8 mb-2">
+                                                    <input type="text" class="form-control form-control-sm" name="name" value="{{$access->name}}"  required>
+                                                    <input type="hidden" class="form-control form-control-sm" name="access_edit_id" value="{{$access->id}}" required>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label>URL</label>
+                                                </div>
+                                                <div class="col-md-8 mb-2">
+                                                    <input type="text" class="form-control form-control-sm" name="url" value="{{$access->url}}" required>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label>User Name</label>
+                                                </div>
+                                                <div class="col-md-8 mb-2">
+                                                    <input type="text" class="form-control form-control-sm" name="user_name" value="{{$access->user_name}}" required>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label>Password</label>
+                                                </div>
+                                                <div class="col-md-8 mb-2">
+                                                    <input type="text" class="form-control form-control-sm" name="password" value="{{$access->password}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                         @endforeach
                         </tbody>
                     </table>
@@ -142,4 +207,5 @@
         </div>
     </div>
 @endsection
+
 

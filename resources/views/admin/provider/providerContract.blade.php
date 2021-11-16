@@ -1,7 +1,14 @@
 @extends('layouts.admin')
 @section('headerselect')
     <div class="iq-search-bar">
-        <h5>ABC Behavioral Therapy Center</h5>
+        <?php
+        $practice_name = \App\Models\practice::select('business_name')->where('id',$provider->practice_id)->first();
+        ?>
+        <h5>
+            @if ($practice_name)
+                {{$practice_name->business_name}}
+            @endif
+        </h5>
     </div>
 @endsection
 @section('admin')
@@ -20,7 +27,7 @@
                 </h5>
             </div>
             <div class="align-self-center">
-                <a href="{{route('admin.providers')}}" class="btn btn-sm btn-primary">
+                <a href="{{route('admin.providers')}}" class="btn btn-sm btn-primary go_back">
                     <i class="ri-arrow-left-circle-line"></i>Back
                 </a>
             </div>
@@ -94,7 +101,7 @@
                                         </div>
                                         <div class="col-md-6 mb-2">
                                             <label>End Date<span class="text-danger">*</span></label>
-                                            <input type="date" name="end_date" class="form-control form-control-sm" required>
+                                            <input type="date" name="end_date" class="form-control form-control-sm">
                                         </div>
                                         <div class="col-md-6 mb-2">
                                             <label>Contract Type<span class="text-danger">*</span></label>
@@ -103,8 +110,8 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6 mb-2">
-                                            <label>Pin No.<span class="text-danger">*</span></label>
-                                            <input type="text" name="pin_no" class="form-control form-control-sm" required>
+                                            <label>Pin No.<span class="text-danger"></span></label>
+                                            <input type="text" name="pin_no" class="form-control form-control-sm">
                                         </div>
                                     </div>
                                 </div>
@@ -248,7 +255,7 @@
                                                         </div>
                                                         <div class="col-md-6 mb-2">
                                                             <label>End Date<span class="text-danger">*</span></label>
-                                                            <input type="date" class="form-control form-control-sm" name="end_date" value="{{$pcontract->end_date}}" required>
+                                                            <input type="date" class="form-control form-control-sm" name="end_date" value="{{$pcontract->end_date}}">
                                                         </div>
                                                         <div class="col-md-6 mb-2">
                                                             <label>Contract Type<span class="text-danger">*</span></label>
@@ -257,8 +264,8 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6 mb-2">
-                                                            <label>Pin No.<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control form-control-sm" name="pin_no" value="{{$pcontract->pin_no}}" required>
+                                                            <label>Pin No.<span class="text-danger"></span></label>
+                                                            <input type="text" class="form-control form-control-sm" name="pin_no" value="{{$pcontract->pin_no}}">
                                                         </div>
                                                     </div>
                                                 </div>

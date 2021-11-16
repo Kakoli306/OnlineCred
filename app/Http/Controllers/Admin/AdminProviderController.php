@@ -35,13 +35,15 @@ class AdminProviderController extends Controller
     public function provider_save(Request $request)
     {
 
+
+
         $new_provider = new Provider();
         $new_provider->admin_id = Auth::user()->id;
         $new_provider->practice_id = $request->fac_id;
         $new_provider->full_name = $request->first_name . ' ' . $request->last_name;
         $new_provider->first_name = $request->first_name;
         $new_provider->last_name = $request->last_name;
-        $new_provider->phone = $request->phone;
+        $new_provider->phone = $request->phone_num;
         $new_provider->dob = Carbon::parse($request->dob)->format('Y-m-d');
         $new_provider->gender = $request->gender;
         $new_provider->save();
@@ -144,6 +146,7 @@ class AdminProviderController extends Controller
     public function provider_info_update(Request $request)
     {
         $proider = Provider::where('id', $request->provider_id)->first();
+        $proider->is_active = $request->is_active;
         $proider->full_name = $request->first_name . ' ' . $request->middle_name . ' ' . $request->last_name;
         $proider->first_name = $request->first_name;
         $proider->middle_name = $request->middle_name;
@@ -174,6 +177,7 @@ class AdminProviderController extends Controller
 
         $provider_info->suffix = $request->suffix;
         $provider_info->speciality = $request->speciality;
+        $provider_info->taxonomy_code = $request->taxonomy_code;
         $provider_info->tax_id = $request->tax_id;
         $provider_info->ssn = $request->ssn;
         $provider_info->npi = $request->npi;
@@ -182,6 +186,7 @@ class AdminProviderController extends Controller
         $provider_info->state_licence = $request->state_licence;
         $provider_info->provider_degree = $request->provider_degree;
         $provider_info->signature_date = $request->signature_date;
+        $provider_info->start_date = $request->start_date;
         $provider_info->signature_on_file = $request->signature_on_file;
         $provider_info->rp = $request->rp;
         $provider_info->ocp = $request->ocp;
@@ -611,6 +616,46 @@ class AdminProviderController extends Controller
 
         return back()->with('success', 'Provider Online Access Successfully Created');
     }
+
+
+    public function provider_online_access_update(Request $request)
+    {
+        $update_access = provider_online_access::where('id',$request->access_edit_id)
+            ->where('admin_id',Auth::user()->id)
+            ->first();
+        $update_access->name = $request->name;
+        $update_access->url = $request->url;
+        $update_access->user_name = $request->user_name;
+        if ($request->password != null || $request->password != '') {
+            $update_access->password = $request->password;
+        }
+        $update_access->save();
+
+        $new_act = new provider_activity();
+        $new_act->admin_id = Auth::user()->id;
+        $new_act->provider_id = $update_access->provider_id;
+        $new_act->created_by = Auth::user()->name;
+        $new_act->message = "Provider Online Access Update";
+        $new_act->save();
+
+        return back()->with('success', 'Provider Online Access Successfully Updated');
+    }
+
+
+    public function provider_online_access_delete($id)
+    {
+        $online_access_delete = provider_online_access::where('id',$id)
+            ->where('admin_id',Auth::user()->id)
+            ->first();
+
+        if ($online_access_delete) {
+            $online_access_delete->delete();
+            return back()->with('success', 'Provider Online Access Successfully Delete');
+        }else{
+            return back()->with('alert', 'Provider Online Access Not Found');
+        }
+    }
+
 
     public function provider_tracking_user($id)
     {

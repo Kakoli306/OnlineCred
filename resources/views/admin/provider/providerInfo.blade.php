@@ -1,7 +1,14 @@
 @extends('layouts.admin')
 @section('headerselect')
     <div class="iq-search-bar">
-        <h5>ABC Behavioral Therapy Center</h5>
+        <?php
+            $practice_name = \App\Models\practice::select('business_name')->where('id',$provider->practice_id)->first();
+        ?>
+        <h5>
+            @if ($practice_name)
+                {{$practice_name->business_name}}
+            @endif
+        </h5>
     </div>
 @endsection
 @section('admin')
@@ -60,6 +67,8 @@
                     </li>
                 </ul>
             </div>
+            <form action="{{route('admin.provider.info.update')}}" method="post" enctype="multipart/form-data" class="provider-edit-form">
+                @csrf
             <div class="all_content flex-fill">
                 <div class="d-flex justify-content-between">
                     <div>
@@ -68,13 +77,12 @@
                     <div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" checked>Active Provider
+                                <input type="checkbox" class="form-check-input" name="is_active" value="1" {{$provider->is_active == 1 ? 'checked':''}}>Active Provider
                             </label>
                         </div>
                     </div>
                 </div>
-                <form action="{{route('admin.provider.info.update')}}" method="post" enctype="multipart/form-data" class="provider-edit-form">
-                    @csrf
+
                     <div class="row">
                         <!-- First Name -->
                         <div class="col-md-4 col-xl-2 mb-2">
@@ -117,6 +125,12 @@
                             </label>
                             <input type="text" class="form-control form-control-sm" name="speciality" value="{{$provider_info->speciality}}" required>
                         </div>
+                        <div class="col-md-4 col-xl-2 mb-2">
+                            <label class="font-weight-bold">Taxonomy Code
+                                <span class="text-danger"></span>
+                            </label>
+                            <input type="text" class="form-control form-control-sm" name="taxonomy_code" value="{{$provider_info->taxonomy_code}}">
+                        </div>
                         <!-- Tax Id -->
                         <div class="col-md-4 col-xl-2 mb-2">
                             <label class="font-weight-bold">Tax Id
@@ -146,23 +160,23 @@
                             <input type="text" class="form-control form-control-sm" name="upin" value="{{$provider_info->upin}}" required>
                         </div>
                         <!-- DEA -->
-                        <div class="col-md-4 col-xl-2 mb-2">
+                        <div class="col-md-4 col-xl-4 mb-2">
                             <label class="font-weight-bold">DEA
                                 <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control form-control-sm" name="dea" value="{{$provider_info->dea}}" required>
                         </div>
                         <!-- State License -->
-                        <div class="col-md-4 col-xl-2 mb-2">
+                        <div class="col-md-4 col-xl-4 mb-2">
                             <label class="font-weight-bold">State License
                                 <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control form-control-sm" name="state_licence" value="{{$provider_info->state_licence}}" required>
                         </div>
                         <!-- Number of Patient -->
-                        <div class="col-md-4 col-xl-2 mb-2">
+                        <div class="col-md-4 col-xl-4 mb-2">
                             <label class="font-weight-bold">Provider's Degree</label>
-                            <input type="number" class="form-control form-control-sm" name="provider_degree" value="{{$provider_info->provider_degree}}">
+                            <input type="text" class="form-control form-control-sm" name="provider_degree" value="{{$provider_info->provider_degree}}">
                         </div>
                         <!-- Phone -->
                         @include('admin.provider.include.providerPhone')
@@ -181,6 +195,13 @@
                                     <input type="checkbox" class="form-check-input" name="signature_on_file" value="1" {{$provider_info->signature_on_file == 1 ? 'checked' : ''}}>Signature on File
                                 </label>
                             </div>
+                        </div>
+                        <div class="col-md-4 col-xl-3 mb-2">
+                            <label class="font-weight-bold">Start Date
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" name="start_date" value="{{$provider_info->start_date}}">
+
                         </div>
                         <!-- Upload Signature -->
                         <div class="col-md-4 col-xl-2 text-center align-self-center mb-2">
@@ -315,8 +336,9 @@
                             <button type="button" class="btn btn-danger" onclick="window.location.reload();">Cancel</button>
                         </div>
                     </div>
-                </form>
+
             </div>
+            </form>
         </div>
     </div>
 @endsection

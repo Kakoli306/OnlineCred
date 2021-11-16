@@ -118,6 +118,8 @@ Route::group(['middleware' => ['auth:admin']], function() {
         //online access
         Route::get('/provider-online-access/{id}', [Controllers\Admin\AdminProviderController::class,'provider_online_access'])->name('admin.provider.online.access');
         Route::post('/provider-online-access-save', [Controllers\Admin\AdminProviderController::class,'provider_online_access_save'])->name('admin.provider.online.access.save');
+        Route::post('/provider-online-access-update', [Controllers\Admin\AdminProviderController::class,'provider_online_access_update'])->name('admin.provider.online.access.update');
+        Route::get('/provider-online-access-delete/{id}', [Controllers\Admin\AdminProviderController::class,'provider_online_access_delete'])->name('admin.provider.online.access.delete');
 
         //tracking user
         Route::get('/provider-tracking-user/{id}', [Controllers\Admin\AdminProviderController::class,'provider_tracking_user'])->name('admin.provider.tracking.user');

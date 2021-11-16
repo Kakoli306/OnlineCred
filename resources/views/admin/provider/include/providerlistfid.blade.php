@@ -5,7 +5,6 @@
         <th style="width: 150px;">contact info</th>
         <th style="width: 150px;">DOB</th>
         <th style="width: 150px;">gender</th>
-        <th style="width: 150px;">Credential</th>
         <th>Speciality</th>
         <th>Contract</th>
         <th>Status</th>
@@ -14,7 +13,9 @@
     </thead>
     <tbody class="text-center">
     @foreach($providers as $data)
-
+        <?php
+            $provider_info = \App\Models\Provider_info::where('provider_id',$data->id)->first();
+        ?>
         <tr>
             <td><a href="{{route('admin.provider.info',$data->id)}}" class="mr-2">{{$data->full_name}}</a></td>
             <td>
@@ -22,8 +23,11 @@
             </td>
             <td>{{\Carbon\Carbon::parse($data->dob)->format('m/d/Y')}}</td>
             <td>{{$data->gender}}</td>
-            <td>Loren</td>
-            <td>Miami</td>
+            <td>
+                @if ($provider_info)
+                    {{$provider_info->speciality}}
+                @endif
+            </td>
             <td>
                 <a href="#mycontract{{$data->id}}" data-toggle="modal"><i class="fa fa-id-card-o" aria-hidden="true"></i></a>
                 <!-- Contract Modal -->

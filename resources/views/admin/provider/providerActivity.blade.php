@@ -1,7 +1,14 @@
 @extends('layouts.admin')
 @section('headerselect')
     <div class="iq-search-bar">
-        <h5>ABC Behavioral Therapy Center</h5>
+        <?php
+        $practice_name = \App\Models\practice::select('business_name')->where('id',$provider->practice_id)->first();
+        ?>
+        <h5>
+            @if ($practice_name)
+                {{$practice_name->business_name}}
+            @endif
+        </h5>
     </div>
 @endsection
 @section('admin')
@@ -20,7 +27,7 @@
                 </h5>
             </div>
             <div class="align-self-center">
-                <a href="{{route('admin.providers')}}" class="btn btn-sm btn-primary">
+                <a href="{{route('admin.providers')}}" class="btn btn-sm btn-primary go_back">
                     <i class="ri-arrow-left-circle-line"></i>Back
                 </a>
             </div>
@@ -83,4 +90,5 @@
         </div>
     </div>
 @endsection
+
 
