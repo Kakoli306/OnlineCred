@@ -17,6 +17,7 @@ use App\Models\Provider_info;
 use App\Models\provider_online_access;
 use App\Models\provider_phone;
 use App\Models\provider_portal;
+use App\Models\speciality;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -140,7 +141,8 @@ class AdminProviderController extends Controller
         $provider_phones = provider_phone::where('provider_id', $id)->get();
         $provider_emails = provider_email::where('provider_id', $id)->get();
         $provider_address = provider_address::where('provider_id', $id)->get();
-        return view('admin.provider.providerInfo', compact('provider', 'provider_info', 'provider_phones', 'provider_emails', 'provider_address'));
+        $spec = speciality::where('admin_id',Auth::user()->id)->get();
+        return view('admin.provider.providerInfo', compact('provider', 'provider_info', 'provider_phones', 'provider_emails', 'provider_address','spec'));
     }
 
     public function provider_info_update(Request $request)

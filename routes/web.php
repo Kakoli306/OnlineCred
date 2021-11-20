@@ -76,6 +76,13 @@ Route::group(['middleware' => ['auth:admin']], function() {
         //practice assign
         Route::get('/practice-assign', [Controllers\Admin\AdminPracticeController::class,'practice_assign'])->name('admin.practice.assign');
 
+
+        //Speciality
+        Route::post('/speciality-save', [Controllers\Admin\AdminSettingController::class,'save_speciality'])->name('admin.speciality.save');
+        Route::post('/speciality-update', [Controllers\Admin\AdminSettingController::class,'save_speciality_update'])->name('admin.speciality.update');
+        Route::get('/speciality-delete/{id}', [Controllers\Admin\AdminSettingController::class,'save_speciality_delete'])->name('admin.speciality.delete');
+
+
         //provider
         Route::post('/provider-save', [Controllers\Admin\AdminProviderController::class,'provider_save'])->name('admin.provider.save');
         Route::get('/provider-list', [Controllers\Admin\AdminProviderController::class,'provider_list'])->name('admin.providers');

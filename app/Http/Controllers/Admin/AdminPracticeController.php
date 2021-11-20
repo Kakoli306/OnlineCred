@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\assign_practice;
 use App\Models\practice;
 use App\Models\Provider;
+use App\Models\speciality;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -88,7 +89,8 @@ class AdminPracticeController extends Controller
 
     public function practice_assign()
     {
-        return view('admin.facility.facilityAssign');
+        $all_scpec = speciality::where('admin_id',Auth::user()->id)->paginate(10);
+        return view('admin.facility.facilityAssign',compact('all_scpec'));
     }
 
 
@@ -157,6 +159,11 @@ class AdminPracticeController extends Controller
         return response()->json('done',200);
 
     }
+
+
+
+
+
 
 
 

@@ -34,7 +34,125 @@
                 <button type="button" class="btn btn-sm btn-danger mt-2">Remove All</button>
             </div>
         </div>
+
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="d-flex justify-content-between mb-3">
+            <div class="mr-3 align-self-center">
+                <h2 class="common-title mb-0">All Speciality</h2>
+            </div>
+            <div>
+                <a class="btn btn-sm btn-primary" href="#createSpeciality" data-toggle="modal">
+                    <i class="ri-add-line"></i>Add Speciality
+                </a>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="createSpeciality" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Create Speciality</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <form action="{{route('admin.speciality.save')}}" method="post">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12 mb-2">
+                                    <label>Speciality<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm first_name" name="speciality_name" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="createProvider">Create & Continue</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="table-responsive pro_lists">
+            <table class="table table-sm table-bordered c_table">
+                <thead>
+                <tr>
+                    <th>Speciality</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                @foreach($all_scpec as $spec)
+                <tr>
+                    <td>{{$spec->speciality_name}}</td>
+                    <td>
+                        <a href="#editspec{{$spec->id}}" title="Edit" data-toggle="modal">
+                            <i class="ri-pencil-line mr-2"></i>
+                        </a>
+                        <a href="{{route('admin.speciality.delete',$spec->id)}}" title="Delete">
+                            <i class="ri-delete-bin-6-line text-danger"></i>
+                        </a>
+
+
+                        <div class="modal fade" id="editspec{{$spec->id}}" data-backdrop="static">
+                            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4>Edit Speciality</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <form action="{{route('admin.speciality.update')}}" method="post">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12 mb-2">
+                                                    <label>Speciality<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control form-control-sm first_name" name="speciality_name" value="{{$spec->speciality_name}}" required>
+                                                    <input type="hidden" class="form-control form-control-sm first_name" name="speciality_edit" value="{{$spec->id}}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary" id="createProvider">Update</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+
+
+
+
+                @endforeach
+
+
+                </tbody>
+            </table>
+            <nav class="overflow-hidden">
+                {{$all_scpec->links()}}
+            </nav>
+
+
+        </div>
+
+
+
     </div>
+
+
+
 @endsection
 @section('js')
     <script>

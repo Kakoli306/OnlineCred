@@ -120,10 +120,20 @@
                         </div>
                         <!-- Speciality -->
                         <div class="col-md-4 col-xl-2 mb-2">
-                            <label class="font-weight-bold">Speciality
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input type="text" class="form-control form-control-sm" name="speciality" value="{{$provider_info->speciality}}" required>
+{{--                            <label class="font-weight-bold">Speciality--}}
+{{--                                <span class="text-danger">*</span>--}}
+{{--                            </label>--}}
+{{--                            <input type="text" class="form-control form-control-sm" name="speciality" value="{{$provider_info->speciality}}" required>--}}
+
+
+                            <label class="font-weight-bold">Speciality<span class="text-danger">*</span></label>
+                            <select class="form-control form-control-sm" name="speciality">
+                                <option value=""></option>
+                                @foreach($spec as $spe)
+                                <option value="{{$spe->speciality_name}}" {{$spe->speciality_name == $provider_info->speciality ? 'selected' : ''}}>{{$spe->speciality_name}}</option>
+                                @endforeach
+                            </select>
+
                         </div>
                         <div class="col-md-4 col-xl-2 mb-2">
                             <label class="font-weight-bold">Taxonomy Code
