@@ -2,7 +2,7 @@
 @section('headerselect')
     <div class="iq-search-bar">
         <?php
-        $practice_name = \App\Models\practice::select('business_name')->where('id',$provider->practice_id)->first();
+        $practice_name = \App\Models\practice::select('business_name')->where('id', $provider->practice_id)->first();
         ?>
         <h5>
             @if ($practice_name)
@@ -15,7 +15,8 @@
     <div class="iq-card-body">
         <div class="d-flex justify-content-between mb-3">
             <div class="align-self-center">
-                <h5><a href="#" class="cmn_a">{{$provider->first_name}} {{$provider->middle_name}} {{$provider->last_name}}</a> |
+                <h5><a href="#"
+                       class="cmn_a">{{$provider->first_name}} {{$provider->middle_name}} {{$provider->last_name}}</a> |
                     <small>
                         <span class="font-weight-bold text-orange">DOB:</span>
                         {{\Carbon\Carbon::parse($provider->dob)->format('m/d/Y')}} |
@@ -27,7 +28,8 @@
                 </h5>
             </div>
             <div class="align-self-center">
-                <a href="{{route('admin.providers')}}" class="btn btn-sm btn-primary go_back">
+                <a href="{{route('admin.providers.list',$provider->practice_id)}}"
+                   class="btn btn-sm btn-primary go_back">
                     <i class="ri-arrow-left-circle-line"></i>Back
                 </a>
             </div>
@@ -37,7 +39,8 @@
                 <!-- Profile Picture -->
                 <li class="nav-item border-0 text-center">
                     <div class="profile-pic-div">
-                        <img src="{{asset('assets/dashboard/')}}/images/man.jpg" class="img-fluid" id="photo" alt="aba+">
+                        <img src="{{asset('assets/dashboard/')}}/images/man.jpg" class="img-fluid" id="photo"
+                             alt="aba+">
                         <input type="file" id="file" class="d-none">
                         <label for="file" id="uploadBtn">Upload Photo</label>
                     </div>
@@ -58,9 +61,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('admin.provider.online.access',$provider->id)}}">Online Access</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('admin.provider.tracking.user',$provider->id)}}">Tracking Muster</a>
-                </li>
+                {{--                <li class="nav-item">--}}
+                {{--                    <a class="nav-link" href="{{route('admin.provider.tracking.user',$provider->id)}}">Tracking Muster</a>--}}
+                {{--                </li>--}}
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('admin.provider.activity',$provider->id)}}">Provider Activity</a>
                 </li>
@@ -70,7 +73,9 @@
                     <div class="float-left">
                         <h2 class="common-title">Provider Documents</h2>
                     </div>
-                    <div class="float-right" style="margin-left: 5px;"><a href="#addocType" data-toggle="modal" class="btn btn-sm btn-primary">+ Create Document Type</a></div>
+                    <div class="float-right" style="margin-left: 5px;"><a href="#addocType" data-toggle="modal"
+                                                                          class="btn btn-sm btn-primary">+ Create
+                            Document Type</a></div>
                     <div class="float-right"><a href="#addoc" data-toggle="modal" class="btn btn-sm btn-primary">+ Add
                             Document</a></div>
                 </div>
@@ -82,13 +87,15 @@
                                 <h4>Add Document</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
-                            <form action="{{route('admin.provider.document.save')}}" method="post" enctype="multipart/form-data">
+                            <form action="{{route('admin.provider.document.save')}}" method="post"
+                                  enctype="multipart/form-data">
                                 @csrf
                                 <div class="modal-body">
                                     <div class="row no-gutters">
                                         <div class="col-md-3 pr-2">
                                             <label>Document Type</label>
-                                            <select class="form-control form-control-sm all_doc_type" name="doc_type_id">
+                                            <select class="form-control form-control-sm all_doc_type"
+                                                    name="doc_type_id">
                                                 <option value="Information Form">Information Form</option>
                                                 <option value="License Copy">License Copy</option>
                                                 <option value="Resume">Resume</option>
@@ -103,7 +110,8 @@
                                         <div class="col-md-3 pr-2">
                                             <label>Description</label>
                                             <input type="text" class="form-control form-control-sm" name="description">
-                                            <input type="hidden" class="form-control form-control-sm" name="provider_id" value="{{$provider->id}}">
+                                            <input type="hidden" class="form-control form-control-sm" name="provider_id"
+                                                   value="{{$provider->id}}">
                                         </div>
                                         <div class="col-md-3 pr-2">
                                             <label>Expiry Date</label>
@@ -132,14 +140,16 @@
                                 <h4>Add Document</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
-                            <form action="{{route('admin.provider.document.type.save')}}" method="post" enctype="multipart/form-data">
+                            <form action="{{route('admin.provider.document.type.save')}}" method="post"
+                                  enctype="multipart/form-data">
                                 @csrf
                                 <div class="modal-body">
                                     <div class="row no-gutters">
 
                                         <div class="col-md-12 pr-2">
                                             <label>Document Type Name</label>
-                                            <input type="text" class="form-control form-control-sm doc_type_name" name="description">
+                                            <input type="text" class="form-control form-control-sm doc_type_name"
+                                                   name="description">
                                         </div>
                                     </div>
                                 </div>
@@ -168,79 +178,116 @@
                         </thead>
                         <tbody>
                         @foreach($provider_documents as $doc)
-                        <tr>
-                            <td>{{$doc->doc_type}}</td>
-                            <td>{{$doc->description}}</td>
-                            <td>
-                                {{\Carbon\Carbon::parse($doc->created_at)->format('m/d/Y')}}
-                            </td>
-                            <td>
-                                {{$doc->created_by}}
-                            </td>
-                            <td>{{\Carbon\Carbon::parse($doc->exp_date)->format('m/d/Y')}}</td>
+                            <tr>
+                                <td>{{$doc->doc_type}}</td>
+                                <td>{{$doc->description}}</td>
+                                <td>
+                                    {{\Carbon\Carbon::parse($doc->created_at)->format('m/d/Y')}}
+                                </td>
+                                <td>
+                                    {{$doc->created_by}}
+                                </td>
+                                <td>{{\Carbon\Carbon::parse($doc->exp_date)->format('m/d/Y')}}</td>
 
-                            <td>
-                                <a href="{{asset($doc->file)}}"  target="_blank" title="View">
-                                    <i class="ri-eye-line text-success mr-2"></i>
-                                </a>
-                                <a href="#editdoc{{$doc->id}}" title="Edit" data-toggle="modal">
-                                    <i class="ri-pencil-line mr-2"></i>
-                                </a>
-                                <a href="{{route('admin.provider.document.delete',$doc->id)}}" title="Delete">
-                                    <i class="ri-delete-bin-6-line text-danger"></i>
-                                </a>
-                                <!-- Edit Document -->
-                                <div class="modal fade" id="editdoc{{$doc->id}}" data-backdrop="static">
-                                    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4>Edit Document</h4>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <form action="{{route('admin.provider.document.update')}}" method="post" enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="modal-body">
-                                                    <div class="row no-gutters">
-                                                        <div class="col-md-3 pr-2">
-                                                            <label>Document Type</label>
-                                                            <select class="form-control form-control-sm" name="doc_type">
-                                                                <option value="Information Form" {{$doc->doc_type == "Information Form" ? 'selected' : ''}}>Information Form</option>
-                                                                <option value="License Copy" {{$doc->doc_type == "License Copy" ? 'selected' : ''}}>License Copy</option>
-                                                                <option value="Resume" {{$doc->doc_type == "Resume" ? 'selected' : ''}}>Resume</option>
-                                                                <option value="Certificate" {{$doc->doc_type == "Certificate" ? 'selected' : ''}}>Certificate</option>
-                                                                <option value="CPR/First Aid" {{$doc->doc_type == "CPR/First Aid" ? 'selected' : ''}}>CPR/First Aid</option>
-                                                                <option value="Signature" {{$doc->doc_type == "Signature" ? 'selected' : ''}}>Signature</option>
-                                                                <option value="PLI" {{$doc->doc_type == "PLI" ? 'selected' : ''}}>PLI</option>
-                                                                <option value="W9 Form" {{$doc->doc_type == "W9 Form" ? 'selected' : ''}}>W9 Form</option>
-                                                                <option value="Other" {{$doc->doc_type == "Other" ? 'selected' : ''}}>Other</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-3 pr-2">
-                                                            <label>Description</label>
-                                                            <input type="text" class="form-control form-control-sm" name="description" value="{{$doc->description}}">
-                                                            <input type="hidden" class="form-control form-control-sm" name="doc_edit_id" value="{{$doc->id}}">
-                                                        </div>
-                                                        <div class="col-md-3 pr-2">
-                                                            <label>Expiry Date</label>
-                                                            <input type="date" class="form-control form-control-sm" name="exp_date" value="{{$doc->exp_date}}">
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <label>Upload File</label>
-                                                            <input type="file" class="form-control-file" name="doc_file">
+                                <td>
+                                    <a href="{{asset($doc->file)}}" target="_blank" title="View">
+                                        <i class="ri-eye-line text-success mr-2"></i>
+                                    </a>
+                                    <a href="#editdoc{{$doc->id}}" title="Edit" data-toggle="modal">
+                                        <i class="ri-pencil-line mr-2"></i>
+                                    </a>
+                                    <a href="{{route('admin.provider.document.delete',$doc->id)}}" title="Delete">
+                                        <i class="ri-delete-bin-6-line text-danger"></i>
+                                    </a>
+                                    <!-- Edit Document -->
+                                    <div class="modal fade" id="editdoc{{$doc->id}}" data-backdrop="static">
+                                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4>Edit Document</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                                    </button>
+                                                </div>
+                                                <form action="{{route('admin.provider.document.update')}}" method="post"
+                                                      enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="row no-gutters">
+                                                            <div class="col-md-3 pr-2">
+                                                                <label>Document Type</label>
+                                                                <select class="form-control form-control-sm"
+                                                                        name="doc_type">
+                                                                    <option
+                                                                        value="Information Form" {{$doc->doc_type == "Information Form" ? 'selected' : ''}}>
+                                                                        Information Form
+                                                                    </option>
+                                                                    <option
+                                                                        value="License Copy" {{$doc->doc_type == "License Copy" ? 'selected' : ''}}>
+                                                                        License Copy
+                                                                    </option>
+                                                                    <option
+                                                                        value="Resume" {{$doc->doc_type == "Resume" ? 'selected' : ''}}>
+                                                                        Resume
+                                                                    </option>
+                                                                    <option
+                                                                        value="Certificate" {{$doc->doc_type == "Certificate" ? 'selected' : ''}}>
+                                                                        Certificate
+                                                                    </option>
+                                                                    <option
+                                                                        value="CPR/First Aid" {{$doc->doc_type == "CPR/First Aid" ? 'selected' : ''}}>
+                                                                        CPR/First Aid
+                                                                    </option>
+                                                                    <option
+                                                                        value="Signature" {{$doc->doc_type == "Signature" ? 'selected' : ''}}>
+                                                                        Signature
+                                                                    </option>
+                                                                    <option
+                                                                        value="PLI" {{$doc->doc_type == "PLI" ? 'selected' : ''}}>
+                                                                        PLI
+                                                                    </option>
+                                                                    <option
+                                                                        value="W9 Form" {{$doc->doc_type == "W9 Form" ? 'selected' : ''}}>
+                                                                        W9 Form
+                                                                    </option>
+                                                                    <option
+                                                                        value="Other" {{$doc->doc_type == "Other" ? 'selected' : ''}}>
+                                                                        Other
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-3 pr-2">
+                                                                <label>Description</label>
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       name="description" value="{{$doc->description}}">
+                                                                <input type="hidden"
+                                                                       class="form-control form-control-sm"
+                                                                       name="doc_edit_id" value="{{$doc->id}}">
+                                                            </div>
+                                                            <div class="col-md-3 pr-2">
+                                                                <label>Expiry Date</label>
+                                                                <input type="date" class="form-control form-control-sm"
+                                                                       name="exp_date" value="{{$doc->exp_date}}">
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>Upload File</label>
+                                                                <input type="file" class="form-control-file"
+                                                                       name="doc_file">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary">Save</button>
-                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </form>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                        <button type="button" class="btn btn-primary"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td><i class="ri-checkbox-blank-circle-fill text-success" title="Active"></i></td>
-                        </tr>
+                                </td>
+                                <td><i class="ri-checkbox-blank-circle-fill text-success" title="Active"></i></td>
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>
@@ -254,27 +301,25 @@
         $(document).ready(function () {
 
 
-
-
             $('#saveodctype').click(function (e) {
                 e.preventDefault();
                 let type_name = $('.doc_type_name').val();
 
-                if(type_name == null || type_name == ""){
-                    toastr["error"]("Please Enter Document Type Name",'ALERT!');
-                }else {
+                if (type_name == null || type_name == "") {
+                    toastr["error"]("Please Enter Document Type Name", 'ALERT!');
+                } else {
                     $.ajax({
-                        type : "POST",
+                        type: "POST",
                         url: "{{route('admin.provider.document.type.save')}}",
-                        data : {
-                            '_token' : "{{csrf_token()}}",
-                            'type_name' : type_name,
+                        data: {
+                            '_token': "{{csrf_token()}}",
+                            'type_name': type_name,
                         },
-                        success:function(data){
+                        success: function (data) {
                             console.log(data);
                             $('.doc_type_name').val('');
                             $('#addocType').modal('hide');
-                            toastr["success"]("Document Type Successfully Created",'SUCCESS!');
+                            toastr["success"]("Document Type Successfully Created", 'SUCCESS!');
                             getAllType();
 
                         }
@@ -284,16 +329,16 @@
 
             });
 
-            const getAllType = () =>{
+            const getAllType = () => {
                 $.ajax({
-                    type : "POST",
+                    type: "POST",
                     url: "{{route('admin.provider.get.all.doc.type')}}",
-                    data : {
-                        '_token' : "{{csrf_token()}}",
+                    data: {
+                        '_token': "{{csrf_token()}}",
                     },
-                    success:function(data){
+                    success: function (data) {
                         $('.all_doc_type').empty();
-                        $.each(data,function (index,value) {
+                        $.each(data, function (index, value) {
                             $('.all_doc_type').append(
                                 `<option value="${value.id}">${value.doc_type_name}</option>`
                             )

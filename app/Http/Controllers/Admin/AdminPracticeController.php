@@ -89,8 +89,7 @@ class AdminPracticeController extends Controller
 
     public function practice_assign()
     {
-        $all_scpec = speciality::where('admin_id',Auth::user()->id)->paginate(10);
-        return view('admin.facility.facilityAssign',compact('all_scpec'));
+        return view('admin.facility.facilityAssign');
     }
 
 

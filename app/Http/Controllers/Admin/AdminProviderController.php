@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccessEmail;
+use App\Models\contact_name;
+use App\Models\contact_type;
 use App\Models\portal_access_email;
 use App\Models\Provider;
 use App\Models\provider_activity;
@@ -37,7 +39,6 @@ class AdminProviderController extends Controller
     {
 
 
-
         $new_provider = new Provider();
         $new_provider->admin_id = Auth::user()->id;
         $new_provider->practice_id = $request->fac_id;
@@ -60,7 +61,7 @@ class AdminProviderController extends Controller
         $new_act->created_by = Auth::user()->name;
         $new_act->message = "Provider Crated";
         $new_act->save();
-        return response()->json('done',200);
+        return response()->json('done', 200);
     }
 
 
@@ -68,6 +69,14 @@ class AdminProviderController extends Controller
     {
         $providers = Provider::where('admin_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(20);
         return view('admin.provider.providerList', compact('providers'));
+    }
+
+
+    public function provider_list_by_faiclity($id)
+    {
+        $providers = Provider::where('admin_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(20);
+        $facility_id = $id;
+        return view('admin.provider.providerListFacility', compact('providers', 'facility_id'));
     }
 
     public function provider_list_get(Request $request)
@@ -100,7 +109,6 @@ class AdminProviderController extends Controller
         ]);
 
     }
-
 
 
     public function provider_list_get_fid_next(Request $request)
@@ -141,8 +149,8 @@ class AdminProviderController extends Controller
         $provider_phones = provider_phone::where('provider_id', $id)->get();
         $provider_emails = provider_email::where('provider_id', $id)->get();
         $provider_address = provider_address::where('provider_id', $id)->get();
-        $spec = speciality::where('admin_id',Auth::user()->id)->get();
-        return view('admin.provider.providerInfo', compact('provider', 'provider_info', 'provider_phones', 'provider_emails', 'provider_address','spec'));
+        $spec = speciality::where('admin_id', Auth::user()->id)->get();
+        return view('admin.provider.providerInfo', compact('provider', 'provider_info', 'provider_phones', 'provider_emails', 'provider_address', 'spec'));
     }
 
     public function provider_info_update(Request $request)
@@ -157,6 +165,7 @@ class AdminProviderController extends Controller
         $proider->dob = $request->dob;
         $proider->gender = $request->gender;
         $proider->email = $request->email;
+        $proider->address_name = $request->address_name;
         $proider->street = $request->street;
         $proider->city = $request->city;
         $proider->state = $request->state;
@@ -187,6 +196,7 @@ class AdminProviderController extends Controller
         $provider_info->dea = $request->dea;
         $provider_info->state_licence = $request->state_licence;
         $provider_info->provider_degree = $request->provider_degree;
+        $provider_info->fax_number = $request->fax_number;
         $provider_info->signature_date = $request->signature_date;
         $provider_info->start_date = $request->start_date;
         $provider_info->signature_on_file = $request->signature_on_file;
@@ -227,6 +237,7 @@ class AdminProviderController extends Controller
                 provider_address::updateOrCreate(['id' => $data['edit_address_id'][$i]], [
                     'admin_id' => Auth::user()->id,
                     'provider_id' => $proider->id,
+                    'address_name' => isset($data['new_address_name'][$i]) ? $data['new_address_name'][$i] : null,
                     'street' => isset($data['new_street'][$i]) ? $data['new_street'][$i] : null,
                     'city' => isset($data['new_city'][$i]) ? $data['new_city'][$i] : null,
                     'state' => isset($data['new_state'][$i]) ? $data['new_state'][$i] : null,
@@ -299,13 +310,25 @@ class AdminProviderController extends Controller
     {
         $provider = Provider::where('id', $id)->first();
         $provider_contracts = provider_contract::where('admin_id', Auth::user()->id)->where('provider_id', $id)->orderBy('id', 'desc')->paginate(20);
-        return view('admin.provider.providerContract', compact('provider', 'provider_contracts'));
+        $contact_name = contact_name::where('admin_id', Auth::user()->id)->get();
+        $contact_type = contact_type::where('admin_id', Auth::user()->id)->get();
+        return view('admin.provider.providerContract', compact('provider', 'provider_contracts', 'contact_name', 'contact_type'));
     }
 
 
     public function provider_contract_save(Request $request)
     {
         $new_contract = new provider_contract();
+        if ($request->hasFile('contact_document')) {
+            $image = $request->file('contact_document');
+            $name = $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $new_contract->contact_document = $imageUrl;
+        }
+
         $new_contract->admin_id = Auth::user()->id;
         $new_contract->provider_id = $request->prvider_id;
         $new_contract->contract_name = $request->contract_name;
@@ -329,6 +352,23 @@ class AdminProviderController extends Controller
     public function provider_contract_update(Request $request)
     {
         $update_contract = provider_contract::where('id', $request->contract_edit_id)->first();
+
+
+        if ($request->hasFile('contact_document')) {
+
+            if (file_exists($update_contract->contact_document)) {
+                unlink($update_contract->contact_document);
+            }
+            $image = $request->file('contact_document');
+            $name = $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $update_contract->contact_document = $imageUrl;
+        }
+
+
         $update_contract->contract_name = $request->contract_name;
         $update_contract->onset_date = Carbon::parse($request->onset_date)->format('Y-m-d');
         $update_contract->end_date = Carbon::parse($request->end_date)->format('Y-m-d');
@@ -420,7 +460,7 @@ class AdminProviderController extends Controller
         }
 
 
-        $doc_type_name = provider_document_type::where('id',$request->doc_type_id)->first();
+        $doc_type_name = provider_document_type::where('id', $request->doc_type_id)->first();
 
 
         $new_doc->admin_id = Auth::user()->id;
@@ -496,8 +536,8 @@ class AdminProviderController extends Controller
 
     public function provider_document_type_get_all(Request $request)
     {
-        $all_doc_type = provider_document_type::where('admin_id',Auth::user()->id)->get();
-        return response()->json($all_doc_type,200);
+        $all_doc_type = provider_document_type::where('admin_id', Auth::user()->id)->get();
+        return response()->json($all_doc_type, 200);
     }
 
 
@@ -507,7 +547,7 @@ class AdminProviderController extends Controller
         $new_doc_type->admin_id = Auth::user()->id;
         $new_doc_type->doc_type_name = $request->type_name;
         $new_doc_type->save();
-        return response()->json('done',200);
+        return response()->json('done', 200);
     }
 
 
@@ -622,8 +662,8 @@ class AdminProviderController extends Controller
 
     public function provider_online_access_update(Request $request)
     {
-        $update_access = provider_online_access::where('id',$request->access_edit_id)
-            ->where('admin_id',Auth::user()->id)
+        $update_access = provider_online_access::where('id', $request->access_edit_id)
+            ->where('admin_id', Auth::user()->id)
             ->first();
         $update_access->name = $request->name;
         $update_access->url = $request->url;
@@ -646,14 +686,14 @@ class AdminProviderController extends Controller
 
     public function provider_online_access_delete($id)
     {
-        $online_access_delete = provider_online_access::where('id',$id)
-            ->where('admin_id',Auth::user()->id)
+        $online_access_delete = provider_online_access::where('id', $id)
+            ->where('admin_id', Auth::user()->id)
             ->first();
 
         if ($online_access_delete) {
             $online_access_delete->delete();
             return back()->with('success', 'Provider Online Access Successfully Delete');
-        }else{
+        } else {
             return back()->with('alert', 'Provider Online Access Not Found');
         }
     }
@@ -668,8 +708,8 @@ class AdminProviderController extends Controller
     public function provider_activity($id)
     {
         $provider = Provider::where('id', $id)->first();
-        $activity = provider_activity::where('provider_id',$id)->paginate(20);
-        return view('admin.provider.providerActivity', compact('provider','activity'));
+        $activity = provider_activity::where('provider_id', $id)->paginate(20);
+        return view('admin.provider.providerActivity', compact('provider', 'activity'));
     }
 
     public function get_all_provider(Request $request)

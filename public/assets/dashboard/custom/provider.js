@@ -19,7 +19,7 @@ $('#add_more_phone').click(function () {
 
 
     $('.phone_appned').mask('(000)-000-0000');
-    $('.phone_appned').pattern=".{14,}";
+    $('.phone_appned').pattern = ".{14,}";
 
 
     $('.delPhn_btn').click(function () {
@@ -61,11 +61,12 @@ $('#add_more_address').click(function () {
             <span class="text-danger">*</span>
         </label>
         <div class="input-group mb-2">
-            <input type="text" class="form-control form-control-sm" placeholder="Street" name="new_street[]" required>
+            <input type="text" class="form-control form-control-sm" placeholder="Address Name" name="new_address_name[]" required>
             <input type="hidden" class="form-control form-control-sm" name="edit_address_id[]" required>
 
             <button class="btn btn-sm btn-danger ml-1 delad_btn" type="button" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button>
         </div>
+        <input type="text" class="form-control form-control-sm mb-2" name="new_street[]" placeholder="Street"  required>
         <input type="text" class="form-control form-control-sm mb-2" name="new_city[]" placeholder="City"  required>
         <div class="row">
             <div class="col-md-6">
@@ -149,7 +150,6 @@ $('#add_more_address').click(function () {
         </div>
     </div>
         `
-
     );
 
 

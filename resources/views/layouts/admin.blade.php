@@ -66,6 +66,8 @@
                     <a href="{{route('admin.practice.assign')}}" class="iq-waves-effect"><i
                             class="ri-water-flash-line"></i><span>Assign Practice</span></a>
                 </li>
+                <li><a href="{{route('admin.setting.contact.name')}}" class="iq-waves-effect"><i class="ri-equalizer-line"></i><span>Setting</span></a>
+                </li>
             </ul>
         </nav>
         <div class="p-3"></div>

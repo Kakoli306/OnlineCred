@@ -14,7 +14,7 @@
     <tbody class="text-center">
     @foreach($providers as $data)
         <?php
-            $provider_info = \App\Models\Provider_info::where('provider_id',$data->id)->first();
+        $provider_info = \App\Models\Provider_info::where('provider_id', $data->id)->first();
         ?>
         <tr>
             <td><a href="{{route('admin.provider.info',$data->id)}}" class="mr-2">{{$data->full_name}}</a></td>
@@ -29,7 +29,8 @@
                 @endif
             </td>
             <td>
-                <a href="#mycontract{{$data->id}}" data-toggle="modal"><i class="fa fa-id-card-o" aria-hidden="true"></i></a>
+                <a href="#mycontract{{$data->id}}" data-toggle="modal"><i class="fa fa-id-card-o"
+                                                                          aria-hidden="true"></i></a>
                 <!-- Contract Modal -->
                 <div class="modal fade" id="mycontract{{$data->id}}" data-backdrop="static">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
@@ -54,7 +55,7 @@
                                     </thead>
                                     <tbody>
                                     <?php
-                                    $provider_cons = \App\Models\provider_contract::where('provider_id',$data->id)->get();
+                                    $provider_cons = \App\Models\provider_contract::where('provider_id', $data->id)->get();
                                     ?>
                                     @foreach($provider_cons as $conts)
                                         <tr>
@@ -64,9 +65,11 @@
                                             <td>commercial</td>
                                             <td>{{$conts->pin_no}}</td>
                                             <td>
-                                                <i class="ri-checkbox-blank-circle-fill text-success" title="Active"></i>
+                                                <i class="ri-checkbox-blank-circle-fill text-success"
+                                                   title="Active"></i>
                                             </td>
-                                            <td><a href="{{route('admin.provider.contract',$conts->provider_id)}}">Go To Contract</a>
+                                            <td><a href="{{route('admin.provider.contract',$conts->provider_id)}}">Go To
+                                                    Contract</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -74,14 +77,21 @@
                                 </table>
                             </div>
                             <div class="modal-footer">
-                                <a href="{{route('admin.provider.contract',$data->id)}}" class="btn btn-primary border-white">Add Contract</a>
+                                <a href="{{route('admin.provider.contract',$data->id)}}"
+                                   class="btn btn-primary border-white">Add Contract</a>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </td>
-            <td><i class="ri-checkbox-blank-circle-fill text-success" title="Active"></i>
+            <td>
+                @if ($data->is_active == 1)
+                    <i class="ri-checkbox-blank-circle-fill text-success" title="Active"></i>
+                @else
+                    <i class="ri-checkbox-blank-circle-fill text-danger" title="In-Active"></i>
+                @endif
+
             </td>
             <td>
                 <div class="dropdown">
