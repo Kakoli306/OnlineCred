@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\contact_name;
 use App\Models\contact_type;
 use App\Models\insurance;
+use App\Models\provider_contract;
 use App\Models\speciality;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,8 +70,21 @@ class AdminSettingController extends Controller
     public function contact_name_update(Request $request)
     {
         $new_contact = contact_name::where('id', $request->contact_name_edit)->first();
+
+
+        $prov_cons = provider_contract::where('admin_id', Auth::user()->id)->where('contract_name', $new_contact->contact_name)->get();
+        if (count($prov_cons) > 0) {
+            foreach ($prov_cons as $pcons) {
+                $cons_first = provider_contract::where('id', $pcons->id)->first();
+                $cons_first->contract_name = $request->contact_name;
+                $cons_first->save();
+            }
+        }
+
         $new_contact->contact_name = $request->contact_name;
         $new_contact->save();
+
+
         return back()->with('success', 'Contact Name Updated Successfully');
     }
 

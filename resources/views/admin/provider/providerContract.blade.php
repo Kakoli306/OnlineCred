@@ -101,7 +101,8 @@
                                             <select name="contract_name" class="form-control form-control-sm" required>
                                                 <option value=""></option>
                                                 @foreach($contact_name as $conname)
-                                                    <option value="{{$conname->id}}">{{$conname->contact_name}}</option>
+                                                    <option
+                                                        value="{{$conname->contact_name}}">{{$conname->contact_name}}</option>
                                                 @endforeach
                                             </select>
                                             <input type="hidden" class="form-control form-control-sm" name="prvider_id"
@@ -133,6 +134,36 @@
                                             <input type="file" name="contact_document"
                                                    class="form-control form-control-sm">
                                         </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label>Document<span class="text-danger"></span></label>
+                                            <input type="file" name="contact_document_one"
+                                                   class="form-control form-control-sm">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label>Document<span class="text-danger"></span></label>
+                                            <input type="file" name="contact_document_two"
+                                                   class="form-control form-control-sm">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label>Document<span class="text-danger"></span></label>
+                                            <input type="file" name="contact_document_three"
+                                                   class="form-control form-control-sm">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label>Document<span class="text-danger"></span></label>
+                                            <input type="file" name="contact_document_four"
+                                                   class="form-control form-control-sm">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label>Document<span class="text-danger"></span></label>
+                                            <input type="file" name="contact_document_five"
+                                                   class="form-control form-control-sm">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label>Document<span class="text-danger"></span></label>
+                                            <input type="file" name="contact_document_six"
+                                                   class="form-control form-control-sm">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -161,7 +192,7 @@
                         @foreach($provider_contracts as $pcontract)
                             <?php
                             $con_status = \App\Models\provider_contract_note::where('contract_id', $pcontract->id)->first();
-                            $con_name = \App\Models\contact_name::where('id', $pcontract->contract_name)->first();
+                            $con_name = \App\Models\contact_name::where('contact_name', $pcontract->contract_name)->where('admin_id', Auth::user()->id)->first();
                             ?>
                             <tr>
                                 <td>
@@ -300,7 +331,7 @@
                                                                     <option value=""></option>
                                                                     @foreach($contact_name as $conname)
                                                                         <option
-                                                                            value="{{$conname->id}}" {{$pcontract->contract_name == $conname->id ? 'selected' : ''}}>{{$conname->contact_name}}</option>
+                                                                            value="{{$conname->contact_name}}" {{$pcontract->contract_name == $conname->contact_name ? 'selected' : ''}}>{{$conname->contact_name}}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <input type="hidden"
@@ -349,6 +380,38 @@
 
                                                                 </label>
                                                                 <input type="file" name="contact_document"
+                                                                       class="form-control form-control-sm">
+                                                            </div>
+
+
+                                                            <div class="col-md-6 mb-2">
+                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <input type="file" name="contact_document_one"
+                                                                       class="form-control form-control-sm">
+                                                            </div>
+                                                            <div class="col-md-6 mb-2">
+                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <input type="file" name="contact_document_two"
+                                                                       class="form-control form-control-sm">
+                                                            </div>
+                                                            <div class="col-md-6 mb-2">
+                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <input type="file" name="contact_document_three"
+                                                                       class="form-control form-control-sm">
+                                                            </div>
+                                                            <div class="col-md-6 mb-2">
+                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <input type="file" name="contact_document_four"
+                                                                       class="form-control form-control-sm">
+                                                            </div>
+                                                            <div class="col-md-6 mb-2">
+                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <input type="file" name="contact_document_five"
+                                                                       class="form-control form-control-sm">
+                                                            </div>
+                                                            <div class="col-md-6 mb-2">
+                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <input type="file" name="contact_document_six"
                                                                        class="form-control form-control-sm">
                                                             </div>
                                                         </div>

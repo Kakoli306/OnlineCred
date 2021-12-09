@@ -321,12 +321,73 @@ class AdminProviderController extends Controller
         $new_contract = new provider_contract();
         if ($request->hasFile('contact_document')) {
             $image = $request->file('contact_document');
-            $name = $image->getClientOriginalName();
+            $name = uniqid() . time() . $image->getClientOriginalName();
             $uploadPath = 'assets/dashboard/contacts/';
             $image->move($uploadPath, $name);
             $imageUrl = $uploadPath . $name;
 
             $new_contract->contact_document = $imageUrl;
+        }
+
+
+        if ($request->hasFile('contact_document_one')) {
+            $image = $request->file('contact_document_one');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $new_contract->contact_document_one = $imageUrl;
+        }
+
+        if ($request->hasFile('contact_document_two')) {
+            $image = $request->file('contact_document_two');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $new_contract->contact_document_two = $imageUrl;
+        }
+
+        if ($request->hasFile('contact_document_three')) {
+            $image = $request->file('contact_document_three');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $new_contract->contact_document_three = $imageUrl;
+        }
+
+        if ($request->hasFile('contact_document_four')) {
+            $image = $request->file('contact_document_four');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $new_contract->contact_document_four = $imageUrl;
+        }
+
+        if ($request->hasFile('contact_document_five')) {
+            $image = $request->file('contact_document_five');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $new_contract->contact_document_five = $imageUrl;
+        }
+
+        if ($request->hasFile('contact_document_six')) {
+            $image = $request->file('contact_document_six');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $new_contract->contact_document_six = $imageUrl;
         }
 
         $new_contract->admin_id = Auth::user()->id;
@@ -366,6 +427,67 @@ class AdminProviderController extends Controller
             $imageUrl = $uploadPath . $name;
 
             $update_contract->contact_document = $imageUrl;
+        }
+
+
+        if ($request->hasFile('contact_document_one')) {
+            $image = $request->file('contact_document_one');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $update_contract->contact_document_one = $imageUrl;
+        }
+
+        if ($request->hasFile('contact_document_two')) {
+            $image = $request->file('contact_document_two');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $update_contract->contact_document_two = $imageUrl;
+        }
+
+        if ($request->hasFile('contact_document_three')) {
+            $image = $request->file('contact_document_three');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $update_contract->contact_document_three = $imageUrl;
+        }
+
+        if ($request->hasFile('contact_document_four')) {
+            $image = $request->file('contact_document_four');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $update_contract->contact_document_four = $imageUrl;
+        }
+
+        if ($request->hasFile('contact_document_five')) {
+            $image = $request->file('contact_document_five');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $update_contract->contact_document_five = $imageUrl;
+        }
+
+        if ($request->hasFile('contact_document_six')) {
+            $image = $request->file('contact_document_six');
+            $name = uniqid() . time() . $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/contacts/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $update_contract->contact_document_six = $imageUrl;
         }
 
 
