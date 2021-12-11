@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccessEmail;
+use App\Models\assign_practice;
 use App\Models\contact_name;
 use App\Models\contact_type;
 use App\Models\contract_status;
@@ -320,6 +321,11 @@ class AdminProviderController extends Controller
 
     public function provider_contract_save(Request $request)
     {
+
+        $prov_prac = assign_practice::where('admin_id', Auth::user()->id)
+            ->where('provider_id', $request->prvider_id)
+            ->first();
+
         $new_contract = new provider_contract();
         if ($request->hasFile('contact_document')) {
             $image = $request->file('contact_document');
@@ -393,6 +399,7 @@ class AdminProviderController extends Controller
         }
 
         $new_contract->admin_id = Auth::user()->id;
+        $new_contract->facility_id = $prov_prac->practice_id;
         $new_contract->provider_id = $request->prvider_id;
         $new_contract->contract_name = $request->contract_name;
         $new_contract->onset_date = Carbon::parse($request->onset_date)->format('Y-m-d');
@@ -540,6 +547,7 @@ class AdminProviderController extends Controller
         $new_note = new provider_contract_note();
         $new_note->admin_id = Auth::user()->id;
         $new_note->provider_id = $request->note_provider_id;
+        $new_note->facility_id = $con_details->facility_id;
         $new_note->contract_id = $request->note_contract_id;
         $new_note->contract_name = $con_details->contract_name;
         $new_note->status = $request->note_status;
