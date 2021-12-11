@@ -534,14 +534,18 @@ class AdminProviderController extends Controller
     public function provider_contract_add_note(Request $request)
     {
 
+
+        $con_details = provider_contract::where('id', $request->note_contract_id)->first();
+
         $new_note = new provider_contract_note();
         $new_note->admin_id = Auth::user()->id;
         $new_note->provider_id = $request->note_provider_id;
         $new_note->contract_id = $request->note_contract_id;
-        $new_note->status = $request->status;
+        $new_note->contract_name = $con_details->contract_name;
+        $new_note->status = $request->note_status;
         $new_note->worked_date = $request->worked_date;
         $new_note->followup_date = $request->followup_date;
-        $new_note->note = $request->note_status;
+        $new_note->note = $request->note;
         $new_note->save();
 
 

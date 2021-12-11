@@ -60,6 +60,7 @@ class ReportGenerate extends Command
                     ->where('status', $line->status)
                     ->get();
 
+
                 $array = ['note' => null];
 
                 foreach ($notes as $note) {

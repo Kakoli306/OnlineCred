@@ -8,6 +8,7 @@ use App\Models\contact_type;
 use App\Models\contract_status;
 use App\Models\insurance;
 use App\Models\provider_contract;
+use App\Models\provider_contract_note;
 use App\Models\provider_document;
 use App\Models\provider_document_type;
 use App\Models\speciality;
@@ -243,12 +244,14 @@ class AdminSettingController extends Controller
     {
         $update_status = contract_status::where('id', $request->contact_status_edit)->first();
 
-        $check_prov_con = provider_contract::where('admin_id', Auth::user()->id)
+        $check_prov_con = provider_contract_note::where('admin_id', Auth::user()->id)
             ->where('status', $update_status->contact_status)
             ->get();
 
         foreach ($check_prov_con as $con) {
-
+            $singel_note = provider_contract_note::where('id', $con->id)->first();
+            $singel_note->status = $request->contact_status;
+            $singel_note->save();
         }
 
 

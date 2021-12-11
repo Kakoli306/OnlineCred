@@ -237,11 +237,11 @@
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="col-md-4 mb-2">
-                                                                <label>Status</label>
+                                                                <label>Status <span class="text-danger">*</span></label>
                                                             </div>
                                                             <div class="col-md-8 mb-2">
                                                                 <select class="form-control form-control-sm"
-                                                                        name="note_status">
+                                                                        name="note_status" required>
                                                                     <option value=""></option>
                                                                     @foreach($contact_status as $constatus)
                                                                         <option
@@ -251,7 +251,8 @@
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-4 mb-2">
-                                                                <label>Worked Date</label>
+                                                                <label>Worked Date <span
+                                                                        class="text-danger">*</span></label>
                                                             </div>
                                                             <div class="col-md-8 mb-2">
                                                                 <input type="date" class="form-control form-control-sm"
@@ -266,18 +267,18 @@
                                                                        value="{{$pcontract->id}}">
                                                             </div>
                                                             <div class="col-md-4 mb-2">
-                                                                <label>Follow Up Date</label>
+                                                                <label>Follow Up Date <span class="text-danger">*</span></label>
                                                             </div>
                                                             <div class="col-md-8 mb-2">
                                                                 <input type="date" class="form-control form-control-sm"
                                                                        name="followup_date" required>
                                                             </div>
                                                             <div class="col-md-4 mb-2">
-                                                                <label>Notes</label>
+                                                                <label>Notes <span class="text-danger">*</span></label>
                                                             </div>
                                                             <div class="col-md-8 mb-2">
                                                                 <textarea class="form-control form-control-sm"
-                                                                          name="note"></textarea>
+                                                                          name="note" required></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
