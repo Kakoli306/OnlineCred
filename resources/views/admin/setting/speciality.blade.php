@@ -11,6 +11,8 @@
                             <a href="{{route('admin.setting.contact.type')}}">contract type</a>
                             <a href="{{route('admin.setting.speciality')}}" class="active">speciality</a>
                             <a href="{{route('admin.setting.insurance')}}">Insurance</a>
+                            <a href="{{route('admin.setting.document.type')}}">Document Type</a>
+                            <a href="{{route('admin.setting.contract.status')}}">Contract Status</a>
                         </li>
                     </ul>
                 </div>

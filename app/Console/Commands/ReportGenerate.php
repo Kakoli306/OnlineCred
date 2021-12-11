@@ -63,15 +63,18 @@ class ReportGenerate extends Command
                 $array = ['note' => null];
 
                 foreach ($notes as $note) {
-                    array_push($array, $array['note'] .= $note->note . ', ');
+                    $w_date = Carbon::parse($note->worked_date)->format('m/d/Y');
+                    array_push($array, $array['note'] .= $w_date . ' ' . $note->note . '\r\n');
                 }
 
                 return [
                     'Facility' => isset($fac) ? $fac->business_name : "",
-                    'Provider' => isset($prov) ? $prov->full_name : "",
-                    'Contract' => isset($con) ? $con->contract_name : '',
+                    'Provider Name' => isset($prov) ? $prov->full_name : "",
+                    'Contract Name' => isset($con) ? $con->contract_name : '',
+                    'Contract Type' => isset($con) ? $con->contract_name : '',
                     'Status' => $line->status,
-                    'Contract Notes' => $array['note'],
+                    'Notes' => $array['note'],
+                    'Follow Up Date' => $array['note'],
                 ];
             });
 

@@ -7,11 +7,11 @@
                 <div class="setting_menu">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a href="{{route('admin.setting.contact.name')}}" class="active">contract name</a>
+                            <a href="{{route('admin.setting.contact.name')}}">contract name</a>
                             <a href="{{route('admin.setting.contact.type')}}">contract type</a>
                             <a href="{{route('admin.setting.speciality')}}">speciality</a>
                             <a href="{{route('admin.setting.insurance')}}">Insurance</a>
-                            <a href="{{route('admin.setting.document.type')}}">Document Type</a>
+                            <a href="{{route('admin.setting.document.type')}}" class="active">Document Type</a>
                             <a href="{{route('admin.setting.contract.status')}}">Contract Status</a>
                         </li>
                     </ul>
@@ -20,33 +20,33 @@
                 <div class="all_content flex-fill">
                     <div class="overflow-hidden">
                         <div class="float-left">
-                            <h5 class="common-title">Contract Name</h5>
+                            <h5 class="common-title">Document Type</h5>
                         </div>
                         <div class="float-right">
-                            <a href="#addDoc" class="btn btn-sm btn-primary" data-toggle="modal">+
+                            <a href="#addDocType" class="btn btn-sm btn-primary" data-toggle="modal">+
                                 Add
-                                Contract Name</a>
+                                Document Type</a>
                         </div>
                     </div>
                     <!-- Create Contract modal -->
-                    <div class="modal fade" id="addDoc" data-backdrop="static">
+                    <div class="modal fade" id="addDocType" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4>Create Contract Name</h4>
+                                    <h4>Create Document Type</h4>
                                     <button type="button" class="close"
                                             data-dismiss="modal">&times;
                                     </button>
                                 </div>
-                                <form action="{{route('admin.setting.contact.name.save')}}" method="post">
+                                <form action="{{route('admin.setting.document.type.save')}}" method="post">
                                     @csrf
                                     <div class="modal-body">
                                         <div class="row">
-                                            <div class="col-md-6 mb-2">
-                                                <label>Contract Name
+                                            <div class="col-md-12 mb-2">
+                                                <label>Document Type Name
                                                     <span class="text-danger">*</span>
                                                 </label>
-                                                <input type="text" name="contact_name"
+                                                <input type="text" name="description"
                                                        class="form-control form-control-sm"
                                                        required>
                                             </div>
@@ -67,19 +67,19 @@
                         <table class="table table-sm table-bordered c_table auth_table">
                             <thead>
                             <tr>
-                                <th>Contract Name</th>
+                                <th>Document Type Name</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($all_contact_name as $con_name)
+                            @foreach($all_documents as $document)
                                 <tr>
-                                    <td>{{$con_name->contact_name}}</td>
+                                    <td>{{$document->doc_type_name}}</td>
                                     <td>
-                                        <a href="#editcon{{$con_name->id}}" title="Edit" data-toggle="modal">
+                                        <a href="#editdoctype{{$document->id}}" title="Edit" data-toggle="modal">
                                             <i class="ri-pencil-line mr-2"></i>
                                         </a>
-                                        <a href="{{route('admin.setting.contact.name.delete',$con_name->id)}}"
+                                        <a href="{{route('admin.setting.document.type.delete',$document->id)}}"
                                            title="Delete">
                                             <i class="ri-delete-bin-6-line text-danger"></i>
                                         </a>
@@ -87,29 +87,30 @@
                                 </tr>
 
 
-                                <div class="modal fade" id="editcon{{$con_name->id}}" data-backdrop="static">
+                                <div class="modal fade" id="editdoctype{{$document->id}}" data-backdrop="static">
                                     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4>Update Contract Name</h4>
+                                                <h4>Update Document Type</h4>
                                                 <button type="button" class="close"
                                                         data-dismiss="modal">&times;
                                                 </button>
                                             </div>
-                                            <form action="{{route('admin.setting.contact.name.update')}}" method="post">
+                                            <form action="{{route('admin.setting.document.type.update')}}"
+                                                  method="post">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-md-6 mb-2">
-                                                            <label>Contract Name
+                                                        <div class="col-md-12 mb-2">
+                                                            <label>Document Type Name
                                                                 <span class="text-danger">*</span>
                                                             </label>
-                                                            <input type="text" name="contact_name"
-                                                                   value="{{$con_name->contact_name}}"
+                                                            <input type="text" name="description"
+                                                                   value="{{$document->description}}"
                                                                    class="form-control form-control-sm"
                                                                    required>
-                                                            <input type="hidden" name="contact_name_edit"
-                                                                   value="{{$con_name->id}}"
+                                                            <input type="hidden" name="document_type_edit"
+                                                                   value="{{$document->id}}"
                                                                    class="form-control form-control-sm"
                                                                    required>
                                                         </div>
@@ -129,7 +130,7 @@
                             @endforeach
                             </tbody>
                         </table>
-                        {{$all_contact_name->links()}}
+                        {{$all_documents->links()}}
                     </div>
                 </div>
             </div>

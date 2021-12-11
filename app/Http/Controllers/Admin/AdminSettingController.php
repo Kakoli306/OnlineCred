@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\contact_name;
 use App\Models\contact_type;
+use App\Models\contract_status;
 use App\Models\insurance;
 use App\Models\provider_contract;
+use App\Models\provider_document;
+use App\Models\provider_document_type;
 use App\Models\speciality;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -177,6 +180,88 @@ class AdminSettingController extends Controller
         $delete_ins = insurance::where('id', $id)->first();
         $delete_ins->delete();
         return back()->with('success', 'Insurance Deleted Successfully');
+    }
+
+
+    public function document_type()
+    {
+        $all_documents = provider_document_type::where('admin_id', Auth::user()->id)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+        return view('admin.setting.documentType', compact('all_documents'));
+    }
+
+    public function document_type_save(Request $request)
+    {
+        $new_doc_type = new provider_document_type();
+        $new_doc_type->admin_id = Auth::user()->id;
+        $new_doc_type->doc_type_name = $request->description;
+        $new_doc_type->save();
+        return back()->with('success', 'Document Type Successfully Created');
+    }
+
+    public function document_type_update(Request $request)
+    {
+        $new_doc_type = provider_document_type::where('id', $request->document_type_edit)->first();
+        $new_doc_type->doc_type_name = $request->description;
+        $new_doc_type->save();
+        return back()->with('success', 'Document Type Successfully Updated');
+    }
+
+    public function document_type_delete($id)
+    {
+        $doc_type = provider_document_type::where('id', $id)->first();
+        $check_doc_type = provider_document::where('doc_type_id', $id)->first();
+        if ($check_doc_type) {
+            return back()->with('alert', 'Document Type Has Been Used');
+            exit();
+        } else {
+            $doc_type->delete();
+            return back()->with('success', 'Document Type Successfully Deleted');
+            exit();
+        }
+
+    }
+
+
+    public function contract_status()
+    {
+        $all_contract_status = contract_status::where('admin_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(10);
+        return view('admin.setting.contractStatus', compact('all_contract_status'));
+    }
+
+    public function contract_status_save(Request $request)
+    {
+        $new_status = new contract_status();
+        $new_status->admin_id = Auth::user()->id;
+        $new_status->contact_status = $request->contact_status;
+        $new_status->save();
+        return back()->with('success', 'Contract Status Successfully Created');
+    }
+
+    public function contract_status_update(Request $request)
+    {
+        $update_status = contract_status::where('id', $request->contact_status_edit)->first();
+
+        $check_prov_con = provider_contract::where('admin_id', Auth::user()->id)
+            ->where('status', $update_status->contact_status)
+            ->get();
+
+        foreach ($check_prov_con as $con) {
+
+        }
+
+
+        $update_status->contact_status = $request->contact_status;
+        $update_status->save();
+        return back()->with('success', 'Contract Status Successfully Updated');
+    }
+
+    public function contract_status_delete($id)
+    {
+        $status_delete = contract_status::where('id', $id)->first();
+        $status_delete->delete();
+        return back()->with('success', 'Contract Status Successfully Deleted');
     }
 
 

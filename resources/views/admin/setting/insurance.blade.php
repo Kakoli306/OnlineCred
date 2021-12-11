@@ -7,10 +7,12 @@
                 <div class="setting_menu">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a href="{{route('admin.setting.contact.name')}}" class="active">contract name</a>
+                            <a href="{{route('admin.setting.contact.name')}}">contract name</a>
                             <a href="{{route('admin.setting.contact.type')}}">contract type</a>
                             <a href="{{route('admin.setting.speciality')}}">speciality</a>
-                            <a href="{{route('admin.setting.insurance')}}">Insurance</a>
+                            <a href="{{route('admin.setting.insurance')}}" class="active">Insurance</a>
+                            <a href="{{route('admin.setting.document.type')}}">Document Type</a>
+                            <a href="{{route('admin.setting.contract.status')}}">Contract Status</a>
                         </li>
                     </ul>
                 </div>

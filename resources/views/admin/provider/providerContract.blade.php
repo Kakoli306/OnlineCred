@@ -126,8 +126,14 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6 mb-2">
-                                            <label>Pin No.<span class="text-danger"></span></label>
-                                            <input type="text" name="pin_no" class="form-control form-control-sm">
+                                            <label>Contract Status<span class="text-danger">*</span></label>
+                                            <select class="form-control form-control-sm" name="status" required>
+                                                <option value=""></option>
+                                                @foreach($contact_status as $status)
+                                                    <option
+                                                        value="{{$status->id}}">{{$status->contact_status}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="col-md-6 mb-2">
                                             <label>Document<span class="text-danger"></span></label>
@@ -183,7 +189,6 @@
                             <th>Onset Date</th>
                             <th>End Date</th>
                             <th>Contract Type</th>
-                            <th>Pin No</th>
                             <th>Actions</th>
                             <th>Status</th>
                         </tr>
@@ -191,7 +196,7 @@
                         <tbody>
                         @foreach($provider_contracts as $pcontract)
                             <?php
-                            $con_status = \App\Models\provider_contract_note::where('contract_id', $pcontract->id)->first();
+                            $con_status = \App\Models\contract_status::where('id', $pcontract->status)->first();
                             $con_name = \App\Models\contact_name::where('contact_name', $pcontract->contract_name)->where('admin_id', Auth::user()->id)->first();
                             ?>
                             <tr>
@@ -204,7 +209,6 @@
                                 <td>{{\Carbon\Carbon::parse($pcontract->onset_date)->format('m/d/Y')}}</td>
                                 <td>{{\Carbon\Carbon::parse($pcontract->end_date)->format('m/d/Y')}}</td>
                                 <td>commercial</td>
-                                <td>{{$pcontract->pin_no}}</td>
                                 <td>
                                     <a href="#addNote{{$pcontract->id}}" title="Add Notes" data-toggle="modal">
                                         <i class="ri-add-line mr-3"></i>
@@ -237,14 +241,13 @@
                                                             </div>
                                                             <div class="col-md-8 mb-2">
                                                                 <select class="form-control form-control-sm"
-                                                                        name="status">
-                                                                    <option></option>
-                                                                    <option value="In-Process">In-Process
-                                                                    </option>
-                                                                    <option value="Pending">Pending</option>
-                                                                    <option value="In-Network">In-Network</option>
-                                                                    <option value="Closed">Closed</option>
-                                                                    <option value="Completed">Completed</option>
+                                                                        name="note_status">
+                                                                    <option value=""></option>
+                                                                    @foreach($contact_status as $constatus)
+                                                                        <option
+                                                                            value="{{$constatus->contact_status}}">{{$constatus->contact_status}}
+                                                                        </option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-4 mb-2">
@@ -252,7 +255,7 @@
                                                             </div>
                                                             <div class="col-md-8 mb-2">
                                                                 <input type="date" class="form-control form-control-sm"
-                                                                       name="worked_date">
+                                                                       name="worked_date" required>
                                                                 <input type="hidden"
                                                                        class="form-control form-control-sm"
                                                                        name="note_provider_id"
@@ -267,7 +270,7 @@
                                                             </div>
                                                             <div class="col-md-8 mb-2">
                                                                 <input type="date" class="form-control form-control-sm"
-                                                                       name="followup_date">
+                                                                       name="followup_date" required>
                                                             </div>
                                                             <div class="col-md-4 mb-2">
                                                                 <label>Notes</label>
@@ -365,9 +368,15 @@
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-6 mb-2">
-                                                                <label>Pin No.<span class="text-danger"></span></label>
-                                                                <input type="text" class="form-control form-control-sm"
-                                                                       name="pin_no" value="{{$pcontract->pin_no}}">
+                                                                <label>Contract Status<span class="text-danger"></span></label>
+                                                                <select class="form-control form-control-sm"
+                                                                        name="status" required>
+                                                                    <option value=""></option>
+                                                                    @foreach($contact_status as $status)
+                                                                        <option
+                                                                            value="{{$status->id}}" {{$pcontract->status == $status->id ? 'selected':'' }}>{{$status->contact_status}}</option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
                                                             <div class="col-md-6 mb-2">
                                                                 <label>Document<span class="text-danger"></span>
@@ -430,8 +439,9 @@
                                 </td>
                                 <td>
                                     @if ($con_status)
-                                        {{$con_status->status}}
+                                        {{$con_status->contact_status}}
                                     @endif
+
                                 </td>
                             </tr>
                         @endforeach

@@ -81,12 +81,20 @@
 
                             </td>
                             <td>
-                                <button type="button" class="btn text-primary p-0">Export</button>
+                                @if ($report->is_completed == 1)
+                                    <button type="button" class="btn text-primary p-0">Export</button>
+                                @else
+                                    <a href="{{route('admin.report.export',$report->id)}}" target="_blank">
+                                        <button type="button" class="btn text-primary p-0">Export</button>
+                                    </a>
+
+                                @endif
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+                {{$all_reports->links()}}
             </div>
         </div>
     </div>

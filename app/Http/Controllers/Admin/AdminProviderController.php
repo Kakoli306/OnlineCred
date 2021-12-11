@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\AccessEmail;
 use App\Models\contact_name;
 use App\Models\contact_type;
+use App\Models\contract_status;
 use App\Models\portal_access_email;
 use App\Models\Provider;
 use App\Models\provider_activity;
@@ -312,7 +313,8 @@ class AdminProviderController extends Controller
         $provider_contracts = provider_contract::where('admin_id', Auth::user()->id)->where('provider_id', $id)->orderBy('id', 'desc')->paginate(20);
         $contact_name = contact_name::where('admin_id', Auth::user()->id)->get();
         $contact_type = contact_type::where('admin_id', Auth::user()->id)->get();
-        return view('admin.provider.providerContract', compact('provider', 'provider_contracts', 'contact_name', 'contact_type'));
+        $contact_status = contract_status::where('admin_id', Auth::user()->id)->get();
+        return view('admin.provider.providerContract', compact('provider', 'provider_contracts', 'contact_name', 'contact_type', 'contact_status'));
     }
 
 
@@ -396,7 +398,7 @@ class AdminProviderController extends Controller
         $new_contract->onset_date = Carbon::parse($request->onset_date)->format('Y-m-d');
         $new_contract->end_date = Carbon::parse($request->end_date)->format('Y-m-d');
         $new_contract->contract_type = $request->contract_type;
-        $new_contract->pin_no = $request->pin_no;
+        $new_contract->status = $request->status;
         $new_contract->save();
 
 
@@ -495,7 +497,7 @@ class AdminProviderController extends Controller
         $update_contract->onset_date = Carbon::parse($request->onset_date)->format('Y-m-d');
         $update_contract->end_date = Carbon::parse($request->end_date)->format('Y-m-d');
         $update_contract->contract_type = $request->contract_type;
-        $update_contract->pin_no = $request->pin_no;
+        $update_contract->status = $request->status;
         $update_contract->save();
 
         $new_act = new provider_activity();
@@ -539,7 +541,7 @@ class AdminProviderController extends Controller
         $new_note->status = $request->status;
         $new_note->worked_date = $request->worked_date;
         $new_note->followup_date = $request->followup_date;
-        $new_note->note = $request->note;
+        $new_note->note = $request->note_status;
         $new_note->save();
 
 
@@ -564,7 +566,8 @@ class AdminProviderController extends Controller
     {
         $provider = Provider::where('id', $id)->first();
         $provider_documents = provider_document::where('admin_id', Auth::user()->id)->where('provider_id', $id)->orderBy('id', 'desc')->paginate(20);
-        return view('admin.provider.providerDocument', compact('provider', 'provider_documents'));
+        $providers_doc_type = provider_document_type::where('admin_id', Auth::user()->id)->get();
+        return view('admin.provider.providerDocument', compact('provider', 'provider_documents', 'providers_doc_type'));
     }
 
 
@@ -607,6 +610,9 @@ class AdminProviderController extends Controller
 
     public function provider_document_update(Request $request)
     {
+
+        $doc_type_name = provider_document_type::where('id', $request->doc_type_id)->first();
+
         $update_doc = provider_document::where('id', $request->doc_edit_id)->first();
         if ($request->hasFile('doc_file')) {
 //            unlink($update_doc->file);
@@ -618,7 +624,8 @@ class AdminProviderController extends Controller
 
             $update_doc->file = $imageUrl;
         }
-        $update_doc->doc_type = $request->doc_type;
+        $update_doc->doc_type_id = isset($doc_type_name) ? $doc_type_name->id : null;
+        $update_doc->doc_type = isset($doc_type_name) ? $doc_type_name->doc_type_name : null;
         $update_doc->description = $request->description;
         $update_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
         $update_doc->created_by = Auth::user()->name;

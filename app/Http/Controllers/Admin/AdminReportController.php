@@ -11,6 +11,7 @@ use App\Models\report;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
 class AdminReportController extends Controller
 {
@@ -55,7 +56,7 @@ class AdminReportController extends Controller
         } else {
             $last_report_id = 0;
         }
-     
+
         $new_report = new report();
         $new_report->admin_id = Auth::user()->id;
         $new_report->report_name = "REPORT - " . $last_report_id;
@@ -70,4 +71,11 @@ class AdminReportController extends Controller
         $new_report->save();
         return back()->with('success', 'Report Submitted');
     }
+
+    public function report_export($id)
+    {
+        $report = report::where('id', $id)->first();
+        return Response::download(public_path("report/" . $report->report_name . ".csv"));
+    }
+
 }

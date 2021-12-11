@@ -128,6 +128,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
         Route::post('/report-get-provider-by-facility', [Controllers\Admin\AdminReportController::class, 'report_get_provider_by_facility'])->name('admin.report.provider.by.facility');
         Route::post('/report-get-contact-by-provider', [Controllers\Admin\AdminReportController::class, 'report_get_contact_by_provider'])->name('admin.report.contract.by.provider');
         Route::post('/report-save', [Controllers\Admin\AdminReportController::class, 'report_save'])->name('admin.report.save');
+        Route::get('/report-export/{id}', [Controllers\Admin\AdminReportController::class, 'report_export'])->name('admin.report.export');
 
         //account activity
         Route::get('/account-activity', [Controllers\Admin\AdminActivityController::class, 'account_activity'])->name('admin.account.activity');
@@ -156,6 +157,18 @@ Route::group(['middleware' => ['auth:admin']], function () {
         Route::post('/speciality-insurance-save', [Controllers\Admin\AdminSettingController::class, 'insurance_save'])->name('admin.setting.insurance.save');
         Route::post('/speciality-insurance-update', [Controllers\Admin\AdminSettingController::class, 'insurance_update'])->name('admin.setting.insurance.update');
         Route::get('/speciality-insurance-delete/{id}', [Controllers\Admin\AdminSettingController::class, 'insurance_delete'])->name('admin.setting.insurance.delete');
+
+        //setting document type
+        Route::get('/setting-document-type', [Controllers\Admin\AdminSettingController::class, 'document_type'])->name('admin.setting.document.type');
+        Route::post('/setting-document-type-save', [Controllers\Admin\AdminSettingController::class, 'document_type_save'])->name('admin.setting.document.type.save');
+        Route::post('/setting-document-type-update', [Controllers\Admin\AdminSettingController::class, 'document_type_update'])->name('admin.setting.document.type.update');
+        Route::get('/setting-document-type-delete/{id}', [Controllers\Admin\AdminSettingController::class, 'document_type_delete'])->name('admin.setting.document.type.delete');
+
+        //setting contract status
+        Route::get('/setting-contract-status', [Controllers\Admin\AdminSettingController::class, 'contract_status'])->name('admin.setting.contract.status');
+        Route::post('/setting-contract-status-save', [Controllers\Admin\AdminSettingController::class, 'contract_status_save'])->name('admin.setting.contract.status.save');
+        Route::post('/setting-contract-status-update', [Controllers\Admin\AdminSettingController::class, 'contract_status_update'])->name('admin.setting.contract.status.update');
+        Route::get('/setting-contract-status-delete/{id}', [Controllers\Admin\AdminSettingController::class, 'contract_status_delete'])->name('admin.setting.contract.status.delete');
 
 
     });

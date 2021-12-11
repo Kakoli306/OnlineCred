@@ -73,9 +73,9 @@
                     <div class="float-left">
                         <h2 class="common-title">Provider Documents</h2>
                     </div>
-                    <div class="float-right" style="margin-left: 5px;"><a href="#addocType" data-toggle="modal"
-                                                                          class="btn btn-sm btn-primary">+ Create
-                            Document Type</a></div>
+                    {{--                    <div class="float-right" style="margin-left: 5px;"><a href="#addocType" data-toggle="modal"--}}
+                    {{--                                                                          class="btn btn-sm btn-primary">+ Create--}}
+                    {{--                            Document Type</a></div>--}}
                     <div class="float-right"><a href="#addoc" data-toggle="modal" class="btn btn-sm btn-primary">+ Add
                             Document</a></div>
                 </div>
@@ -216,43 +216,13 @@
                                                             <div class="col-md-3 pr-2">
                                                                 <label>Document Type</label>
                                                                 <select class="form-control form-control-sm"
-                                                                        name="doc_type">
-                                                                    <option
-                                                                        value="Information Form" {{$doc->doc_type == "Information Form" ? 'selected' : ''}}>
-                                                                        Information Form
-                                                                    </option>
-                                                                    <option
-                                                                        value="License Copy" {{$doc->doc_type == "License Copy" ? 'selected' : ''}}>
-                                                                        License Copy
-                                                                    </option>
-                                                                    <option
-                                                                        value="Resume" {{$doc->doc_type == "Resume" ? 'selected' : ''}}>
-                                                                        Resume
-                                                                    </option>
-                                                                    <option
-                                                                        value="Certificate" {{$doc->doc_type == "Certificate" ? 'selected' : ''}}>
-                                                                        Certificate
-                                                                    </option>
-                                                                    <option
-                                                                        value="CPR/First Aid" {{$doc->doc_type == "CPR/First Aid" ? 'selected' : ''}}>
-                                                                        CPR/First Aid
-                                                                    </option>
-                                                                    <option
-                                                                        value="Signature" {{$doc->doc_type == "Signature" ? 'selected' : ''}}>
-                                                                        Signature
-                                                                    </option>
-                                                                    <option
-                                                                        value="PLI" {{$doc->doc_type == "PLI" ? 'selected' : ''}}>
-                                                                        PLI
-                                                                    </option>
-                                                                    <option
-                                                                        value="W9 Form" {{$doc->doc_type == "W9 Form" ? 'selected' : ''}}>
-                                                                        W9 Form
-                                                                    </option>
-                                                                    <option
-                                                                        value="Other" {{$doc->doc_type == "Other" ? 'selected' : ''}}>
-                                                                        Other
-                                                                    </option>
+                                                                        name="doc_type_id">
+                                                                    @foreach($providers_doc_type as $doc_type)
+                                                                        <option
+                                                                            value="{{$doc_type->id}}" {{$doc->doc_type == $doc_type->doc_type_name ? 'selected' : ''}}>
+                                                                            {{$doc_type->doc_type_name}}
+                                                                        </option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-3 pr-2">
