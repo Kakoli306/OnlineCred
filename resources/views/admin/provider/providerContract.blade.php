@@ -127,7 +127,7 @@
                                         </div>
                                         <div class="col-md-6 mb-2">
                                             <label>Contract Status<span class="text-danger">*</span></label>
-                                            <select class="form-control form-control-sm" name="status" required>
+                                            <select class="form-control form-control-sm" name="con_status" required>
                                                 <option value=""></option>
                                                 @foreach($contact_status as $status)
                                                     <option
@@ -136,37 +136,37 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6 mb-2">
-                                            <label>Document<span class="text-danger"></span></label>
+                                            <label>Document 1<span class="text-danger"></span></label>
                                             <input type="file" name="contact_document"
                                                    class="form-control form-control-sm">
                                         </div>
                                         <div class="col-md-6 mb-2">
-                                            <label>Document<span class="text-danger"></span></label>
+                                            <label>Document 2<span class="text-danger"></span></label>
                                             <input type="file" name="contact_document_one"
                                                    class="form-control form-control-sm">
                                         </div>
                                         <div class="col-md-6 mb-2">
-                                            <label>Document<span class="text-danger"></span></label>
+                                            <label>Document 3<span class="text-danger"></span></label>
                                             <input type="file" name="contact_document_two"
                                                    class="form-control form-control-sm">
                                         </div>
                                         <div class="col-md-6 mb-2">
-                                            <label>Document<span class="text-danger"></span></label>
+                                            <label>Document 4<span class="text-danger"></span></label>
                                             <input type="file" name="contact_document_three"
                                                    class="form-control form-control-sm">
                                         </div>
                                         <div class="col-md-6 mb-2">
-                                            <label>Document<span class="text-danger"></span></label>
+                                            <label>Document 5<span class="text-danger"></span></label>
                                             <input type="file" name="contact_document_four"
                                                    class="form-control form-control-sm">
                                         </div>
                                         <div class="col-md-6 mb-2">
-                                            <label>Document<span class="text-danger"></span></label>
+                                            <label>Document 6<span class="text-danger"></span></label>
                                             <input type="file" name="contact_document_five"
                                                    class="form-control form-control-sm">
                                         </div>
                                         <div class="col-md-6 mb-2">
-                                            <label>Document<span class="text-danger"></span></label>
+                                            <label>Document 7<span class="text-danger"></span></label>
                                             <input type="file" name="contact_document_six"
                                                    class="form-control form-control-sm">
                                         </div>
@@ -245,7 +245,7 @@
                                                                     <option value=""></option>
                                                                     @foreach($contact_status as $constatus)
                                                                         <option
-                                                                            value="{{$constatus->contact_status}}">{{$constatus->contact_status}}
+                                                                            value="{{$constatus->id}}">{{$constatus->contact_status}}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
@@ -371,7 +371,7 @@
                                                             <div class="col-md-6 mb-2">
                                                                 <label>Contract Status<span class="text-danger"></span></label>
                                                                 <select class="form-control form-control-sm"
-                                                                        name="status" required>
+                                                                        name="con_status" required>
                                                                     <option value=""></option>
                                                                     @foreach($contact_status as $status)
                                                                         <option
@@ -380,12 +380,10 @@
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-6 mb-2">
-                                                                <label>Document<span class="text-danger"></span>
+                                                                <label>Document 1<span class="text-danger"></span>
                                                                     @if (!empty($pcontract->contact_document) && file_exists($pcontract->contact_document))
                                                                         <a href="{{asset($pcontract->contact_document)}}"
                                                                            style="margin-left: 5px;">Download File</a>
-                                                                    @else
-
                                                                     @endif
 
                                                                 </label>
@@ -395,32 +393,68 @@
 
 
                                                             <div class="col-md-6 mb-2">
-                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <label>Document 2<span
+                                                                        class="text-danger"></span>
+                                                                    @if (!empty($pcontract->contact_document_one) && file_exists($pcontract->contact_document_one))
+                                                                        <a href="{{asset($pcontract->contact_document_one)}}"
+                                                                           style="margin-left: 5px;">Download File</a>
+                                                                    @endif
+                                                                </label>
                                                                 <input type="file" name="contact_document_one"
                                                                        class="form-control form-control-sm">
                                                             </div>
                                                             <div class="col-md-6 mb-2">
-                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <label>Document 3<span
+                                                                        class="text-danger"></span>
+                                                                    @if (!empty($pcontract->contact_document_two) && file_exists($pcontract->contact_document_two))
+                                                                        <a href="{{asset($pcontract->contact_document_two)}}"
+                                                                           style="margin-left: 5px;">Download File</a>
+                                                                    @endif
+                                                                </label>
                                                                 <input type="file" name="contact_document_two"
                                                                        class="form-control form-control-sm">
                                                             </div>
                                                             <div class="col-md-6 mb-2">
-                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <label>Document 4<span
+                                                                        class="text-danger"></span>
+                                                                    @if (!empty($pcontract->contact_document_three) && file_exists($pcontract->contact_document_three))
+                                                                        <a href="{{asset($pcontract->contact_document_three)}}"
+                                                                           style="margin-left: 5px;">Download File</a>
+                                                                    @endif
+                                                                </label>
                                                                 <input type="file" name="contact_document_three"
                                                                        class="form-control form-control-sm">
                                                             </div>
                                                             <div class="col-md-6 mb-2">
-                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <label>Document 5<span
+                                                                        class="text-danger"></span>
+                                                                    @if (!empty($pcontract->contact_document_four) && file_exists($pcontract->contact_document_four))
+                                                                        <a href="{{asset($pcontract->contact_document_four)}}"
+                                                                           style="margin-left: 5px;">Download File</a>
+                                                                    @endif
+                                                                </label>
                                                                 <input type="file" name="contact_document_four"
                                                                        class="form-control form-control-sm">
                                                             </div>
                                                             <div class="col-md-6 mb-2">
-                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <label>Document 6<span
+                                                                        class="text-danger"></span>
+                                                                    @if (!empty($pcontract->contact_document_five) && file_exists($pcontract->contact_document_five))
+                                                                        <a href="{{asset($pcontract->contact_document_five)}}"
+                                                                           style="margin-left: 5px;">Download File</a>
+                                                                    @endif
+                                                                </label>
                                                                 <input type="file" name="contact_document_five"
                                                                        class="form-control form-control-sm">
                                                             </div>
                                                             <div class="col-md-6 mb-2">
-                                                                <label>Document<span class="text-danger"></span></label>
+                                                                <label>Document 7<span
+                                                                        class="text-danger"></span>
+                                                                    @if (!empty($pcontract->contact_document_six) && file_exists($pcontract->contact_document_six))
+                                                                        <a href="{{asset($pcontract->contact_document_six)}}"
+                                                                           style="margin-left: 5px;">Download File</a>
+                                                                    @endif
+                                                                </label>
                                                                 <input type="file" name="contact_document_six"
                                                                        class="form-control form-control-sm">
                                                             </div>

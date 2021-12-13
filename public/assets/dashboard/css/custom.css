@@ -585,3 +585,9 @@ tfoot td {
 body.sidebar-main .iq-sidebar {
     background: #375EB7 !important;
 }
+.ui-multiselect {
+    padding: .25rem .5rem;
+}
+.provider_table {
+    min-height: 100vh;
+}

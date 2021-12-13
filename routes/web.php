@@ -74,7 +74,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
         Route::post('/provider-save', [Controllers\Admin\AdminProviderController::class, 'provider_save'])->name('admin.provider.save');
         Route::get('/provider-list', [Controllers\Admin\AdminProviderController::class, 'provider_list'])->name('admin.providers');
         Route::get('/provider-list-facility/{id}', [Controllers\Admin\AdminProviderController::class, 'provider_list_by_faiclity'])->name('admin.providers.list');
-
+        Route::get('/provider-delete/{id}', [Controllers\Admin\AdminProviderController::class, 'provider_delete'])->name('admin.provider.delete');
+        
         //get all provider
         Route::post('/provider-list-all-get', [Controllers\Admin\AdminProviderController::class, 'provider_list_get'])->name('admin.provider.list.all.get');
         Route::get('/provider-list-all-get', [Controllers\Admin\AdminProviderController::class, 'provider_list_get_next']);

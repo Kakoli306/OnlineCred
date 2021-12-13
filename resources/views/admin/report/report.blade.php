@@ -31,14 +31,13 @@
                     </div>
                     <div class="mr-2 mb-2">
                         <label>Status</label>
-                        <select class="form-control form-control-sm" name="status" required>
-                            <option value=""></option>
-                            <option value="In-Process">In-Process</option>
-                            <option value="Pending">Pending</option>
-                            <option value="In-Network">In-Network</option>
-                            <option value="Closed">Closed</option>
-                            <option value="Completed">Completed</option>
+                        <br>
+                        <select class="form-control form-control-sm custom-select" name="report_status[]" multiple>
+                            @foreach($all_status as $status)
+                                <option value="{{$status->id}}">{{$status->contact_status}}</option>
+                            @endforeach
                         </select>
+
                     </div>
                     <div class="mr-2 mb-2">
                         <label>From Date</label>

@@ -12,6 +12,11 @@
     <!-- Plugin -->
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/vendor/date-picker/daterangepicker.css">
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/vendor/select2/select2.min.css">
+
+    <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/vendor/custom-select/jquery-ui.css">
+    <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/vendor/custom-select/jquery.multiselect.css">
+    <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/vendor/custom-select/jquery.multiselect.filter.css">
+
     <!-- Style CSS -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{asset('assets/dashboard/')}}/css/typography.css">
@@ -66,7 +71,8 @@
                     <a href="{{route('admin.practice.assign')}}" class="iq-waves-effect"><i
                             class="ri-water-flash-line"></i><span>Assign Practice</span></a>
                 </li>
-                <li><a href="{{route('admin.setting.contact.name')}}" class="iq-waves-effect"><i class="ri-equalizer-line"></i><span>Setting</span></a>
+                <li><a href="{{route('admin.setting.contact.name')}}" class="iq-waves-effect"><i
+                            class="ri-equalizer-line"></i><span>Setting</span></a>
                 </li>
             </ul>
         </nav>
@@ -81,7 +87,7 @@
         <div class="iq-top-navbar header-top-sticky">
             <div class="iq-navbar-custom">
                 <nav class="navbar navbar-expand-lg navbar-light p-0">
-                   @yield('headerselect')
+                    @yield('headerselect')
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -115,7 +121,8 @@
                     <ul class="navbar-list">
                         <li>
                             <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
-                                <img src="{{asset('assets/dashboard/')}}/images/user/1.jpg" class="img-fluid rounded mr-3" alt="user">
+                                <img src="{{asset('assets/dashboard/')}}/images/user/1.jpg"
+                                     class="img-fluid rounded mr-3" alt="user">
                                 <div class="caption">
                                     <h6 class="mb-0 line-height">{{Auth::user()->name}}</h6>
                                     <span class="font-size-12">Available</span>
@@ -153,7 +160,8 @@
                                             </div>
                                         </a>
                                         <div class="d-inline-block w-100 text-center p-3">
-                                            <a class="bg-primary iq-sign-btn" href="{{route('admin.logout')}}" role="button">Sign
+                                            <a class="bg-primary iq-sign-btn" href="{{route('admin.logout')}}"
+                                               role="button">Sign
                                                 out<i class="ri-login-box-line ml-2"></i></a>
                                         </div>
                                     </div>
@@ -178,7 +186,8 @@
                             <div class="row">
                                 <div class="col-md-6 mb-2">
                                     <label>Business Name<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm" name="business_name" required>
+                                    <input type="text" class="form-control form-control-sm" name="business_name"
+                                           required>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label>DBA Name<span class="text-danger">*</span></label>
@@ -186,11 +195,13 @@
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label>Tax Id No.<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm" name="tax_id" data-mask="00-0000000" pattern=".{10}" required>
+                                    <input type="text" class="form-control form-control-sm" name="tax_id"
+                                           data-mask="00-0000000" pattern=".{10}" required>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label>NPI<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm" name="npi" data-mask="0000000000" pattern=".{10}" required>
+                                    <input type="text" class="form-control form-control-sm" name="npi"
+                                           data-mask="0000000000" pattern=".{10}" required>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label>Address<span class="text-danger">*</span></label>
@@ -200,11 +211,13 @@
                                     <div class="row no-gutters">
                                         <div class="col-md">
                                             <label>City<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control form-control-sm" name="city" required>
+                                            <input type="text" class="form-control form-control-sm" name="city"
+                                                   required>
                                         </div>
                                         <div class="col-md px-2">
                                             <label>State<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control form-control-sm" name="state" required>
+                                            <input type="text" class="form-control form-control-sm" name="state"
+                                                   required>
                                         </div>
                                         <div class="col-md">
                                             <label>Zip<span class="text-danger">*</span></label>
@@ -214,7 +227,9 @@
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label>Phone Number<span class="text-danger">*</span></label>
-                                    <input type="text" name="phone_number" class="form-control form-control-sm" data-mask="(000)-000-0000" pattern=".{14,}" required="" autocomplete="off" maxlength="14">
+                                    <input type="text" name="phone_number" class="form-control form-control-sm"
+                                           data-mask="(000)-000-0000" pattern=".{14,}" required="" autocomplete="off"
+                                           maxlength="14">
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label>Medicaid<span class="text-danger">*</span></label>
@@ -224,7 +239,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Create & Continue
-{{--                                <i class='bx bx-loader align-middle ml-2'></i>--}}
+                                {{--                                <i class='bx bx-loader align-middle ml-2'></i>--}}
                             </button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
@@ -237,7 +252,7 @@
         <!-- Main Content-->
         <div class="container-fluid">
             <div class="iq-card">
-               @yield('admin')
+                @yield('admin')
             </div>
         </div>
         <!--/ Main Content-->
@@ -253,6 +268,13 @@
 <script src="{{asset('assets/dashboard/')}}/vendor/date-picker/daterangepicker.js"></script>
 <script src="{{asset('assets/dashboard/')}}/vendor/select2/select2.min.js"></script>
 <script src="{{asset('assets/dashboard/')}}/vendor/jquery.mask.js"></script>
+
+
+<script src="{{asset('assets/dashboard/')}}/vendor/custom-select/jquery-ui.js"></script>
+<script src="{{asset('assets/dashboard/')}}/vendor/custom-select/jquery.multiselect.filter.js"></script>
+<script src="{{asset('assets/dashboard/')}}/vendor/custom-select/jquery.multiselect.js"></script>
+<script src="{{asset('assets/dashboard/')}}/vendor/custom-select/multiselect-activation.js"></script>
+
 <!-- Custom JavaScript -->
 <script src="{{asset('assets/dashboard/')}}/js/custom.js"></script>
 

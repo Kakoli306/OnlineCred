@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\assign_practice;
+use App\Models\contract_status;
 use App\Models\practice;
 use App\Models\Provider;
 use App\Models\provider_contract;
 use App\Models\report;
+use App\Models\report_status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +19,9 @@ class AdminReportController extends Controller
 {
     public function report()
     {
+        $all_status = contract_status::where('admin_id', Auth::user()->id)->get();
         $all_reports = report::where('admin_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(10);
-        return view('admin.report.report', compact('all_reports'));
+        return view('admin.report.report', compact('all_reports', 'all_status'));
     }
 
     public function report_get_all_facility(Request $request)
@@ -36,7 +39,7 @@ class AdminReportController extends Controller
         }
 
 
-        $prov_name = Provider::select('id', 'full_name')->whereIn('id', $array)->get();
+        $prov_name = Provider::select('id', 'full_name', 'practice_id')->where('practice_id', $request->fac_id)->get();
         return response()->json($prov_name, 200);
     }
 
@@ -57,18 +60,33 @@ class AdminReportController extends Controller
             $last_report_id = 0;
         }
 
+
         $new_report = new report();
         $new_report->admin_id = Auth::user()->id;
         $new_report->report_name = "REPORT - " . $last_report_id;
         $new_report->facility_id = $request->facility_id;
         $new_report->provider_id = $request->provider_id;
         $new_report->contact_id = $request->contact_id;
-        $new_report->status = $request->status;
+//        $new_report->status = $request->status;
         $new_report->form_date = Carbon::parse($request->form_date)->format('Y-m-d');
         $new_report->to_date = Carbon::parse($request->to_date)->format('Y-m-d');
         $new_report->is_completed = 1;
         $new_report->report_time = Carbon::now()->format('Y-m-d H:m:s');
         $new_report->save();
+
+
+        $data = $request->report_status;
+
+        if (count($data) > 0) {
+            for ($i = 0; $i < count($data); $i++) {
+                $new_report_status = new report_status();
+                $new_report_status->report_id = $new_report->id;
+                $new_report_status->status_id = $data[$i];
+                $new_report_status->save();
+            }
+        }
+
+
         return back()->with('success', 'Report Submitted');
     }
 

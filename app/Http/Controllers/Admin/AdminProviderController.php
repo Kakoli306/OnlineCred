@@ -50,6 +50,10 @@ class AdminProviderController extends Controller
         $new_provider->phone = $request->phone_num;
         $new_provider->dob = Carbon::parse($request->dob)->format('Y-m-d');
         $new_provider->gender = $request->gender;
+        $new_provider->age_restriction = $request->age_restriction;
+        $new_provider->working_hours = $request->working_hours;
+        $new_provider->country_name = $request->country_name;
+        $new_provider->contract_manager = $request->contract_manager;
         $new_provider->save();
 
         $proider_info = new Provider_info();
@@ -141,6 +145,28 @@ class AdminProviderController extends Controller
             'view' => View::make('admin.provider.include.porividerlistinclude', compact('providers'))->render(),
             'pagination' => (string)$providers->links()
         ]);
+    }
+
+
+    public function provider_delete($id)
+    {
+        $provider = Provider::where('id', $id)->first();
+        if ($provider) {
+            Provider_info::where('provider_id', $id)->delete();
+            provider_phone::where('provider_id', $id)->delete();
+            provider_email::where('provider_id', $id)->delete();
+            provider_document::where('provider_id', $id)->delete();
+            provider_portal::where('provider_id', $id)->delete();
+            provider_online_access::where('provider_id', $id)->delete();
+            provider_activity::where('provider_id', $id)->delete();
+            provider_contract::where('provider_id', $id)->delete();
+            provider_contract_note::where('provider_id', $id)->delete();
+            $provider->delete();
+            return back()->with('success', 'Provider Successfully Deleted');
+        } else {
+            return back()->with('alert', 'Provider Not Found');
+        }
+
     }
 
 
@@ -322,8 +348,12 @@ class AdminProviderController extends Controller
     public function provider_contract_save(Request $request)
     {
 
-        $prov_prac = assign_practice::where('admin_id', Auth::user()->id)
-            ->where('provider_id', $request->prvider_id)
+//        $prov_prac = assign_practice::where('admin_id', Auth::user()->id)
+//            ->where('provider_id', $request->prvider_id)
+//            ->first();
+
+
+        $prov_prac = Provider::where('id', $request->prvider_id)
             ->first();
 
         $new_contract = new provider_contract();
@@ -405,7 +435,7 @@ class AdminProviderController extends Controller
         $new_contract->onset_date = Carbon::parse($request->onset_date)->format('Y-m-d');
         $new_contract->end_date = Carbon::parse($request->end_date)->format('Y-m-d');
         $new_contract->contract_type = $request->contract_type;
-        $new_contract->status = $request->status;
+        $new_contract->status = $request->con_status;
         $new_contract->save();
 
 
@@ -504,7 +534,7 @@ class AdminProviderController extends Controller
         $update_contract->onset_date = Carbon::parse($request->onset_date)->format('Y-m-d');
         $update_contract->end_date = Carbon::parse($request->end_date)->format('Y-m-d');
         $update_contract->contract_type = $request->contract_type;
-        $update_contract->status = $request->status;
+        $update_contract->status = $request->con_status;
         $update_contract->save();
 
         $new_act = new provider_activity();

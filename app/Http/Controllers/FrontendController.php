@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\assign_practice;
+use App\Models\contract_status;
+use App\Models\Provider;
+use App\Models\provider_contract;
+use App\Models\provider_contract_note;
 use App\Models\provider_document;
 use App\Models\provider_document_type;
 use Illuminate\Http\Request;
@@ -10,6 +15,16 @@ class FrontendController extends Controller
 {
     public function test_update_data()
     {
+
+
+        $all_povider = Provider::all();
+        foreach ($all_povider as $pro) {
+            provider_contract::where('provider_id', $pro->id)->update(['facility_id' => $pro->practice_id]);
+            provider_contract_note::where('provider_id', $pro->id)->update(['facility_id' => $pro->practice_id]);
+        }
+
+        return 'done';
+        exit();
 //        $all_docs = provider_document::all();
 //
 //        foreach ($all_docs as $docs){
@@ -22,9 +37,6 @@ class FrontendController extends Controller
 //                $new_doc_type->doc_type_name = $check_doc_type->doc_type;
 //                $new_doc_type->save();
 //            }
-
-
-
 
 
 //        }
@@ -45,7 +57,6 @@ class FrontendController extends Controller
 //
 //
 //        }
-
 
 
         return 'done';

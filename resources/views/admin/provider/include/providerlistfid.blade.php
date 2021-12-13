@@ -102,6 +102,8 @@
                         <a class="dropdown-item" href="{{route('admin.provider.info',$data->id)}}">Edit provider
                             info</a>
                         <a class="dropdown-item text-danger" href="#">Make inactive</a>
+                        <a class="dropdown-item text-danger" href="{{route('admin.provider.delete',$data->id)}}">Delete
+                            Provider</a>
                     </div>
                 </div>
             </td>
