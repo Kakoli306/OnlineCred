@@ -239,13 +239,13 @@
                         </div>
 
                         <div class="col-md-3 col-xl-3 mb-2">
-                            <label class="font-weight-bold">Country Name </label>
+                            <label class="font-weight-bold">County Name </label>
                             <input type="text" class="form-control form-control-sm" name="country_name"
                                    value="{{$provider->country_name}}">
                         </div>
 
                         <div class="col-md-3 col-xl-3 mb-2">
-                            <label class="font-weight-bold">Contract Manager </label>
+                            <label class="font-weight-bold">Contact Manager </label>
                             <input type="text" class="form-control form-control-sm" name="contract_manager"
                                    value="{{$provider->contract_manager}}">
                         </div>

@@ -206,6 +206,7 @@
                             <?php
                             $con_status = \App\Models\contract_status::where('id', $pcontract->status)->first();
                             $con_name = \App\Models\contact_name::where('contact_name', $pcontract->contract_name)->where('admin_id', Auth::user()->id)->first();
+                            $type_name = \App\Models\contact_type::where('id', $pcontract->contract_type)->first();
                             ?>
                             <tr>
                                 <td>
@@ -226,7 +227,11 @@
                                     @endif
 
                                 </td>
-                                <td>commercial</td>
+                                <td>
+                                    @if ($type_name)
+                                        {{$type_name->contact_type}}
+                                    @endif
+                                </td>
                                 <td>
                                     <a href="#addNote{{$pcontract->id}}" title="Add Notes" data-toggle="modal">
                                         <i class="ri-add-line mr-3"></i>
