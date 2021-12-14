@@ -28,10 +28,18 @@
                 </h5>
             </div>
             <div class="align-self-center">
-                <a href="{{route('admin.providers.list',$provider->practice_id)}}"
-                   class="btn btn-sm btn-primary go_back">
-                    <i class="ri-arrow-left-circle-line"></i>Back
-                </a>
+                @if ($provider->practice_id != null)
+                    <a href="{{route('admin.providers.list',$provider->practice_id)}}"
+                       class="btn btn-sm btn-primary go_back">
+                        <i class="ri-arrow-left-circle-line"></i>Back
+                    </a>
+                @else
+                    <a href="{{route('admin.providers.list',0)}}"
+                       class="btn btn-sm btn-primary go_back">
+                        <i class="ri-arrow-left-circle-line"></i>Back
+                    </a>
+                @endif
+
             </div>
         </div>
         <div class="d-lg-flex">

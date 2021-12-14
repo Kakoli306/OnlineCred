@@ -28,10 +28,18 @@
                 </h5>
             </div>
             <div class="align-self-center">
-                <a href="{{route('admin.providers.list',$provider->practice_id)}}"
-                   class="btn btn-sm btn-primary go_back">
-                    <i class="ri-arrow-left-circle-line"></i>Back
-                </a>
+                @if ($provider->practice_id != null)
+                    <a href="{{route('admin.providers.list',$provider->practice_id)}}"
+                       class="btn btn-sm btn-primary go_back">
+                        <i class="ri-arrow-left-circle-line"></i>Back
+                    </a>
+                @else
+                    <a href="{{route('admin.providers.list',0)}}"
+                       class="btn btn-sm btn-primary go_back">
+                        <i class="ri-arrow-left-circle-line"></i>Back
+                    </a>
+                @endif
+
             </div>
         </div>
         <div class="d-lg-flex">
@@ -206,8 +214,18 @@
                                     @endif
 
                                 </td>
-                                <td>{{\Carbon\Carbon::parse($pcontract->onset_date)->format('m/d/Y')}}</td>
-                                <td>{{\Carbon\Carbon::parse($pcontract->end_date)->format('m/d/Y')}}</td>
+                                <td>
+                                    @if ($pcontract->onset_date != null || $pcontract->onset_date != "")
+                                        {{\Carbon\Carbon::parse($pcontract->onset_date)->format('m/d/Y')}}
+                                    @endif
+
+                                </td>
+                                <td>
+                                    @if ($pcontract->end_date != null || $pcontract->end_date != "")
+                                        {{\Carbon\Carbon::parse($pcontract->end_date)->format('m/d/Y')}}
+                                    @endif
+
+                                </td>
                                 <td>commercial</td>
                                 <td>
                                     <a href="#addNote{{$pcontract->id}}" title="Add Notes" data-toggle="modal">

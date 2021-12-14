@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Admin;
 use App\Models\contact_type;
 use App\Models\contract_status;
 use App\Models\insurance;
@@ -80,6 +81,8 @@ class ReportGenerate extends Command
                     ->where('id', $line->status)
                     ->first();
 
+                $admin_name = Admin::where('id', $line->admin_id)->first();
+
 
                 $fac = practice::where('id', $line->facility_id)->first();
                 $prov = Provider::where('id', $line->provider_id)->first();
@@ -133,6 +136,7 @@ class ReportGenerate extends Command
                     'Status' => $con_status->contact_status,
                     'Notes' => $array['note'],
                     'Follow Up Date' => isset($single_note_last_followup) ? Carbon::parse($single_note_last_followup->followup_date)->format('m/d/Y') : '',
+                    'Admin Name' => isset($admin_name) ? $admin_name->name : '',
                 ];
             });
 

@@ -28,9 +28,16 @@
                 </h5>
             </div>
             <div class="align-self-center">
-                <a href="{{route('admin.providers.list',$provider->practice_id)}}" class="btn btn-sm btn-primary">
-                    <i class="ri-arrow-left-circle-line"></i>Back
-                </a>
+                @if ($provider->practice_id != null)
+                    <a href="{{route('admin.providers.list',$provider->practice_id)}}" class="btn btn-sm btn-primary">
+                        <i class="ri-arrow-left-circle-line"></i>Back
+                    </a>
+                @else
+                    <a href="{{route('admin.providers.list',0)}}" class="btn btn-sm btn-primary">
+                        <i class="ri-arrow-left-circle-line"></i>Back
+                    </a>
+                @endif
+
             </div>
         </div>
         <div class="d-lg-flex">
@@ -217,6 +224,33 @@
                             <input type="text" class="form-control form-control-sm" name="fax_number"
                                    value="{{$provider_info->fax_number}}">
                         </div>
+
+
+                        <div class="col-md-3 col-xl-3 mb-2">
+                            <label class="font-weight-bold">Age Restriction </label>
+                            <input type="text" class="form-control form-control-sm" name="age_restriction"
+                                   value="{{$provider->age_restriction}}">
+                        </div>
+
+                        <div class="col-md-3 col-xl-3 mb-2">
+                            <label class="font-weight-bold">Working Hours </label>
+                            <input type="text" class="form-control form-control-sm" name="working_hours"
+                                   value="{{$provider->working_hours}}">
+                        </div>
+
+                        <div class="col-md-3 col-xl-3 mb-2">
+                            <label class="font-weight-bold">Country Name </label>
+                            <input type="text" class="form-control form-control-sm" name="country_name"
+                                   value="{{$provider->country_name}}">
+                        </div>
+
+                        <div class="col-md-3 col-xl-3 mb-2">
+                            <label class="font-weight-bold">Contract Manager </label>
+                            <input type="text" class="form-control form-control-sm" name="contract_manager"
+                                   value="{{$provider->contract_manager}}">
+                        </div>
+
+
                         <!-- Phone -->
                     @include('admin.provider.include.providerPhone')
                     <!-- Email -->

@@ -43,7 +43,6 @@
                                             <th>Onset Date</th>
                                             <th>End Date</th>
                                             <th>Contract Type</th>
-                                            <th>Pin No</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
@@ -53,16 +52,25 @@
                                         $provider_cons = \App\Models\provider_contract::where('provider_id', $provider->id)->get();
                                         ?>
                                         @foreach($provider_cons as $conts)
+                                            <?php
+                                            $status_name = \App\Models\contract_status::where('id', $conts->status)->first();
+                                            $con_type = \App\Models\contact_type::where('id', $conts->contract_type)->first();
+                                            ?>
                                             <tr>
                                                 <td>{{$conts->contract_name}}</td>
                                                 <td>{{\Carbon\Carbon::parse($conts->onset_date)->format('m/d/Y')}}</td>
                                                 <td>{{\Carbon\Carbon::parse($conts->end_date)->format('m/d/Y')}}</td>
-                                                <td>commercial</td>
-                                                <td>{{$conts->pin_no}}</td>
                                                 <td>
-                                                    <i class="ri-checkbox-blank-circle-fill text-success"
-                                                       title="Active"></i>
+                                                    @if ($con_type)
+                                                        {{$con_type->contact_type}}
+                                                    @endif
                                                 </td>
+                                                <td>
+                                                    @if ($status_name)
+                                                        {{$status_name->contact_status}}
+                                                    @endif
+                                                </td>
+                                             
                                                 <td><a href="{{route('admin.provider.contract',$conts->provider_id)}}">Go
                                                         To
                                                         Contract</a>

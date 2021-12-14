@@ -1,16 +1,24 @@
 @extends('layouts.admin')
 @section('headerselect')
     <div class="iq-search-bar">
-        <?php
-        $all_facility = \App\Models\practice::where('admin_id', Auth::user()->id)->get();
-        ?>
-        <select class="form-control form-control-sm fac_id">
-            <option value="0">----- Select Facility -----</option>
-            @foreach($all_facility as $fac)
-                <option
-                    value="{{$fac->id}}" {{$facility_id == $fac->id ? 'selected' : ''}}>{{$fac->business_name}}</option>
-            @endforeach
-        </select>
+        <div class="row">
+            <div class="col-md-6">
+                <?php
+                $all_facility = \App\Models\practice::where('admin_id', Auth::user()->id)->get();
+                ?>
+                <select class="form-control form-control-sm fac_id">
+                    <option value="0">----- Select Facility -----</option>
+                    @foreach($all_facility as $fac)
+                        <option
+                            value="{{$fac->id}}" {{$facility_id == $fac->id ? 'selected' : ''}}>{{$fac->business_name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-sm search_provider" placeholder="Search Provider">
+            </div>
+        </div>
+
     </div>
 @endsection
 @section('admin')
@@ -191,42 +199,32 @@
             function getProFacId() {
                 $('.loading2').show();
                 let f_id = $('.fac_id').val();
+                let search_name = $('.search_provider').val();
                 $.ajax({
                     type: "POST",
                     url: "{{route('admin.provider.list.all.get.fid')}}",
                     data: {
                         '_token': "{{csrf_token()}}",
-                        'f_id': f_id
+                        'f_id': f_id,
+                        'search_name': search_name,
                     },
                     success: function (data) {
                         console.log(data);
                         $('.pro_lists').empty().append(data.view)
                         $('.pro_lists').show();
                         $('.loading2').hide();
-
-
                     }
                 });
             }
 
 
             $('.fac_id').change(function () {
-                $('.loading2').show();
-                let f_id = $(this).val();
-                $.ajax({
-                    type: "POST",
-                    url: "{{route('admin.provider.list.all.get.fid')}}",
-                    data: {
-                        '_token': "{{csrf_token()}}",
-                        'f_id': f_id
-                    },
-                    success: function (data) {
-                        console.log(data);
-                        $('.pro_lists').empty().append(data.view)
-                        $('.pro_lists').show();
-                        $('.loading2').hide();
-                    }
-                });
+                getProFacId();
+            });
+
+            //search provider
+            $('.search_provider').keyup(function () {
+                getProFacId()
             });
 
 
@@ -236,13 +234,15 @@
         function getData(myurl) {
             $('.loading2').show();
             let f_id = $('.fac_id').val();
+            let search_name = $('.search_provider').val();
             $.ajax(
                 {
                     url: myurl,
                     type: "get",
                     data: {
                         '_token': "{{csrf_token()}}",
-                        'f_id': f_id
+                        'f_id': f_id,
+                        'search_name': search_name
                     },
                     datatype: "html"
                 }).done(function (data) {

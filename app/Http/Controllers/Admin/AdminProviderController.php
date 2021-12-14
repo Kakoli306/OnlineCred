@@ -104,7 +104,19 @@ class AdminProviderController extends Controller
     {
         $admin_id = Auth::user()->id;
         $fid = $request->f_id;
-        $query = "SELECT * FROM providers WHERE admin_id=$admin_id AND practice_id=$fid";
+        $search_name = $request->search_name;
+//        $query = "SELECT * FROM providers WHERE admin_id=$admin_id AND practice_id=$fid";
+        $query = "SELECT * FROM providers WHERE admin_id=$admin_id ";
+
+        if (isset($fid) && $fid != 0) {
+            $query .= "AND practice_id=$fid ";
+        }
+
+        if (isset($search_name)) {
+            $query .= "AND full_name LIKE '%$search_name%' ";
+        }
+
+        
         $query_exe = DB::select($query);
 
         $providers = $this->arrayPaginator($query_exe, $request);
@@ -121,7 +133,17 @@ class AdminProviderController extends Controller
     {
         $admin_id = Auth::user()->id;
         $fid = $request->f_id;
-        $query = "SELECT * FROM providers WHERE admin_id=$admin_id AND practice_id=$fid";
+        $search_name = $request->search_name;
+//        $query = "SELECT * FROM providers WHERE admin_id=$admin_id AND practice_id=$fid";
+        $query = "SELECT * FROM providers WHERE admin_id=$admin_id ";
+
+        if (isset($fid) && $fid != 0) {
+            $query .= "AND practice_id=$fid ";
+        }
+
+        if (isset($search_name)) {
+            $query .= "AND full_name LIKE '%$search_name%' ";
+        }
         $query_exe = DB::select($query);
         $providers = $this->arrayPaginator($query_exe, $request);
 
@@ -198,6 +220,10 @@ class AdminProviderController extends Controller
         $proider->city = $request->city;
         $proider->state = $request->state;
         $proider->zip = $request->zip;
+        $proider->age_restriction = $request->age_restriction;
+        $proider->working_hours = $request->working_hours;
+        $proider->country_name = $request->country_name;
+        $proider->contract_manager = $request->contract_manager;
         $proider->save();
 
 
@@ -432,8 +458,17 @@ class AdminProviderController extends Controller
         $new_contract->facility_id = $prov_prac->practice_id;
         $new_contract->provider_id = $request->prvider_id;
         $new_contract->contract_name = $request->contract_name;
-        $new_contract->onset_date = Carbon::parse($request->onset_date)->format('Y-m-d');
-        $new_contract->end_date = Carbon::parse($request->end_date)->format('Y-m-d');
+        if ($request->onset_date != null || $request->onset_date != "") {
+            $new_contract->onset_date = Carbon::parse($request->onset_date)->format('Y-m-d');
+        } else {
+            $new_contract->onset_date = null;
+        }
+
+        if ($request->end_date != null || $request->end_date != "") {
+            $new_contract->end_date = Carbon::parse($request->end_date)->format('Y-m-d');
+        } else {
+            $new_contract->end_date = null;
+        }
         $new_contract->contract_type = $request->contract_type;
         $new_contract->status = $request->con_status;
         $new_contract->save();
@@ -531,8 +566,19 @@ class AdminProviderController extends Controller
 
 
         $update_contract->contract_name = $request->contract_name;
-        $update_contract->onset_date = Carbon::parse($request->onset_date)->format('Y-m-d');
-        $update_contract->end_date = Carbon::parse($request->end_date)->format('Y-m-d');
+        if ($request->onset_date != null || $request->onset_date != "") {
+            $update_contract->onset_date = Carbon::parse($request->onset_date)->format('Y-m-d');
+        } else {
+            $update_contract->onset_date = $update_contract->onset_date;
+        }
+
+
+        if ($request->end_date != null || $request->end_date != "") {
+            $update_contract->end_date = Carbon::parse($request->end_date)->format('Y-m-d');
+        } else {
+            $update_contract->end_date = $update_contract->onset_date;
+        }
+
         $update_contract->contract_type = $request->contract_type;
         $update_contract->status = $request->con_status;
         $update_contract->save();

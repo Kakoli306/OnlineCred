@@ -75,7 +75,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
         Route::get('/provider-list', [Controllers\Admin\AdminProviderController::class, 'provider_list'])->name('admin.providers');
         Route::get('/provider-list-facility/{id}', [Controllers\Admin\AdminProviderController::class, 'provider_list_by_faiclity'])->name('admin.providers.list');
         Route::get('/provider-delete/{id}', [Controllers\Admin\AdminProviderController::class, 'provider_delete'])->name('admin.provider.delete');
-        
+
         //get all provider
         Route::post('/provider-list-all-get', [Controllers\Admin\AdminProviderController::class, 'provider_list_get'])->name('admin.provider.list.all.get');
         Route::get('/provider-list-all-get', [Controllers\Admin\AdminProviderController::class, 'provider_list_get_next']);
@@ -133,6 +133,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
         //account activity
         Route::get('/account-activity', [Controllers\Admin\AdminActivityController::class, 'account_activity'])->name('admin.account.activity');
+
+        //reminder
         Route::get('/reminder', [Controllers\Admin\AdminReminderController::class, 'reminder'])->name('admin.reminder');
 
         //setting contact name
