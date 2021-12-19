@@ -51,43 +51,20 @@
         <nav class="iq-sidebar-menu">
             <ul id="iq-sidebar-toggle" class="iq-menu">
                 <li>
-                    <a href="{{route('admin.dashboard')}}" class="iq-waves-effect"><i
+                    <a href="{{route('account.manager.dashboard')}}" class="iq-waves-effect"><i
                             class="ri-home-4-line"></i><span>Dashboard </span></a>
                 </li>
                 <li>
-                    <a href="#mailbox" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i
-                            class="ri-user-line"></i><span>User Management</span><i
-                            class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                    <ul id="mailbox" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                        <li><a href="{{route('admin.create.user')}}"><i class="ri-user-add-line"></i>Create User</a>
-                        </li>
-                        <li><a href="{{route('admin.all.admin.users')}}"><i class="ri-user-fill"></i>Admin User</a></li>
-                        <li><a href="{{route('admin.all.accountmanager.users')}}"><i class="ri-user-settings-line"></i>Account
-                                Manager</a>
-                        </li>
-                        <li><a href="{{route('admin.all.basestaff.users')}}"><i class="ri-user-follow-line"></i>Base
-                                Staff User</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{route('admin.providers')}}" class="iq-waves-effect"><i
+                    <a href="{{route('account.manager.provider')}}" class="iq-waves-effect"><i
                             class="fa fa-user-plus"></i><span>Provider</span></a>
                 </li>
-                <li><a href="{{route('admin.report')}}" class="iq-waves-effect"><i
+                <li><a href="{{route('account.manager.report')}}" class="iq-waves-effect"><i
                             class="las la-chart-bar"></i><span>Report</span></a></li>
                 <li><a href="{{route('admin.account.activity')}}" class="iq-waves-effect"><i
                             class="las la-file-archive"></i><span>Account Activity</span></a></li>
                 <li><a href="{{route('admin.reminder')}}" class="iq-waves-effect"><i class="las la-bell"></i><span>Reminders</span></a>
                 </li>
                 <li><a href="{{route('admin.practice.lists')}}" class="iq-waves-effect"><i class="ri-settings-line"></i><span>Update Practice</span></a>
-                </li>
-                <li>
-                    <a href="{{route('admin.practice.assign')}}" class="iq-waves-effect"><i
-                            class="ri-water-flash-line"></i><span>Assign Practice</span></a>
-                </li>
-                <li><a href="{{route('admin.setting.contact.name')}}" class="iq-waves-effect"><i
-                            class="ri-equalizer-line"></i><span>Setting</span></a>
                 </li>
             </ul>
         </nav>
@@ -102,7 +79,7 @@
         <div class="iq-top-navbar header-top-sticky">
             <div class="iq-navbar-custom">
                 <nav class="navbar navbar-expand-lg navbar-light p-0">
-                    @yield('headerselect')
+                    @yield('managerheaderselect')
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -175,7 +152,7 @@
                                             </div>
                                         </a>
                                         <div class="d-inline-block w-100 text-center p-3">
-                                            <a class="bg-primary iq-sign-btn" href="{{route('admin.logout')}}"
+                                            <a class="bg-primary iq-sign-btn" href="{{route('account.manager.logout')}}"
                                                role="button">Sign
                                                 out<i class="ri-login-box-line ml-2"></i></a>
                                         </div>
@@ -267,7 +244,7 @@
         <!-- Main Content-->
         <div class="container-fluid">
             <div class="iq-card">
-                @yield('admin')
+                @yield('accountmanager')
             </div>
         </div>
         <!--/ Main Content-->

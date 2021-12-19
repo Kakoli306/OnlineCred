@@ -70,6 +70,24 @@ Route::group(['middleware' => ['auth:admin']], function () {
         Route::get('/practice-assign', [Controllers\Admin\AdminPracticeController::class, 'practice_assign'])->name('admin.practice.assign');
 
 
+        //assign practice user
+        Route::post('/practice-assign-get-all-user', [Controllers\Admin\AdminAssignPracticeController::class, 'practice_assign_get_all_user'])->name('admin.get.all.user');
+        Route::post('/practice-assign-show-all-prc', [Controllers\Admin\AdminAssignPracticeController::class, 'practice_assign_show_all_prc'])->name('admin.practice.assign.show.all.prc');
+        Route::post('/practice-assign-show-all-prc-user', [Controllers\Admin\AdminAssignPracticeController::class, 'practice_assign_show_all_prc_user'])->name('admin.practice.assign.get.by.user');
+        Route::post('/practice-assign-add-user', [Controllers\Admin\AdminAssignPracticeController::class, 'practice_assign_user'])->name('admin.add.facility.user');
+        Route::post('/practice-assign-remove-prc-foruser', [Controllers\Admin\AdminAssignPracticeController::class, 'practice_assign_remove_prc_for_user'])->name('admin.remove.facility.for.user');
+
+
+        //create user
+        Route::get('/create-user', [Controllers\Admin\AdminUserController::class, 'create_user'])->name('admin.create.user');
+        Route::post('/create-user-save', [Controllers\Admin\AdminUserController::class, 'create_user_save'])->name('admin.create.user.save');
+        Route::get('/all-admin-users', [Controllers\Admin\AdminUserController::class, 'all_admin_users'])->name('admin.all.admin.users');
+        Route::get('/all-account-manager-users', [Controllers\Admin\AdminUserController::class, 'all_account_manager_users'])->name('admin.all.accountmanager.users');
+        Route::get('/all-basestaff-users', [Controllers\Admin\AdminUserController::class, 'all_basestaff_users'])->name('admin.all.basestaff.users');
+        Route::get('/user-edit/{id}/{type}', [Controllers\Admin\AdminUserController::class, 'user_edit'])->name('admin.user.edit');
+        Route::post('/user-update', [Controllers\Admin\AdminUserController::class, 'user_update'])->name('admin.create.user.update');
+
+
         //provider
         Route::post('/provider-save', [Controllers\Admin\AdminProviderController::class, 'provider_save'])->name('admin.provider.save');
         Route::get('/provider-list', [Controllers\Admin\AdminProviderController::class, 'provider_list'])->name('admin.providers');
@@ -172,6 +190,70 @@ Route::group(['middleware' => ['auth:admin']], function () {
         Route::post('/setting-contract-status-save', [Controllers\Admin\AdminSettingController::class, 'contract_status_save'])->name('admin.setting.contract.status.save');
         Route::post('/setting-contract-status-update', [Controllers\Admin\AdminSettingController::class, 'contract_status_update'])->name('admin.setting.contract.status.update');
         Route::get('/setting-contract-status-delete/{id}', [Controllers\Admin\AdminSettingController::class, 'contract_status_delete'])->name('admin.setting.contract.status.delete');
+
+
+    });
+});
+
+
+Route::prefix('account-manager')->group(function () {
+    Route::get('/logout', [Controllers\Auth\AccountManagerLoginController::class, 'logout'])->name('account.manager.logout');
+});
+
+Route::group(['middleware' => ['auth:accountmanager']], function () {
+    Route::prefix('account-manager')->group(function () {
+        Route::get('/', [Controllers\Accountmanager\AccountManagerController::class, 'index'])->name('account.manager.dashboard');
+
+        //provider
+        Route::get('/provider', [Controllers\Accountmanager\AccManProviderController::class, 'provider'])->name('account.manager.provider');
+        Route::post('/provider-save', [Controllers\Accountmanager\AccManProviderController::class, 'provider_save'])->name('account.manager.provider.save');
+        Route::post('/provider-list-by-fid', [Controllers\Accountmanager\AccManProviderController::class, 'provider_list_by_fid'])->name('account.manager.provider.list.all.get.fid');
+        Route::get('/provider-list-by-fid', [Controllers\Accountmanager\AccManProviderController::class, 'provider_list_by_fid_get']);
+        Route::get('/provider-list-facility/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_list_by_faiclity'])->name('account.manager.providers.list');
+
+        //provider info
+        Route::get('/provider-info/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_info'])->name('account.manager.provider.info');
+        Route::post('/provider-info-update', [Controllers\Accountmanager\AccManProviderController::class, 'provider_info_update'])->name('account.manager.provider.info.update');
+        Route::post('/provider-info-delete-exists-phone', [Controllers\Accountmanager\AccManProviderController::class, 'provider_info_exists_phone_delete'])->name('account.manager.delete.exist.provider.phone');
+        Route::post('/provider-info-delete-exists-email', [Controllers\Accountmanager\AccManProviderController::class, 'provider_info_exists_email_delete'])->name('account.manager.delete.exist.provider.email');
+        Route::post('/provider-info-delete-exists-address', [Controllers\Accountmanager\AccManProviderController::class, 'provider_info_exists_address_delete'])->name('account.manager.delete.exist.provider.address');
+
+        //provider contract
+        Route::get('/provider-contract/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_contract'])->name('account.manager.provider.contract');
+        Route::post('/provider-contract-save', [Controllers\Accountmanager\AccManProviderController::class, 'provider_contract_save'])->name('account.manager.provider.contract.save');
+        Route::post('/provider-contract-update', [Controllers\Accountmanager\AccManProviderController::class, 'provider_contract_update'])->name('account.manager.provider.contract.update');
+        Route::get('/provider-contract-delete/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_contract_delete'])->name('account.manager.provider.contract.delete');
+        Route::post('/provider-contract-add-note', [Controllers\Accountmanager\AccManProviderController::class, 'provider_contract_add_note'])->name('account.manager.provider.contract.add.note');
+        Route::post('/provider-contract-add-note-get', [Controllers\Accountmanager\AccManProviderController::class, 'provider_contract_note_get'])->name('account.manager.get.contract.note');
+
+        //provider document
+        Route::get('/provider-document/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_document'])->name('account.manager.provider.document');
+        Route::post('/provider-document-save', [Controllers\Accountmanager\AccManProviderController::class, 'provider_document_save'])->name('account.manager.provider.document.save');
+        Route::post('/provider-document-update', [Controllers\Accountmanager\AccManProviderController::class, 'provider_document_update'])->name('account.manager.provider.document.update');
+        Route::get('/provider-document-delete/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_document_delete'])->name('account.manager.provider.document.delete');
+        Route::post('/provider-document-all-doc-type', [Controllers\Accountmanager\AccManProviderController::class, 'provider_document_type_get_all'])->name('account.manager.provider.get.all.doc.type');
+
+        //provider portal
+        Route::get('/provider-portal/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_portal'])->name('account.manager.provider.portal');
+        Route::post('/provider-portal-save', [Controllers\Accountmanager\AccManProviderController::class, 'provider_portal_save'])->name('account.manager.provider.portal.save');
+        Route::post('/provider-portal-send-access', [Controllers\Accountmanager\AccManProviderController::class, 'provider_portal_send_access'])->name('account.manager.provider.send.access');
+
+        //provider online access
+        Route::get('/provider-online-access/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_online_access'])->name('account.manager.provider.online.access');
+        Route::post('/provider-online-access-save', [Controllers\Accountmanager\AccManProviderController::class, 'provider_online_access_save'])->name('account.manager.provider.online.access.save');
+        Route::post('/provider-online-access-update', [Controllers\Accountmanager\AccManProviderController::class, 'provider_online_access_update'])->name('account.manager.provider.online.access.update');
+        Route::get('/provider-online-access-delete/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_online_access_delete'])->name('account.manager.provider.online.access.delete');
+
+        //provider activity
+        Route::get('/provider-activity/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_activity'])->name('account.manager.provider.activity');
+
+
+        //report
+        Route::get('/report', [Controllers\Accountmanager\AccManReportController::class, 'report'])->name('account.manager.report');
+        Route::post('/report-get-all-facility', [Controllers\Accountmanager\AccManReportController::class, 'report_get_all_facility'])->name('account.manager.report.get.all.facility');
+        Route::post('/report-provider-by-facility', [Controllers\Accountmanager\AccManReportController::class, 'report_provider_by_facility'])->name('account.manager.report.provider.by.facility');
+        Route::post('/report-contract-by-provider', [Controllers\Accountmanager\AccManReportController::class, 'report_contract_by_provider'])->name('account.manager.report.contract.by.provider');
+        Route::post('/report-save', [Controllers\Accountmanager\AccManReportController::class, 'report_save'])->name('account.manager.report.save');
 
 
     });

@@ -54,6 +54,19 @@ return [
         ],
 
 
+        // this guard  for admin
+        'accountmanager' => [
+            'driver' => 'session',
+            'provider' => 'accountmanagers',
+        ],
+
+        //this is for admin api
+        'accountmanager-api' => [
+            'driver' => 'token',
+            'provider' => 'accountmanagers',
+        ],
+
+
         // this guard  for provider
         'provider' => [
             'driver' => 'session',
@@ -96,6 +109,11 @@ return [
             'model' => \App\Models\Admin::class,
         ],
 
+        'accountmanagers' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\AccountManager::class,
+        ],
+
         'providers' => [
             'driver' => 'eloquent',
             'model' => \App\Models\Provider::class,
@@ -132,6 +150,13 @@ return [
 
         'admins' => [
             'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'accountmanagers' => [
+            'provider' => 'accountmanagers',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

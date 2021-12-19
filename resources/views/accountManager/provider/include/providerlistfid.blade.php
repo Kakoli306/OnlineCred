@@ -13,21 +13,28 @@
         </tr>
         </thead>
         <tbody class="text-center">
-        @foreach($providers as $provider)
+        @foreach($providers as $data)
+            <?php
+            $provider_info = \App\Models\Provider_info::where('provider_id', $data->id)->first();
+            ?>
             <tr>
-                <td><a href="{{route('admin.provider.info',$provider->id)}}" class="mr-2">{{$provider->full_name}}</a>
+                <td><a href="{{route('account.manager.provider.info',$data->id)}}" class="mr-2">{{$data->full_name}}</a>
                 </td>
                 <td>
-                    <p>{{$provider->phone}}</p>
+                    <p>{{$data->phone}}</p>
                 </td>
-                <td>{{\Carbon\Carbon::parse($provider->dob)->format('m/d/Y')}}</td>
-                <td>{{$provider->gender}}</td>
-                <td>{{$provider->speciality}}</td>
+                <td>{{\Carbon\Carbon::parse($data->dob)->format('m/d/Y')}}</td>
+                <td>{{$data->gender}}</td>
                 <td>
-                    <a href="#mycontract{{$provider->id}}" data-toggle="modal"><i class="fa fa-id-card-o"
-                                                                                  aria-hidden="true"></i></a>
+                    @if ($provider_info)
+                        {{$provider_info->speciality}}
+                    @endif
+                </td>
+                <td>
+                    <a href="#mycontract{{$data->id}}" data-toggle="modal"><i class="fa fa-id-card-o"
+                                                                              aria-hidden="true"></i></a>
                     <!-- Contract Modal -->
-                    <div class="modal fade" id="mycontract{{$provider->id}}" data-backdrop="static">
+                    <div class="modal fade" id="mycontract{{$data->id}}" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -49,7 +56,7 @@
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $provider_cons = \App\Models\provider_contract::where('provider_id', $provider->id)->get();
+                                        $provider_cons = \App\Models\provider_contract::where('provider_id', $data->id)->get();
                                         ?>
                                         @foreach($provider_cons as $conts)
                                             <?php
@@ -58,16 +65,8 @@
                                             ?>
                                             <tr>
                                                 <td>{{$conts->contract_name}}</td>
-                                                <td>
-                                                    @if ($conts->onset_date != null || $conts->onset_date != "")
-                                                        {{\Carbon\Carbon::parse($conts->onset_date)->format('m/d/Y')}}
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($conts->end_date != null || $conts->end_date != )
-                                                        {{\Carbon\Carbon::parse($conts->end_date)->format('m/d/Y')}}
-                                                    @endif
-                                                </td>
+                                                <td>{{\Carbon\Carbon::parse($conts->onset_date)->format('m/d/Y')}}</td>
+                                                <td>{{\Carbon\Carbon::parse($conts->end_date)->format('m/d/Y')}}</td>
                                                 <td>
                                                     @if ($con_type)
                                                         {{$con_type->contact_type}}
@@ -89,7 +88,7 @@
                                     </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <a href="{{route('admin.provider.contract',$provider->id)}}"
+                                    <a href="{{route('admin.provider.contract',$data->id)}}"
                                        class="btn btn-primary border-white">Add Contract</a>
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                 </div>
@@ -97,7 +96,13 @@
                         </div>
                     </div>
                 </td>
-                <td><i class="ri-checkbox-blank-circle-fill text-success" title="Active"></i>
+                <td>
+                    @if ($data->is_active == 1)
+                        <i class="ri-checkbox-blank-circle-fill text-success" title="Active"></i>
+                    @else
+                        <i class="ri-checkbox-blank-circle-fill text-danger" title="In-Active"></i>
+                    @endif
+
                 </td>
                 <td>
                     <div class="dropdown">
@@ -105,10 +110,12 @@
                             Manage
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{{route('admin.provider.info',$provider->id)}}">Edit provider
+                            <a class="dropdown-item" href="{{route('account.manager.provider.info',$data->id)}}">Edit
+                                provider
                                 info</a>
                             <a class="dropdown-item text-danger" href="#">Make inactive</a>
-                            <a class="dropdown-item text-danger" href="#">Make inactive</a>
+                            <a class="dropdown-item text-danger" href="{{route('admin.provider.delete',$data->id)}}">Delete
+                                Provider</a>
                         </div>
                     </div>
                 </td>
@@ -118,8 +125,7 @@
         </tbody>
     </table>
 </div>
-
-<!-- pagination -->
 <nav class="overflow-hidden">
     {{$providers->links()}}
 </nav>
+<?php

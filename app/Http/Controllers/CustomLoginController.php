@@ -17,9 +17,9 @@ class CustomLoginController extends Controller
     {
         if (Auth::guard('admin')->check()) {
             return redirect(route('admin.dashboard'));
-        }elseif (Auth::guard('provider')->check()){
+        } elseif (Auth::guard('provider')->check()) {
             return redirect(route('provider.dashboard'));
-        }else{
+        } else {
             return view('auth.login');
         }
 //        return view('auth.userLogin');
@@ -28,17 +28,18 @@ class CustomLoginController extends Controller
 
     public function user_login_submit(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'email' => 'required',
             'password' => 'required|min:8'
         ]);
-        if(Auth::guard('admin')->attempt(['email'=>$request->email,'password'=>$request->password],$request->remember)){
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             return redirect(route('admin.dashboard'));
-        }
-        elseif(Auth::guard('provider')->attempt(['login_email'=>$request->email,'password'=>$request->password],$request->remember)){
+        } elseif (Auth::guard('accountmanager')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+            return redirect(route('account.manager.dashboard'));
+        } elseif (Auth::guard('provider')->attempt(['login_email' => $request->email, 'password' => $request->password], $request->remember)) {
             return redirect(route('provider.dashboard'));
-        }else{
-            return redirect()->back()->with('alert',"Invalid Credential");
+        } else {
+            return redirect()->back()->with('alert', "Invalid Credential");
         }
 
 

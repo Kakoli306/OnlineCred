@@ -15,7 +15,8 @@
         <tbody class="text-center">
         @foreach($providers as $provider)
             <tr>
-                <td><a href="{{route('admin.provider.info',$provider->id)}}" class="mr-2">{{$provider->full_name}}</a>
+                <td><a href="{{route('account.manager.provider.info',$provider->id)}}"
+                       class="mr-2">{{$provider->full_name}}</a>
                 </td>
                 <td>
                     <p>{{$provider->phone}}</p>
@@ -105,7 +106,8 @@
                             Manage
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{{route('admin.provider.info',$provider->id)}}">Edit provider
+                            <a class="dropdown-item" href="{{route('account.manager.provider.info',$provider->id)}}">Edit
+                                provider
                                 info</a>
                             <a class="dropdown-item text-danger" href="#">Make inactive</a>
                             <a class="dropdown-item text-danger" href="#">Make inactive</a>
