@@ -67,6 +67,19 @@ return [
         ],
 
 
+        // this guard  for admin
+        'basestaff' => [
+            'driver' => 'session',
+            'provider' => 'basestaffs',
+        ],
+
+        //this is for admin api
+        'basestaff-api' => [
+            'driver' => 'token',
+            'provider' => 'basestaffs',
+        ],
+
+
         // this guard  for provider
         'provider' => [
             'driver' => 'session',
@@ -114,6 +127,11 @@ return [
             'model' => \App\Models\AccountManager::class,
         ],
 
+        'basestaffs' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\BaseStaff::class,
+        ],
+
         'providers' => [
             'driver' => 'eloquent',
             'model' => \App\Models\Provider::class,
@@ -157,6 +175,13 @@ return [
 
         'accountmanagers' => [
             'provider' => 'accountmanagers',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'basestaffs' => [
+            'provider' => 'basestaffs',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

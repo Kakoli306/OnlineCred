@@ -260,6 +260,80 @@ Route::group(['middleware' => ['auth:accountmanager']], function () {
 });
 
 
+Route::prefix('base-staff')->group(function () {
+    Route::get('/logout', [Controllers\Auth\AccountManagerLoginController::class, 'logout'])->name('basestaff.logout');
+});
+
+Route::group(['middleware' => ['auth:basestaff']], function () {
+    Route::prefix('base-staff')->group(function () {
+        Route::get('/', [Controllers\BaseStaff\BaseStaffController::class, 'index'])->name('basestaff.dashboard');
+
+        //provider
+        Route::get('/provider', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider'])->name('basestaff.provider');
+        Route::post('/provider-save', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_save'])->name('basestaff.provider.save');
+        Route::post('/provider-list-by-fid', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_list_by_fid'])->name('basestaff.provider.list.all.get.fid');
+        Route::get('/provider-list-by-fid', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_list_by_fid_get']);
+        Route::get('/provider-list-facility/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_list_by_faiclity'])->name('basestaff.providers.list');
+
+        //provider info
+        Route::get('/provider-info/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_info'])->name('basestaff.provider.info');
+        Route::post('/provider-info-update', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_info_update'])->name('basestaff.provider.info.update');
+        Route::post('/provider-info-delete-exists-phone', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_info_phone'])->name('basestaff.delete.exist.provider.phone');
+        Route::post('/provider-info-delete-exists-email', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_info_email'])->name('basestaff.delete.exist.provider.email');
+        Route::post('/provider-info-delete-exists-address', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_info_address'])->name('basestaff.delete.exist.provider.address');
+
+        //provider contract
+        Route::get('/provider-contract/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_contract'])->name('basestaff.provider.contract');
+        Route::post('/provider-contract-save', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_contract_save'])->name('basestaff.provider.contract.save');
+        Route::post('/provider-contract-update', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_contract_update'])->name('basestaff.provider.contract.update');
+        Route::get('/provider-contract-delete/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_contract_delete'])->name('basestaff.provider.contract.delete');
+        Route::post('/provider-contract-note-save', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_contract_note_save'])->name('basestaff.provider.contract.add.note');
+        Route::post('/provider-contract-note-get', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_contract_note_get'])->name('basestaff.get.contract.note');
+
+        //provider document
+        Route::get('/provider-document/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_document'])->name('basestaff.provider.document');
+        Route::post('/provider-document-save', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_document_save'])->name('basestaff.provider.document.save');
+        Route::post('/provider-document-update', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_document_update'])->name('basestaff.provider.document.update');
+        Route::get('/provider-document-delete/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_document_delete'])->name('basestaff.provider.document.delete');
+        Route::post('/provider-document-all-doc-type', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_document_all_doc_type'])->name('basestaff.provider.get.all.doc.type');
+
+        //provider portal
+        Route::get('/provider-portal/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_portal'])->name('basestaff.provider.portal');
+        Route::post('/provider-portal-save', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_portal_save'])->name('basestaff.provider.portal.save');
+        Route::post('/provider-portal-send-access', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_portal_send_access'])->name('basestaff.provider.send.access');
+
+        //provider online access
+        Route::get('/provider-online-access/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_online_access'])->name('basestaff.provider.online.access');
+        Route::post('/provider-online-access-save', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_online_access_save'])->name('basestaff.provider.online.access.save');
+        Route::post('/provider-online-access-update', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_online_access_update'])->name('basestaff.provider.online.access.update');
+        Route::get('/provider-online-access-delete/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_online_access_delete'])->name('basestaff.online.access.delete');
+
+        //provider activity
+        Route::get('/provider-activity/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_activity'])->name('basestaff.provider.activity');
+
+
+        //report
+        Route::get('/report', [Controllers\BaseStaff\BaseStaffReportController::class, 'report'])->name('basestaff.report');
+        Route::post('/report-get-all-facility', [Controllers\BaseStaff\BaseStaffReportController::class, 'report_get_all_facility'])->name('basestaff.report.get.all.facility');
+        Route::post('/report-provider-by-facility', [Controllers\BaseStaff\BaseStaffReportController::class, 'report_provider_by_facility'])->name('basestaff.report.provider.by.facility');
+        Route::post('/report-contract-by-provider', [Controllers\BaseStaff\BaseStaffReportController::class, 'report_contract_by_provider'])->name('basestaff.report.contract.by.provider');
+        Route::post('/report-save', [Controllers\BaseStaff\BaseStaffReportController::class, 'report_save'])->name('basestaff.report.save');
+
+
+        //account activity
+        Route::get('/account-activity', [Controllers\BaseStaff\BaseStaffAccActivityController::class, 'account_activity'])->name('basestaff.activity');
+
+        //reminder
+        Route::get('/reminders', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminders'])->name('basestaff.reminder');
+
+        //practice
+        Route::get('/practice-list', [Controllers\BaseStaff\BaseStaffPracticeController::class, 'practice_list'])->name('basestaff.practice.lists');
+        Route::post('/practice-update', [Controllers\BaseStaff\BaseStaffPracticeController::class, 'practice_update'])->name('basestaff.practice.update');
+
+    });
+});
+
+
 Route::prefix('provider')->group(function () {
     Route::get('/login', [Controllers\Auth\ProviderLoginController::class, 'provider_login_form'])->name('provider.login');
     Route::post('/login', [Controllers\Auth\ProviderLoginController::class, 'provider_login'])->name('provider.login.submit');
