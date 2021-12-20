@@ -4,6 +4,9 @@ namespace App\Http\Controllers\BaseStaff;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccessEmail;
+use App\Models\AccountManager;
+use App\Models\Admin;
+use App\Models\BaseStaff;
 use App\Models\contact_name;
 use App\Models\contact_type;
 use App\Models\contract_status;
@@ -20,6 +23,7 @@ use App\Models\Provider_info;
 use App\Models\provider_online_access;
 use App\Models\provider_phone;
 use App\Models\provider_portal;
+use App\Models\reminder;
 use App\Models\speciality;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -188,7 +192,8 @@ class BaseStaffProviderController extends Controller
         $provider_info->upin = $request->upin;
         $provider_info->dea = $request->dea;
         $provider_info->state_licence = $request->state_licence;
-        $provider_info->provider_degree = $request->provider_degree;
+        $provider_info->medicare_ptan = $request->medicare_ptan;
+        $provider_info->medicare_id = $request->medicare_id;
         $provider_info->fax_number = $request->fax_number;
         $provider_info->signature_date = $request->signature_date;
         $provider_info->start_date = $request->start_date;
@@ -401,9 +406,98 @@ class BaseStaffProviderController extends Controller
         } else {
             $new_contract->end_date = null;
         }
+
+        if ($request->contract_followup_date != null || $request->contract_followup_date != "") {
+            $new_contract->contract_followup_date = Carbon::parse($request->contract_followup_date)->format('Y-m-d');
+        } else {
+            $new_contract->contract_followup_date = null;
+        }
         $new_contract->contract_type = $request->contract_type;
         $new_contract->status = $request->con_status;
+
+
+        if ($request->assign_to_name != null || $request->assign_to_name != "") {
+            $admin_user = Admin::where('name', $request->assign_to_name)->first();
+            $manager_user = AccountManager::where('name', $request->assign_to_name)->first();
+            $staff_user = BaseStaff::where('name', $request->assign_to_name)->first();
+
+            if ($admin_user) {
+                $new_contract->assign_to_name = $admin_user->name;
+                $new_contract->assign_to_id = $admin_user->id;
+                $new_contract->assign_to_type = $admin_user->account_type;
+            }
+
+            if ($manager_user) {
+                $new_contract->assign_to_name = $manager_user->name;
+                $new_contract->assign_to_id = $manager_user->id;
+                $new_contract->assign_to_type = $manager_user->account_type;
+            }
+
+            if ($staff_user) {
+                $new_contract->assign_to_name = $staff_user->name;
+                $new_contract->assign_to_id = $staff_user->id;
+                $new_contract->assign_to_type = $staff_user->account_type;
+            }
+            $new_contract->is_assign = 1;
+        } else {
+            $new_contract->assign_to_name = 0;
+            $new_contract->assign_to_id = 0;
+            $new_contract->assign_to_type = 0;
+            $new_contract->is_assign = 0;
+        }
+
         $new_contract->save();
+
+
+        $new_reminder_user = new reminder();
+        $new_reminder_user->user_id = Auth::user()->id;
+        $new_reminder_user->user_type = Auth::user()->account_type;
+        $new_reminder_user->provider_id = $new_contract->provider_id;
+        $new_reminder_user->facility_id = $new_contract->facility_id;
+        $new_reminder_user->contract_id = $new_contract->id;
+        $new_reminder_user->note_id = 0;
+        $new_reminder_user->followup_date = $new_contract->contract_followup_date;
+        $new_reminder_user->worked_date = null;
+        $new_reminder_user->status = $new_contract->status;
+        $new_reminder_user->is_note = 0;
+        $new_reminder_user->save();
+
+
+        if ($request->assign_to_name != null || $request->assign_to_name != "") {
+
+            $admin_user = Admin::where('name', $request->assign_to_name)->first();
+            $manager_user = AccountManager::where('name', $request->assign_to_name)->first();
+            $staff_user = BaseStaff::where('name', $request->assign_to_name)->first();
+
+            $new_reminder = new reminder();
+
+            if ($admin_user) {
+                $new_reminder->user_id = $admin_user->id;
+                $new_reminder->user_type = $admin_user->account_type;
+            }
+
+            if ($manager_user) {
+                $new_reminder->user_id = $manager_user->id;
+                $new_reminder->user_type = $manager_user->account_type;
+            }
+
+            if ($staff_user) {
+                $new_reminder->user_id = $staff_user->id;
+                $new_reminder->user_type = $staff_user->account_type;
+            }
+
+
+            $new_reminder->provider_id = $new_contract->provider_id;
+            $new_reminder->facility_id = $new_contract->facility_id;
+            $new_reminder->contract_id = $new_contract->id;
+            $new_reminder->note_id = 0;
+            $new_reminder->followup_date = $new_contract->contract_followup_date;
+            $new_reminder->worked_date = null;
+            $new_reminder->status = $new_contract->status;
+            $new_reminder->is_note = 0;
+            $new_reminder->save();
+
+        }
 
 
         $new_act = new provider_activity();
@@ -512,9 +606,86 @@ class BaseStaffProviderController extends Controller
             $update_contract->end_date = $update_contract->onset_date;
         }
 
+        if ($request->contract_followup_date != null || $request->contract_followup_date != "") {
+            $update_contract->contract_followup_date = Carbon::parse($request->contract_followup_date)->format('Y-m-d');
+        } else {
+            $update_contract->contract_followup_date = $update_contract->contract_followup_date;
+        }
+
+
         $update_contract->contract_type = $request->contract_type;
         $update_contract->status = $request->con_status;
+
+        if ($request->assign_to_name != null || $request->assign_to_name != "") {
+            $admin_user = Admin::where('name', $request->assign_to_name)->first();
+            $manager_user = AccountManager::where('name', $request->assign_to_name)->first();
+            $staff_user = BaseStaff::where('name', $request->assign_to_name)->first();
+
+            if ($admin_user) {
+                $update_contract->assign_to_name = $admin_user->name;
+                $update_contract->assign_to_id = $admin_user->id;
+                $update_contract->assign_to_type = $admin_user->account_type;
+            }
+
+            if ($manager_user) {
+                $update_contract->assign_to_name = $manager_user->name;
+                $update_contract->assign_to_id = $manager_user->id;
+                $update_contract->assign_to_type = $manager_user->account_type;
+            }
+
+            if ($staff_user) {
+                $update_contract->assign_to_name = $staff_user->name;
+                $update_contract->assign_to_id = $staff_user->id;
+                $update_contract->assign_to_type = $staff_user->account_type;
+            }
+
+            $update_contract->is_assign = 1;
+
+        } else {
+            $update_contract->assign_to_name = 0;
+            $update_contract->assign_to_id = 0;
+            $update_contract->assign_to_type = 0;
+            $update_contract->is_assign = 0;
+        }
+
+
         $update_contract->save();
+
+
+        if ($request->assign_to_name != null || $request->assign_to_name != "") {
+
+            $new_reminder = new reminder();
+
+            $admin_user = Admin::where('name', $request->assign_to_name)->first();
+            $manager_user = AccountManager::where('name', $request->assign_to_name)->first();
+            $staff_user = BaseStaff::where('name', $request->assign_to_name)->first();
+
+            if ($admin_user) {
+                $new_reminder->user_id = $admin_user->id;
+                $new_reminder->user_type = $admin_user->account_type;
+            }
+
+            if ($manager_user) {
+                $new_reminder->user_id = $manager_user->id;
+                $new_reminder->user_type = $manager_user->account_type;
+            }
+
+            if ($staff_user) {
+                $new_reminder->user_id = $staff_user->id;
+                $new_reminder->user_type = $staff_user->account_type;
+            }
+
+            $new_reminder->provider_id = $update_contract->provider_id;
+            $new_reminder->facility_id = $update_contract->facility_id;
+            $new_reminder->contract_id = $update_contract->id;
+            $new_reminder->note_id = 0;
+            $new_reminder->followup_date = $update_contract->contract_followup_date;
+            $new_reminder->worked_date = null;
+            $new_reminder->is_note = 0;
+            $new_reminder->save();
+
+        }
+
 
         $new_act = new provider_activity();
         $new_act->admin_id = Auth::user()->id;
@@ -553,16 +724,77 @@ class BaseStaffProviderController extends Controller
         $con_details = provider_contract::where('id', $request->note_contract_id)->first();
 
         $new_note = new provider_contract_note();
-        $new_note->admin_id = Auth::user()->id;
+        $new_note->user_id = Auth::user()->id;
+        $new_note->user_type = Auth::user()->account_type;
         $new_note->provider_id = $request->note_provider_id;
         $new_note->facility_id = $con_details->facility_id;
         $new_note->contract_id = $request->note_contract_id;
         $new_note->contract_name = $con_details->contract_name;
         $new_note->status = $request->note_status;
-        $new_note->worked_date = $request->worked_date;
-        $new_note->followup_date = $request->followup_date;
+        if ($request->worked_date != null || $request->worked_date != "") {
+            $new_note->worked_date = $request->worked_date;
+        } else {
+            $new_note->worked_date = null;
+        }
+
+        if ($request->followup_date != null || $request->followup_date != "") {
+            $new_note->followup_date = $request->followup_date;
+        } else {
+            $new_note->followup_date = null;
+        }
+
         $new_note->note = $request->note;
         $new_note->save();
+
+
+        $new_reminder_user = new reminder();
+        $new_reminder_user->user_id = Auth::user()->id;
+        $new_reminder_user->user_type = Auth::user()->account_type;
+        $new_reminder_user->provider_id = $new_note->provider_id;
+        $new_reminder_user->facility_id = $new_note->facility_id;
+        $new_reminder_user->contract_id = $new_note->contract_id;
+        $new_reminder_user->note_id = $new_note->id;
+        $new_reminder_user->followup_date = $new_note->followup_date;
+        $new_reminder_user->worked_date = $new_note->worked_date;
+        $new_reminder_user->status = $new_note->status;
+        $new_reminder_user->is_note = 1;
+        $new_reminder_user->save();
+
+
+        if ($request->note_assign_to_name != null || $request->note_assign_to_name != "") {
+
+            $admin_user = Admin::where('name', $request->note_assign_to_name)->first();
+            $manager_user = AccountManager::where('name', $request->note_assign_to_name)->first();
+            $staff_user = BaseStaff::where('name', $request->note_assign_to_name)->first();
+
+            $new_reminder = new reminder();
+
+            if ($admin_user) {
+                $new_reminder->user_id = $admin_user->id;
+                $new_reminder->user_type = $admin_user->account_type;
+            }
+
+            if ($manager_user) {
+                $new_reminder->user_id = $manager_user->id;
+                $new_reminder->user_type = $manager_user->account_type;
+            }
+
+            if ($staff_user) {
+                $new_reminder->user_id = $staff_user->id;
+                $new_reminder->user_type = $staff_user->account_type;
+            }
+
+
+            $new_reminder->provider_id = $new_note->provider_id;
+            $new_reminder->facility_id = $new_note->facility_id;
+            $new_reminder->contract_id = $new_note->contract_id;
+            $new_reminder->note_id = $new_note->id;
+            $new_reminder->followup_date = $new_note->followup_date;
+            $new_reminder->worked_date = $new_note->worked_date;
+            $new_reminder->is_note = 1;
+            $new_reminder->save();
+
+        }
 
 
         $new_act = new provider_activity();
@@ -609,12 +841,15 @@ class BaseStaffProviderController extends Controller
         $doc_type_name = provider_document_type::where('id', $request->doc_type_id)->first();
 
 
-        $new_doc->admin_id = Auth::user()->id;
         $new_doc->provider_id = $request->provider_id;
         $new_doc->doc_type_id = isset($doc_type_name) ? $doc_type_name->id : null;
         $new_doc->doc_type = isset($doc_type_name) ? $doc_type_name->doc_type_name : null;
         $new_doc->description = $request->description;
-        $new_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
+        if ($request->exp_date != null || $request->exp_date != "") {
+            $new_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
+        } else {
+            $new_doc->exp_date = null;
+        }
         $new_doc->created_by = Auth::user()->name;
         $new_doc->save();
 
@@ -648,7 +883,11 @@ class BaseStaffProviderController extends Controller
         $update_doc->doc_type_id = isset($doc_type_name) ? $doc_type_name->id : null;
         $update_doc->doc_type = isset($doc_type_name) ? $doc_type_name->doc_type_name : null;
         $update_doc->description = $request->description;
-        $update_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
+        if ($request->exp_date != null || $request->exp_date != "") {
+            $update_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
+        } else {
+            $update_doc->exp_date = $update_doc->exp_date;
+        }
         $update_doc->created_by = Auth::user()->name;
         $update_doc->save();
 

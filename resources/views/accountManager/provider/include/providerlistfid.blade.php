@@ -78,7 +78,8 @@
                                                     @endif
                                                 </td>
 
-                                                <td><a href="{{route('admin.provider.contract',$conts->provider_id)}}">Go
+                                                <td>
+                                                    <a href="{{route('account.manager.provider.contract',$conts->provider_id)}}">Go
                                                         To
                                                         Contract</a>
                                                 </td>
@@ -88,7 +89,7 @@
                                     </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <a href="{{route('admin.provider.contract',$data->id)}}"
+                                    <a href="{{route('account.manager.provider.contract',$data->id)}}"
                                        class="btn btn-primary border-white">Add Contract</a>
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                 </div>
@@ -114,8 +115,6 @@
                                 provider
                                 info</a>
                             <a class="dropdown-item text-danger" href="#">Make inactive</a>
-                            <a class="dropdown-item text-danger" href="{{route('admin.provider.delete',$data->id)}}">Delete
-                                Provider</a>
                         </div>
                     </div>
                 </td>

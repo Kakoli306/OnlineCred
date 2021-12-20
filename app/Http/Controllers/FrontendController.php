@@ -9,7 +9,9 @@ use App\Models\provider_contract;
 use App\Models\provider_contract_note;
 use App\Models\provider_document;
 use App\Models\provider_document_type;
+use App\Models\reminder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
@@ -17,46 +19,28 @@ class FrontendController extends Controller
     {
 
 
-        $all_povider = Provider::all();
-        foreach ($all_povider as $pro) {
-            provider_contract::where('provider_id', $pro->id)->update(['facility_id' => $pro->practice_id]);
-            provider_contract_note::where('provider_id', $pro->id)->update(['facility_id' => $pro->practice_id]);
+        $all_contract = provider_contract_note::all();
+
+        foreach ($all_contract as $con) {
+
+            $sing_con = provider_contract_note::where('id', $con->id)->first();
+            if ($sing_con) {
+                $new_reminder_user = new reminder();
+                $new_reminder_user->user_id = 1;
+                $new_reminder_user->user_type = 1;
+                $new_reminder_user->provider_id = $sing_con->provider_id;
+                $new_reminder_user->facility_id = $sing_con->facility_id;
+                $new_reminder_user->contract_id = $con->contract_id;
+                $new_reminder_user->note_id = $con->id;
+                $new_reminder_user->followup_date = $sing_con->contract_followup_date;
+                $new_reminder_user->worked_date = $sing_con->worked_date;
+                $new_reminder_user->status = $sing_con->status;
+                $new_reminder_user->is_note = 1;
+                $new_reminder_user->save();
+            }
+
+
         }
-
-        return 'done';
-        exit();
-//        $all_docs = provider_document::all();
-//
-//        foreach ($all_docs as $docs){
-
-//            $check_doc_type = provider_document_type::where('admin_id',$docs->admin_id)
-//                ->where('doc_type_name',$docs->doc_type)->first();
-//            if (!$check_doc_type) {
-//                $new_doc_type = new provider_document_type();
-//                $new_doc_type->admin_id = $check_doc_type->admin_id;
-//                $new_doc_type->doc_type_name = $check_doc_type->doc_type;
-//                $new_doc_type->save();
-//            }
-
-
-//        }
-
-
-//        $all_docs = provider_document::all();
-//        foreach ($all_docs as $docs){
-//            $doc_check = provider_document::where('id',$docs->id)->first();
-//            $type_check = provider_document_type::where('doc_type_name',$doc_check->doc_type)->first();
-//
-//            if ($type_check) {
-//                if ($doc_check->doc_type == $type_check->doc_type_name) {
-//                    $doc_check->doc_type_id = $type_check->id;
-//                    $doc_check->save();
-//                }
-//            }
-//
-//
-//
-//        }
 
 
         return 'done';

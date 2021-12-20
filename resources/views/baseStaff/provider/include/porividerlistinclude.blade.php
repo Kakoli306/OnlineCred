@@ -90,7 +90,7 @@
                                     </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <a href="{{route('admin.provider.contract',$provider->id)}}"
+                                    <a href="{{route('account.manager.provider.contract',$provider->id)}}"
                                        class="btn btn-primary border-white">Add Contract</a>
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                 </div>

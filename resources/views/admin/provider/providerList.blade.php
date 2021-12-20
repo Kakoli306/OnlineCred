@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-6">
                 <?php
-                $all_facility = \App\Models\practice::where('admin_id', Auth::user()->id)->get();
+                $all_facility = \App\Models\practice::all();
                 ?>
                 <select class="form-control form-control-sm fac_id">
                     <option value="0">----- Select Facility -----</option>

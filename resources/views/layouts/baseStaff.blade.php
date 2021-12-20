@@ -62,7 +62,18 @@
                             class="las la-chart-bar"></i><span>Report</span></a></li>
                 <li><a href="{{route('basestaff.activity')}}" class="iq-waves-effect"><i
                             class="las la-file-archive"></i><span>Account Activity</span></a></li>
-                <li><a href="{{route('basestaff.reminder')}}" class="iq-waves-effect"><i class="las la-bell"></i><span>Reminders</span></a>
+                <li><a href="{{route('basestaff.reminder')}}" class="iq-waves-effect"><i class="las la-bell"></i><span>Reminders</span>
+                        <?php
+
+                        $today_date = \Carbon\Carbon::now()->format('Y-m-d');
+                        $reminders_count = \App\Models\reminder::where('followup_date', $today_date)
+                            ->where('user_id', Auth::user()->id)
+                            ->where('user_type', Auth::user()->account_type)
+                            ->count();
+                        ?>
+                        <span
+                            class="badge badge-danger">({{$reminders_count}})</span>
+                    </a>
                 </li>
                 <li><a href="{{route('basestaff.practice.lists')}}" class="iq-waves-effect"><i
                             class="ri-settings-line"></i><span>Update Practice</span></a>
@@ -98,17 +109,7 @@
                                 <a href="#" class="iq-waves-effect" id="btnFullscreen"><i
                                         class="ri-fullscreen-line"></i></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i
-                                        class="las la-plus"></i></a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#" data-toggle="modal"
-                                       data-target="#createPractice">
-                                        <i class="ri-user-line mr-2"></i>Create Practice
-                                    </a>
 
-                                </div>
-                            </li>
                         </ul>
                     </div>
                     <ul class="navbar-list">

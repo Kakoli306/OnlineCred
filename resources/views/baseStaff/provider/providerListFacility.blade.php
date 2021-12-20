@@ -40,59 +40,7 @@
                 <h2 class="common-title mb-0">All Provider</h2>
             </div>
             <div>
-                <a class="btn btn-sm btn-primary" href="#createProviderNew" data-toggle="modal">
-                    <i class="ri-add-line"></i>Add Provider
-                </a>
-            </div>
-        </div>
 
-
-        <div class="modal fade" id="createProviderNew" data-backdrop="static">
-            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4>Create Provider</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <form action="{{route('account.manager.provider.save')}}" method="post">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6 mb-2">
-                                    <label>First Name<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm first_name" name="first_name"
-                                           required>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <label>Last Name<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm last_name" name="last_name"
-                                           required>
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <label>Contact Info<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm phone_num" name="phone"
-                                           data-mask="(000)-000-0000" pattern=".{14,}" required="" autocomplete="off"
-                                           maxlength="14">
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <label>DOB<span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control form-control-sm dob" name="dob" required>
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <label>Gender<span class="text-danger">*</span></label>
-                                    <select class="form-control form-control-sm gender" name="gender">
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="createProvider">Create & Continue</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
 

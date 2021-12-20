@@ -170,7 +170,13 @@
                                 <td>
                                     {{$doc->created_by}}
                                 </td>
-                                <td>{{\Carbon\Carbon::parse($doc->exp_date)->format('m/d/Y')}}</td>
+                                <td>
+                                    @if ($doc->exp_date != null || $doc->exp_date != "")
+                                        {{\Carbon\Carbon::parse($doc->exp_date)->format('m/d/Y')}}
+                                    @endif
+
+
+                                </td>
 
                                 <td>
                                     <a href="{{asset($doc->file)}}" target="_blank" title="View">

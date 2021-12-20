@@ -1,5 +1,5 @@
-@extends('layouts.admin')
-@section('admin')
+@extends('layouts.accountManager')
+@section('accountmanager')
     <div class="iq-card">
         <div class="iq-card-body">
 
@@ -55,9 +55,4 @@
             </div>
         </div>
     </div>
-@endsection
-@section('js')
-    <script>
-
-    </script>
 @endsection

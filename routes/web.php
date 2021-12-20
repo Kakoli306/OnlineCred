@@ -255,6 +255,18 @@ Route::group(['middleware' => ['auth:accountmanager']], function () {
         Route::post('/report-contract-by-provider', [Controllers\Accountmanager\AccManReportController::class, 'report_contract_by_provider'])->name('account.manager.report.contract.by.provider');
         Route::post('/report-save', [Controllers\Accountmanager\AccManReportController::class, 'report_save'])->name('account.manager.report.save');
 
+        //acount acctivity
+        Route::get('/account-activity', [Controllers\Accountmanager\AccManAccActivityController::class, 'account_activity'])->name('account.manager.account.activity');
+
+        //reminder
+        Route::get('/reminder', [Controllers\Accountmanager\AccManReminderController::class, 'reminders'])->name('account.manager.reminder');
+
+
+        //practice
+        Route::post('/practice-save', [Controllers\Accountmanager\AccManPracticeController::class, 'practice_save'])->name('account.manager.practice.save');
+        Route::get('/practice-list', [Controllers\Accountmanager\AccManPracticeController::class, 'practice_list'])->name('account.manager.practice.lists');
+        Route::post('/practice-list-update', [Controllers\Accountmanager\AccManPracticeController::class, 'practice_list_update'])->name('account.manager.practice.update');
+
 
     });
 });

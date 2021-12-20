@@ -19,8 +19,8 @@ class AdminReportController extends Controller
 {
     public function report()
     {
-        $all_status = contract_status::where('admin_id', Auth::user()->id)->get();
-        $all_reports = report::where('admin_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(10);
+        $all_status = contract_status::all();
+        $all_reports = report::orderBy('id', 'desc')->paginate(10);
         return view('admin.report.report', compact('all_reports', 'all_status'));
     }
 
@@ -53,7 +53,9 @@ class AdminReportController extends Controller
 
     public function report_save(Request $request)
     {
-        $last_report = report::where('admin_id', Auth::user()->id)->first();
+        $last_report = report::where('user_id', Auth::user()->id)
+            ->where('user_type', Auth::user()->account_type)
+            ->first();
         if ($last_report) {
             $last_report_id = $last_report->id;
         } else {
@@ -62,7 +64,8 @@ class AdminReportController extends Controller
 
 
         $new_report = new report();
-        $new_report->admin_id = Auth::user()->id;
+        $new_report->user_id = Auth::user()->id;
+        $new_report->user_type = Auth::user()->account_type;
         $new_report->report_name = "REPORT - " . $last_report_id;
         $new_report->facility_id = $request->facility_id;
         $new_report->provider_id = $request->provider_id;

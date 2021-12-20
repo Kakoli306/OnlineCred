@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccessEmail;
+use App\Models\AccountManager;
+use App\Models\Admin;
 use App\Models\assign_practice;
+use App\Models\BaseStaff;
 use App\Models\contact_name;
 use App\Models\contact_type;
 use App\Models\contract_status;
@@ -21,6 +24,7 @@ use App\Models\Provider_info;
 use App\Models\provider_online_access;
 use App\Models\provider_phone;
 use App\Models\provider_portal;
+use App\Models\reminder;
 use App\Models\speciality;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -73,8 +77,7 @@ class AdminProviderController extends Controller
 
     public function provider_list()
     {
-        $providers = Provider::where('admin_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(20);
-        return view('admin.provider.providerList', compact('providers'));
+        return view('admin.provider.providerList');
     }
 
 
@@ -102,21 +105,19 @@ class AdminProviderController extends Controller
 
     public function provider_list_get_fid(Request $request)
     {
-        $admin_id = Auth::user()->id;
         $fid = $request->f_id;
         $search_name = $request->search_name;
-//        $query = "SELECT * FROM providers WHERE admin_id=$admin_id AND practice_id=$fid";
-        $query = "SELECT * FROM providers WHERE admin_id=$admin_id ";
+        $query = "SELECT * FROM providers ";
 
         if (isset($fid) && $fid != 0) {
-            $query .= "AND practice_id=$fid ";
+            $query .= "WHERE practice_id=$fid ";
         }
 
         if (isset($search_name)) {
             $query .= "AND full_name LIKE '%$search_name%' ";
         }
 
-        
+
         $query_exe = DB::select($query);
 
         $providers = $this->arrayPaginator($query_exe, $request);
@@ -131,14 +132,12 @@ class AdminProviderController extends Controller
 
     public function provider_list_get_fid_next(Request $request)
     {
-        $admin_id = Auth::user()->id;
         $fid = $request->f_id;
         $search_name = $request->search_name;
-//        $query = "SELECT * FROM providers WHERE admin_id=$admin_id AND practice_id=$fid";
-        $query = "SELECT * FROM providers WHERE admin_id=$admin_id ";
+        $query = "SELECT * FROM providers ";
 
         if (isset($fid) && $fid != 0) {
-            $query .= "AND practice_id=$fid ";
+            $query .= "WHERE practice_id=$fid ";
         }
 
         if (isset($search_name)) {
@@ -199,7 +198,7 @@ class AdminProviderController extends Controller
         $provider_phones = provider_phone::where('provider_id', $id)->get();
         $provider_emails = provider_email::where('provider_id', $id)->get();
         $provider_address = provider_address::where('provider_id', $id)->get();
-        $spec = speciality::where('admin_id', Auth::user()->id)->get();
+        $spec = speciality::all();
         return view('admin.provider.providerInfo', compact('provider', 'provider_info', 'provider_phones', 'provider_emails', 'provider_address', 'spec'));
     }
 
@@ -249,7 +248,8 @@ class AdminProviderController extends Controller
         $provider_info->upin = $request->upin;
         $provider_info->dea = $request->dea;
         $provider_info->state_licence = $request->state_licence;
-        $provider_info->provider_degree = $request->provider_degree;
+        $provider_info->medicare_ptan = $request->medicare_ptan;
+        $provider_info->medicare_id = $request->medicare_id;
         $provider_info->fax_number = $request->fax_number;
         $provider_info->signature_date = $request->signature_date;
         $provider_info->start_date = $request->start_date;
@@ -363,10 +363,10 @@ class AdminProviderController extends Controller
     public function provider_contract($id)
     {
         $provider = Provider::where('id', $id)->first();
-        $provider_contracts = provider_contract::where('admin_id', Auth::user()->id)->where('provider_id', $id)->orderBy('id', 'desc')->paginate(20);
-        $contact_name = contact_name::where('admin_id', Auth::user()->id)->get();
-        $contact_type = contact_type::where('admin_id', Auth::user()->id)->get();
-        $contact_status = contract_status::where('admin_id', Auth::user()->id)->get();
+        $provider_contracts = provider_contract::where('provider_id', $id)->orderBy('id', 'desc')->paginate(20);
+        $contact_name = contact_name::all();
+        $contact_type = contact_type::all();
+        $contact_status = contract_status::all();
         return view('admin.provider.providerContract', compact('provider', 'provider_contracts', 'contact_name', 'contact_type', 'contact_status'));
     }
 
@@ -469,9 +469,97 @@ class AdminProviderController extends Controller
         } else {
             $new_contract->end_date = null;
         }
+        if ($request->contract_followup_date != null || $request->contract_followup_date != "") {
+            $new_contract->contract_followup_date = Carbon::parse($request->contract_followup_date)->format('Y-m-d');
+        } else {
+            $new_contract->contract_followup_date = null;
+        }
         $new_contract->contract_type = $request->contract_type;
+
+        if ($request->assign_to_name != null || $request->assign_to_name != "") {
+            $admin_user = Admin::where('name', $request->assign_to_name)->first();
+            $manager_user = AccountManager::where('name', $request->assign_to_name)->first();
+            $staff_user = BaseStaff::where('name', $request->assign_to_name)->first();
+
+            if ($admin_user) {
+                $new_contract->assign_to_name = $admin_user->name;
+                $new_contract->assign_to_id = $admin_user->id;
+                $new_contract->assign_to_type = $admin_user->account_type;
+            }
+
+            if ($manager_user) {
+                $new_contract->assign_to_name = $manager_user->name;
+                $new_contract->assign_to_id = $manager_user->id;
+                $new_contract->assign_to_type = $manager_user->account_type;
+            }
+
+            if ($staff_user) {
+                $new_contract->assign_to_name = $staff_user->name;
+                $new_contract->assign_to_id = $staff_user->id;
+                $new_contract->assign_to_type = $staff_user->account_type;
+            }
+            $new_contract->is_assign = 1;
+        } else {
+            $new_contract->assign_to_name = 0;
+            $new_contract->assign_to_id = 0;
+            $new_contract->assign_to_type = 0;
+            $new_contract->is_assign = 0;
+        }
+
+
         $new_contract->status = $request->con_status;
         $new_contract->save();
+
+
+        $new_reminder_user = new reminder();
+        $new_reminder_user->user_id = Auth::user()->id;
+        $new_reminder_user->user_type = Auth::user()->account_type;
+        $new_reminder_user->provider_id = $new_contract->provider_id;
+        $new_reminder_user->facility_id = $new_contract->facility_id;
+        $new_reminder_user->contract_id = $new_contract->id;
+        $new_reminder_user->note_id = 0;
+        $new_reminder_user->followup_date = $new_contract->contract_followup_date;
+        $new_reminder_user->worked_date = null;
+        $new_reminder_user->status = $new_contract->status;
+        $new_reminder_user->is_note = 0;
+        $new_reminder_user->save();
+
+
+        if ($request->assign_to_name != null || $request->assign_to_name != "") {
+
+            $admin_user = Admin::where('name', $request->assign_to_name)->first();
+            $manager_user = AccountManager::where('name', $request->assign_to_name)->first();
+            $staff_user = BaseStaff::where('name', $request->assign_to_name)->first();
+
+            $new_reminder = new reminder();
+
+            if ($admin_user) {
+                $new_reminder->user_id = $admin_user->id;
+                $new_reminder->user_type = $admin_user->account_type;
+            }
+
+            if ($manager_user) {
+                $new_reminder->user_id = $manager_user->id;
+                $new_reminder->user_type = $manager_user->account_type;
+            }
+
+            if ($staff_user) {
+                $new_reminder->user_id = $staff_user->id;
+                $new_reminder->user_type = $staff_user->account_type;
+            }
+
+
+            $new_reminder->provider_id = $new_contract->provider_id;
+            $new_reminder->facility_id = $new_contract->facility_id;
+            $new_reminder->contract_id = $new_contract->id;
+            $new_reminder->note_id = 0;
+            $new_reminder->followup_date = $new_contract->contract_followup_date;
+            $new_reminder->worked_date = null;
+            $new_reminder->status = $new_contract->status;
+            $new_reminder->is_note = 0;
+            $new_reminder->save();
+
+        }
 
 
         $new_act = new provider_activity();
@@ -480,6 +568,7 @@ class AdminProviderController extends Controller
         $new_act->created_by = Auth::user()->name;
         $new_act->message = "Provider Contract Created";
         $new_act->save();
+
 
         return back()->with('success', 'Provider Contract Successfully Created');
     }
@@ -579,9 +668,85 @@ class AdminProviderController extends Controller
             $update_contract->end_date = $update_contract->onset_date;
         }
 
+        if ($request->contract_followup_date != null || $request->contract_followup_date != "") {
+            $update_contract->contract_followup_date = Carbon::parse($request->contract_followup_date)->format('Y-m-d');
+        } else {
+            $update_contract->contract_followup_date = $update_contract->contract_followup_date;
+        }
+
         $update_contract->contract_type = $request->contract_type;
         $update_contract->status = $request->con_status;
+
+        if ($request->assign_to_name != null || $request->assign_to_name != "") {
+            $admin_user = Admin::where('name', $request->assign_to_name)->first();
+            $manager_user = AccountManager::where('name', $request->assign_to_name)->first();
+            $staff_user = BaseStaff::where('name', $request->assign_to_name)->first();
+
+            if ($admin_user) {
+                $update_contract->assign_to_name = $admin_user->name;
+                $update_contract->assign_to_id = $admin_user->id;
+                $update_contract->assign_to_type = $admin_user->account_type;
+            }
+
+            if ($manager_user) {
+                $update_contract->assign_to_name = $manager_user->name;
+                $update_contract->assign_to_id = $manager_user->id;
+                $update_contract->assign_to_type = $manager_user->account_type;
+            }
+
+            if ($staff_user) {
+                $update_contract->assign_to_name = $staff_user->name;
+                $update_contract->assign_to_id = $staff_user->id;
+                $update_contract->assign_to_type = $staff_user->account_type;
+            }
+
+            $update_contract->is_assign = 1;
+
+        } else {
+            $update_contract->assign_to_name = 0;
+            $update_contract->assign_to_id = 0;
+            $update_contract->assign_to_type = 0;
+            $update_contract->is_assign = 0;
+        }
+
+
         $update_contract->save();
+
+
+        if ($request->assign_to_name != null || $request->assign_to_name != "") {
+
+            $new_reminder = new reminder();
+
+            $admin_user = Admin::where('name', $request->assign_to_name)->first();
+            $manager_user = AccountManager::where('name', $request->assign_to_name)->first();
+            $staff_user = BaseStaff::where('name', $request->assign_to_name)->first();
+
+            if ($admin_user) {
+                $new_reminder->user_id = $admin_user->id;
+                $new_reminder->user_type = $admin_user->account_type;
+            }
+
+            if ($manager_user) {
+                $new_reminder->user_id = $manager_user->id;
+                $new_reminder->user_type = $manager_user->account_type;
+            }
+
+            if ($staff_user) {
+                $new_reminder->user_id = $staff_user->id;
+                $new_reminder->user_type = $staff_user->account_type;
+            }
+
+            $new_reminder->provider_id = $update_contract->provider_id;
+            $new_reminder->facility_id = $update_contract->facility_id;
+            $new_reminder->contract_id = $update_contract->id;
+            $new_reminder->note_id = 0;
+            $new_reminder->followup_date = $update_contract->contract_followup_date;
+            $new_reminder->worked_date = null;
+            $new_reminder->is_note = 0;
+            $new_reminder->save();
+
+        }
+
 
         $new_act = new provider_activity();
         $new_act->admin_id = Auth::user()->id;
@@ -621,16 +786,79 @@ class AdminProviderController extends Controller
         $con_details = provider_contract::where('id', $request->note_contract_id)->first();
 
         $new_note = new provider_contract_note();
-        $new_note->admin_id = Auth::user()->id;
+        $new_note->user_id = Auth::user()->id;
+        $new_note->user_type = Auth::user()->account_type;
         $new_note->provider_id = $request->note_provider_id;
         $new_note->facility_id = $con_details->facility_id;
         $new_note->contract_id = $request->note_contract_id;
         $new_note->contract_name = $con_details->contract_name;
         $new_note->status = $request->note_status;
-        $new_note->worked_date = $request->worked_date;
-        $new_note->followup_date = $request->followup_date;
+
+        if ($request->note_worked_date != null || $request->note_worked_date != "") {
+            $new_note->worked_date = $request->note_worked_date;
+        } else {
+            $new_note->worked_date = null;
+        }
+
+        if ($request->note_followup_date != null || $request->note_followup_date != "") {
+            $new_note->followup_date = $request->note_followup_date;
+        } else {
+            $new_note->followup_date = null;
+        }
+
         $new_note->note = $request->note;
         $new_note->save();
+
+
+        $new_reminder_user = new reminder();
+        $new_reminder_user->user_id = Auth::user()->id;
+        $new_reminder_user->user_type = Auth::user()->account_type;
+        $new_reminder_user->provider_id = $new_note->provider_id;
+        $new_reminder_user->facility_id = $new_note->facility_id;
+        $new_reminder_user->contract_id = $new_note->contract_id;
+        $new_reminder_user->note_id = $new_note->id;
+        $new_reminder_user->followup_date = $new_note->followup_date;
+        $new_reminder_user->worked_date = $new_note->worked_date;
+        $new_reminder_user->status = $new_note->status;
+        $new_reminder_user->is_note = 1;
+        $new_reminder_user->save();
+
+
+        if ($request->note_assign_to_name != null || $request->note_assign_to_name != "") {
+
+            $admin_user = Admin::where('name', $request->note_assign_to_name)->first();
+            $manager_user = AccountManager::where('name', $request->note_assign_to_name)->first();
+            $staff_user = BaseStaff::where('name', $request->note_assign_to_name)->first();
+
+            $new_reminder = new reminder();
+
+            if ($admin_user) {
+                $new_reminder->user_id = $admin_user->id;
+                $new_reminder->user_type = $admin_user->account_type;
+            }
+
+            if ($manager_user) {
+                $new_reminder->user_id = $manager_user->id;
+                $new_reminder->user_type = $manager_user->account_type;
+            }
+
+            if ($staff_user) {
+                $new_reminder->user_id = $staff_user->id;
+                $new_reminder->user_type = $staff_user->account_type;
+            }
+
+
+            $new_reminder->provider_id = $new_note->provider_id;
+            $new_reminder->facility_id = $new_note->facility_id;
+            $new_reminder->contract_id = $new_note->contract_id;
+            $new_reminder->note_id = $new_note->id;
+            $new_reminder->followup_date = $new_note->followup_date;
+            $new_reminder->worked_date = $new_note->worked_date;
+            $new_reminder->status = $new_note->status;
+            $new_reminder->is_note = 1;
+            $new_reminder->save();
+
+        }
 
 
         $new_act = new provider_activity();
@@ -645,7 +873,7 @@ class AdminProviderController extends Controller
 
     public function provider_contract_note_get(Request $request)
     {
-        $note = provider_contract_note::where('admin_id', Auth::user()->id)->where('contract_id', $request->id)->get();
+        $note = provider_contract_note::where('contract_id', $request->id)->get();
         return response()->json($note, 200);
     }
 
@@ -653,8 +881,8 @@ class AdminProviderController extends Controller
     public function provider_document($id)
     {
         $provider = Provider::where('id', $id)->first();
-        $provider_documents = provider_document::where('admin_id', Auth::user()->id)->where('provider_id', $id)->orderBy('id', 'desc')->paginate(20);
-        $providers_doc_type = provider_document_type::where('admin_id', Auth::user()->id)->get();
+        $provider_documents = provider_document::where('provider_id', $id)->orderBy('id', 'desc')->paginate(20);
+        $providers_doc_type = provider_document_type::all();
         return view('admin.provider.providerDocument', compact('provider', 'provider_documents', 'providers_doc_type'));
     }
 
@@ -681,7 +909,12 @@ class AdminProviderController extends Controller
         $new_doc->doc_type_id = isset($doc_type_name) ? $doc_type_name->id : null;
         $new_doc->doc_type = isset($doc_type_name) ? $doc_type_name->doc_type_name : null;
         $new_doc->description = $request->description;
-        $new_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
+        if ($request->exp_date != null || $request->exp_date != "") {
+            $new_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
+        } else {
+            $new_doc->exp_date = null;
+        }
+
         $new_doc->created_by = Auth::user()->name;
         $new_doc->save();
 
@@ -715,7 +948,12 @@ class AdminProviderController extends Controller
         $update_doc->doc_type_id = isset($doc_type_name) ? $doc_type_name->id : null;
         $update_doc->doc_type = isset($doc_type_name) ? $doc_type_name->doc_type_name : null;
         $update_doc->description = $request->description;
-        $update_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
+        if ($request->exp_date != null || $request->exp_date != "") {
+            $update_doc->exp_date = Carbon::parse($request->exp_date)->format('Y-m-d');
+        } else {
+            $update_doc->exp_date = $update_doc->exp_date;
+        }
+
         $update_doc->created_by = Auth::user()->name;
         $update_doc->save();
 
@@ -851,7 +1089,7 @@ class AdminProviderController extends Controller
     public function provider_online_access($id)
     {
         $provider = Provider::where('id', $id)->first();
-        $provider_online_access = provider_online_access::where('admin_id', Auth::user()->id)->where('provider_id', $id)->paginate(20);
+        $provider_online_access = provider_online_access::where('provider_id', $id)->paginate(20);
         return view('admin.provider.providerOnlineAccess', compact('provider', 'provider_online_access'));
     }
 
@@ -879,9 +1117,7 @@ class AdminProviderController extends Controller
 
     public function provider_online_access_update(Request $request)
     {
-        $update_access = provider_online_access::where('id', $request->access_edit_id)
-            ->where('admin_id', Auth::user()->id)
-            ->first();
+        $update_access = provider_online_access::where('id', $request->access_edit_id)->first();
         $update_access->name = $request->name;
         $update_access->url = $request->url;
         $update_access->user_name = $request->user_name;
@@ -903,9 +1139,7 @@ class AdminProviderController extends Controller
 
     public function provider_online_access_delete($id)
     {
-        $online_access_delete = provider_online_access::where('id', $id)
-            ->where('admin_id', Auth::user()->id)
-            ->first();
+        $online_access_delete = provider_online_access::where('id', $id)->first();
 
         if ($online_access_delete) {
             $online_access_delete->delete();

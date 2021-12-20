@@ -178,7 +178,7 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control form-control-sm" name="ssn"
-                                   value="{{$provider_info->ssn}}" data-mask="000-000-000" pattern=".{11}" required>
+                                   value="{{$provider_info->ssn}}" data-mask="000-00-0000" pattern=".{11}" required>
                         </div>
                         <!-- NPI -->
                         <div class="col-md-4 col-xl-2 mb-2">
@@ -214,9 +214,14 @@
                         </div>
                         <!-- Number of Patient -->
                         <div class="col-md-3 col-xl-3 mb-2">
-                            <label class="font-weight-bold">Provider's Degree</label>
-                            <input type="text" class="form-control form-control-sm" name="provider_degree"
-                                   value="{{$provider_info->provider_degree}}">
+                            <label class="font-weight-bold">Medicare PTAN</label>
+                            <input type="text" class="form-control form-control-sm" name="medicare_ptan"
+                                   value="{{$provider_info->medicare_ptan}}">
+                        </div>
+                        <div class="col-md-3 col-xl-3 mb-2">
+                            <label class="font-weight-bold">Medicaid ID</label>
+                            <input type="text" class="form-control form-control-sm" name="medicare_id"
+                                   value="{{$provider_info->medicare_id}}">
                         </div>
                         <div class="col-md-3 col-xl-3 mb-2">
                             <label class="font-weight-bold">Fax Number </label>

@@ -28,7 +28,17 @@ class BaseStaffReportController extends Controller
 
     public function report_get_all_facility(Request $request)
     {
-        $all_fac = practice::select('id', 'business_name')->get();
+
+        $ass_prc = assign_practice_user::where('user_id', Auth::user()->id)
+            ->where('user_type', Auth::user()->account_type)->get();
+
+
+        $array = [];
+        foreach ($ass_prc as $asspc) {
+            array_push($array, $asspc->practice_id);
+        }
+
+        $all_fac = practice::select('id', 'business_name')->whereIn('id', $array)->get();
         return response()->json($all_fac, 200);
     }
 

@@ -17,7 +17,8 @@ class AdminPracticeController extends Controller
     public function practice_save(Request $request)
     {
         $new_prac = new practice();
-        $new_prac->admin_id = Auth::user()->id;
+        $new_prac->user_id = Auth::user()->id;
+        $new_prac->user_type = Auth::user()->account_type;
         $new_prac->business_name = $request->business_name;
         $new_prac->dba_name = $request->dba_name;
         $new_prac->tax_id = $request->tax_id;
@@ -35,7 +36,7 @@ class AdminPracticeController extends Controller
 
     public function practice_lists()
     {
-        $all_practices = practice::where('admin_id', Auth::user()->id)->paginate(20);
+        $all_practices = practice::paginate(20);
         return view('admin.facility.facilityLists', compact('all_practices'));
     }
 
@@ -59,7 +60,6 @@ class AdminPracticeController extends Controller
         }
 
 
-        $update_prac->admin_id = Auth::user()->id;
         $update_prac->business_name = $request->business_name;
         $update_prac->dba_name = $request->dba_name;
         $update_prac->tax_id = $request->tax_id;

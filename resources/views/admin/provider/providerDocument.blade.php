@@ -190,12 +190,21 @@
                                 <td>{{$doc->doc_type}}</td>
                                 <td>{{$doc->description}}</td>
                                 <td>
-                                    {{\Carbon\Carbon::parse($doc->created_at)->format('m/d/Y')}}
+                                    @if ($doc->created_at != null || $doc->created_at != "")
+                                        {{\Carbon\Carbon::parse($doc->created_at)->format('m/d/Y')}}
+                                    @endif
+
                                 </td>
                                 <td>
                                     {{$doc->created_by}}
                                 </td>
-                                <td>{{\Carbon\Carbon::parse($doc->exp_date)->format('m/d/Y')}}</td>
+                                <td>
+                                    @if ($doc->exp_date != null || $doc->exp_date != '')
+                                        {{\Carbon\Carbon::parse($doc->exp_date)->format('m/d/Y')}}
+                                    @endif
+
+
+                                </td>
 
                                 <td>
                                     <a href="{{asset($doc->file)}}" target="_blank" title="View">

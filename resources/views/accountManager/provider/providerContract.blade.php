@@ -130,6 +130,12 @@
                                             <input type="date" name="end_date" class="form-control form-control-sm">
                                         </div>
                                         <div class="col-md-6 mb-2">
+                                            <label>Followup Date<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="date" name="contract_followup_date"
+                                                   class="form-control form-control-sm">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
                                             <label>Contract Type<span class="text-danger">*</span></label>
                                             <select name="contract_type" class="form-control form-control-sm">
                                                 <option value=""></option>
@@ -145,6 +151,46 @@
                                                 @foreach($contact_status as $status)
                                                     <option
                                                         value="{{$status->id}}">{{$status->contact_status}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label>Assigned to<span class="text-danger">*</span></label>
+                                            <?php
+                                            $assign_users = \App\Models\assign_practice_user::where('practice_id', $provider->practice_id)->get();
+                                            $admins_user = \App\Models\Admin::select('id', 'name')->orderBy('id', 'desc')->get();
+
+                                            ?>
+                                            <select class="form-control form-control-sm" name="assign_to_name">
+                                                <option value=""></option>
+                                                @foreach($admins_user as $admin)
+                                                    <option
+                                                        value="{{$admin->name}}">{{$admin->name}}</option>
+                                                @endforeach
+                                                @foreach($assign_users as $assuser)
+                                                    @if ($assuser->user_type == 2)
+                                                        <?php
+                                                        $manager_user = \App\Models\AccountManager::select('id', 'name')->where('id', $assuser->user_id)
+                                                            ->where('account_type', $assuser->user_type)
+                                                            ->first();
+                                                        ?>
+                                                        @if ($manager_user)
+                                                            <option
+                                                                value="{{$manager_user->name}}">{{$manager_user->name}}</option>
+                                                        @endif
+                                                    @elseif($assuser->user_type == 3)
+                                                        <?php
+                                                        $staff_user = \App\Models\BaseStaff::select('id', 'name')->where('id', $assuser->user_id)
+                                                            ->where('account_type', $assuser->user_type)
+                                                            ->first();
+                                                        ?>
+                                                        @if ($staff_user)
+                                                            <option
+                                                                value="{{$staff_user->name}}">{{$staff_user->name}}</option>
+                                                        @endif
+                                                    @else
+                                                    @endif
+
                                                 @endforeach
                                             </select>
                                         </div>
@@ -178,11 +224,7 @@
                                             <input type="file" name="contact_document_five"
                                                    class="form-control form-control-sm">
                                         </div>
-                                        <div class="col-md-6 mb-2">
-                                            <label>Document 7<span class="text-danger"></span></label>
-                                            <input type="file" name="contact_document_six"
-                                                   class="form-control form-control-sm">
-                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -276,6 +318,50 @@
                                                                         <option
                                                                             value="{{$constatus->id}}">{{$constatus->contact_status}}
                                                                         </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-4 mb-2">
+                                                                <label>Assigned to <span
+                                                                        class="text-danger"></span></label>
+                                                            </div>
+                                                            <div class="col-md-8 mb-2">
+                                                                <?php
+                                                                $assign_users = \App\Models\assign_practice_user::where('practice_id', $provider->practice_id)->get();
+                                                                $admins_user = \App\Models\Admin::select('id', 'name')->where('id', '!=', Auth::user()->id)->get();
+
+                                                                ?>
+                                                                <select class="form-control form-control-sm"
+                                                                        name="note_assign_to_name">
+                                                                    <option value=""></option>
+                                                                    @foreach($admins_user as $admin)
+                                                                        <option
+                                                                            value="{{$admin->name}}">{{$admin->name}}</option>
+                                                                    @endforeach
+                                                                    @foreach($assign_users as $assuser)
+                                                                        @if ($assuser->user_type == 2)
+                                                                            <?php
+                                                                            $manager_user = \App\Models\AccountManager::select('id', 'name')->where('id', $assuser->user_id)
+                                                                                ->where('account_type', $assuser->user_type)
+                                                                                ->first();
+                                                                            ?>
+                                                                            @if ($manager_user)
+                                                                                <option
+                                                                                    value="{{$manager_user->name}}">{{$manager_user->name}}</option>
+                                                                            @endif
+                                                                        @elseif($assuser->user_type == 3)
+                                                                            <?php
+                                                                            $staff_user = \App\Models\BaseStaff::select('id', 'name')->where('id', $assuser->user_id)
+                                                                                ->where('account_type', $assuser->user_type)
+                                                                                ->first();
+                                                                            ?>
+                                                                            @if ($staff_user)
+                                                                                <option
+                                                                                    value="{{$staff_user->name}}">{{$staff_user->name}}</option>
+                                                                            @endif
+                                                                        @else
+                                                                        @endif
+
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -386,6 +472,13 @@
                                                                        name="end_date" value="{{$pcontract->end_date}}">
                                                             </div>
                                                             <div class="col-md-6 mb-2">
+                                                                <label>Followup Date<span
+                                                                        class="text-danger">*</span></label>
+                                                                <input type="date" name="contract_followup_date"
+                                                                       value="{{$pcontract->contract_followup_date}}"
+                                                                       class="form-control form-control-sm">
+                                                            </div>
+                                                            <div class="col-md-6 mb-2">
                                                                 <label>Contract Type<span
                                                                         class="text-danger">*</span></label>
                                                                 <select class="form-control form-control-sm"
@@ -405,6 +498,48 @@
                                                                     @foreach($contact_status as $status)
                                                                         <option
                                                                             value="{{$status->id}}" {{$pcontract->status == $status->id ? 'selected':'' }}>{{$status->contact_status}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-6 mb-2">
+                                                                <label>Assigned to<span
+                                                                        class="text-danger">*</span></label>
+                                                                <?php
+                                                                $assign_users = \App\Models\assign_practice_user::where('practice_id', $provider->practice_id)->get();
+                                                                $admins_user = \App\Models\Admin::select('id', 'name')->where('id', '!=', Auth::user()->id)->get();
+
+                                                                ?>
+                                                                <select class="form-control form-control-sm"
+                                                                        name="assign_to_name">
+                                                                    <option value=""></option>
+                                                                    @foreach($admins_user as $admin)
+                                                                        <option
+                                                                            value="{{$admin->name}}" {{$admin->name == $pcontract->assign_to_name ? 'selected' : ''}}>{{$admin->name}}</option>
+                                                                    @endforeach
+                                                                    @foreach($assign_users as $assuser)
+                                                                        @if ($assuser->user_type == 2)
+                                                                            <?php
+                                                                            $manager_user = \App\Models\AccountManager::select('id', 'name')->where('id', $assuser->user_id)
+                                                                                ->where('account_type', $assuser->user_type)
+                                                                                ->first();
+                                                                            ?>
+                                                                            @if ($manager_user)
+                                                                                <option
+                                                                                    value="{{$manager_user->name}}" {{$manager_user->name == $pcontract->assign_to_name ? 'selected' : ''}}>{{$manager_user->name}}</option>
+                                                                            @endif
+                                                                        @elseif($assuser->user_type == 3)
+                                                                            <?php
+                                                                            $staff_user = \App\Models\BaseStaff::select('id', 'name')->where('id', $assuser->user_id)
+                                                                                ->where('account_type', $assuser->user_type)
+                                                                                ->first();
+                                                                            ?>
+                                                                            @if ($staff_user)
+                                                                                <option
+                                                                                    value="{{$staff_user->name}}" {{$staff_user->name == $pcontract->assign_to_name ? 'selected' : ''}}>{{$staff_user->name}}</option>
+                                                                            @endif
+                                                                        @else
+                                                                        @endif
+
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -476,17 +611,7 @@
                                                                 <input type="file" name="contact_document_five"
                                                                        class="form-control form-control-sm">
                                                             </div>
-                                                            <div class="col-md-6 mb-2">
-                                                                <label>Document 7<span
-                                                                        class="text-danger"></span>
-                                                                    @if (!empty($pcontract->contact_document_six) && file_exists($pcontract->contact_document_six))
-                                                                        <a href="{{asset($pcontract->contact_document_six)}}"
-                                                                           style="margin-left: 5px;">Download File</a>
-                                                                    @endif
-                                                                </label>
-                                                                <input type="file" name="contact_document_six"
-                                                                       class="form-control form-control-sm">
-                                                            </div>
+
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
