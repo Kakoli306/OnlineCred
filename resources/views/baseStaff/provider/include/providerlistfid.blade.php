@@ -65,8 +65,18 @@
                                             ?>
                                             <tr>
                                                 <td>{{$conts->contract_name}}</td>
-                                                <td>{{\Carbon\Carbon::parse($conts->onset_date)->format('m/d/Y')}}</td>
-                                                <td>{{\Carbon\Carbon::parse($conts->end_date)->format('m/d/Y')}}</td>
+                                                <td>
+                                                    @if ($conts->onset_date != null || $conts->onset_date != "")
+                                                        {{\Carbon\Carbon::parse($conts->onset_date)->format('m/d/Y')}}
+                                                    @endif
+
+                                                </td>
+                                                <td>
+                                                    @if ($conts->end_date != null || $conts->end_date != "")
+                                                        {{\Carbon\Carbon::parse($conts->end_date)->format('m/d/Y')}}
+                                                    @endif
+
+                                                </td>
                                                 <td>
                                                     @if ($con_type)
                                                         {{$con_type->contact_type}}

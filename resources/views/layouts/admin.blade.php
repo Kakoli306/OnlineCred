@@ -78,19 +78,20 @@
                             class="las la-chart-bar"></i><span>Report</span></a></li>
                 <li><a href="{{route('admin.account.activity')}}" class="iq-waves-effect"><i
                             class="las la-file-archive"></i><span>Account Activity</span></a></li>
-                <li><a href="{{route('admin.reminder')}}" class="iq-waves-effect"><i class="las la-bell"></i><span>Reminders</span>
+                <li><a href="{{route('admin.reminder')}}" class="iq-waves-effect"><i
+                            class="las la-bell"></i><span>Reminders</span>
                         <?php
 
                         $today_date = \Carbon\Carbon::now()->format('Y-m-d');
                         $reminders_count = \App\Models\reminder::where('followup_date', $today_date)
-                            ->where('user_id', Auth::user()->id)
-                            ->where('user_type', Auth::user()->account_type)
                             ->count();
                         ?>
                         <span
                             class="badge badge-danger">({{$reminders_count}})</span>
                     </a>
                 </li>
+
+
                 <li><a href="{{route('admin.practice.lists')}}" class="iq-waves-effect"><i class="ri-settings-line"></i><span>Update Practice</span></a>
                 </li>
                 <li>

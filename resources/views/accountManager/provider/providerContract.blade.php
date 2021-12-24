@@ -163,10 +163,10 @@
                                             ?>
                                             <select class="form-control form-control-sm" name="assign_to_name">
                                                 <option value=""></option>
-                                                @foreach($admins_user as $admin)
-                                                    <option
-                                                        value="{{$admin->name}}">{{$admin->name}}</option>
-                                                @endforeach
+                                                {{--                                                @foreach($admins_user as $admin)--}}
+                                                {{--                                                    <option--}}
+                                                {{--                                                        value="{{$admin->name}}">{{$admin->name}}</option>--}}
+                                                {{--                                                @endforeach--}}
                                                 @foreach($assign_users as $assuser)
                                                     @if ($assuser->user_type == 2)
                                                         <?php
@@ -334,10 +334,10 @@
                                                                 <select class="form-control form-control-sm"
                                                                         name="note_assign_to_name">
                                                                     <option value=""></option>
-                                                                    @foreach($admins_user as $admin)
-                                                                        <option
-                                                                            value="{{$admin->name}}">{{$admin->name}}</option>
-                                                                    @endforeach
+                                                                    {{--                                                                    @foreach($admins_user as $admin)--}}
+                                                                    {{--                                                                        <option--}}
+                                                                    {{--                                                                            value="{{$admin->name}}">{{$admin->name}}</option>--}}
+                                                                    {{--                                                                    @endforeach--}}
                                                                     @foreach($assign_users as $assuser)
                                                                         @if ($assuser->user_type == 2)
                                                                             <?php
@@ -512,10 +512,10 @@
                                                                 <select class="form-control form-control-sm"
                                                                         name="assign_to_name">
                                                                     <option value=""></option>
-                                                                    @foreach($admins_user as $admin)
-                                                                        <option
-                                                                            value="{{$admin->name}}" {{$admin->name == $pcontract->assign_to_name ? 'selected' : ''}}>{{$admin->name}}</option>
-                                                                    @endforeach
+                                                                    {{--                                                                    @foreach($admins_user as $admin)--}}
+                                                                    {{--                                                                        <option--}}
+                                                                    {{--                                                                            value="{{$admin->name}}" {{$admin->name == $pcontract->assign_to_name ? 'selected' : ''}}>{{$admin->name}}</option>--}}
+                                                                    {{--                                                                    @endforeach--}}
                                                                     @foreach($assign_users as $assuser)
                                                                         @if ($assuser->user_type == 2)
                                                                             <?php

@@ -62,13 +62,22 @@
                             class="las la-chart-bar"></i><span>Report</span></a></li>
                 <li><a href="{{route('basestaff.activity')}}" class="iq-waves-effect"><i
                             class="las la-file-archive"></i><span>Account Activity</span></a></li>
-                <li><a href="{{route('basestaff.reminder')}}" class="iq-waves-effect"><i class="las la-bell"></i><span>Reminders</span>
+                <li><a href="{{route('basestaff.reminder')}}" class="iq-waves-effect"><i
+                            class="las la-bell"></i><span>Reminders</span>
                         <?php
 
                         $today_date = \Carbon\Carbon::now()->format('Y-m-d');
+                        $userid = Auth::user()->id;
+                        $userType = Auth::user()->account_type;
                         $reminders_count = \App\Models\reminder::where('followup_date', $today_date)
-                            ->where('user_id', Auth::user()->id)
-                            ->where('user_type', Auth::user()->account_type)
+                            ->where(function ($query) use ($userid, $userType) {
+                                $query->where('user_id', $userid);
+                                $query->where('user_type', $userType);
+                            })
+                            ->orWhere(function ($query) use ($userid, $userType) {
+                                $query->where('assignedto_user_id', $userid);
+                                $query->where('assignedto_user_type', $userType);
+                            })
                             ->count();
                         ?>
                         <span

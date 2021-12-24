@@ -460,44 +460,34 @@ class BaseStaffProviderController extends Controller
         $new_reminder_user->worked_date = null;
         $new_reminder_user->status = $new_contract->status;
         $new_reminder_user->is_note = 0;
-        $new_reminder_user->save();
-
-
         if ($request->assign_to_name != null || $request->assign_to_name != "") {
 
             $admin_user = Admin::where('name', $request->assign_to_name)->first();
             $manager_user = AccountManager::where('name', $request->assign_to_name)->first();
             $staff_user = BaseStaff::where('name', $request->assign_to_name)->first();
 
-            $new_reminder = new reminder();
-
+            $new_reminder_user->is_assign = 1;
             if ($admin_user) {
-                $new_reminder->user_id = $admin_user->id;
-                $new_reminder->user_type = $admin_user->account_type;
+                $new_reminder_user->assignedto_user_id = $admin_user->id;
+                $new_reminder_user->assignedto_user_type = $admin_user->account_type;
             }
 
             if ($manager_user) {
-                $new_reminder->user_id = $manager_user->id;
-                $new_reminder->user_type = $manager_user->account_type;
+                $new_reminder_user->assignedto_user_id = $manager_user->id;
+                $new_reminder_user->assignedto_user_type = $manager_user->account_type;
             }
 
             if ($staff_user) {
-                $new_reminder->user_id = $staff_user->id;
-                $new_reminder->user_type = $staff_user->account_type;
+                $new_reminder_user->assignedto_user_id = $staff_user->id;
+                $new_reminder_user->assignedto_user_type = $staff_user->account_type;
             }
 
-
-            $new_reminder->provider_id = $new_contract->provider_id;
-            $new_reminder->facility_id = $new_contract->facility_id;
-            $new_reminder->contract_id = $new_contract->id;
-            $new_reminder->note_id = 0;
-            $new_reminder->followup_date = $new_contract->contract_followup_date;
-            $new_reminder->worked_date = null;
-            $new_reminder->status = $new_contract->status;
-            $new_reminder->is_note = 0;
-            $new_reminder->save();
-
+        } else {
+            $new_reminder_user->is_assign = 0;
+            $new_reminder_user->assignedto_user_id = 0;
+            $new_reminder_user->assignedto_user_type = 0;
         }
+        $new_reminder_user->save();
 
 
         $new_act = new provider_activity();
@@ -652,38 +642,47 @@ class BaseStaffProviderController extends Controller
         $update_contract->save();
 
 
-        if ($request->assign_to_name != null || $request->assign_to_name != "") {
+        $update_reminder_user = reminder::where('user_id', Auth::user()->id)
+            ->where('user_type', Auth::user()->account_type)
+            ->where('contract_id', $update_contract->id)
+            ->first();
 
-            $new_reminder = new reminder();
+        if ($update_reminder_user) {
+            $update_reminder_user->provider_id = $update_contract->provider_id;
+            $update_reminder_user->facility_id = $update_contract->facility_id;
+            $update_reminder_user->contract_id = $update_contract->id;
+            $update_reminder_user->note_id = 0;
+            $update_reminder_user->followup_date = $update_contract->contract_followup_date;
+            $update_reminder_user->worked_date = null;
+            $update_reminder_user->status = $update_contract->status;
+            $update_reminder_user->is_note = 0;
+            if ($request->assign_to_name != null || $request->assign_to_name != "") {
 
-            $admin_user = Admin::where('name', $request->assign_to_name)->first();
-            $manager_user = AccountManager::where('name', $request->assign_to_name)->first();
-            $staff_user = BaseStaff::where('name', $request->assign_to_name)->first();
 
-            if ($admin_user) {
-                $new_reminder->user_id = $admin_user->id;
-                $new_reminder->user_type = $admin_user->account_type;
+                $admin_user = Admin::where('name', $request->assign_to_name)->first();
+                $manager_user = AccountManager::where('name', $request->assign_to_name)->first();
+                $staff_user = BaseStaff::where('name', $request->assign_to_name)->first();
+                $update_reminder_user->is_assign = 1;
+                if ($admin_user) {
+                    $update_reminder_user->assignedto_user_id = $admin_user->id;
+                    $update_reminder_user->assignedto_user_type = $admin_user->account_type;
+                }
+
+                if ($manager_user) {
+                    $update_reminder_user->assignedto_user_id = $manager_user->id;
+                    $update_reminder_user->assignedto_user_type = $manager_user->account_type;
+                }
+
+                if ($staff_user) {
+                    $update_reminder_user->assignedto_user_id = $staff_user->id;
+                    $update_reminder_user->assignedto_user_type = $staff_user->account_type;
+                }
+            } else {
+                $update_reminder_user->is_assign = 0;
+                $update_reminder_user->assignedto_user_id = 0;
+                $update_reminder_user->assignedto_user_type = 0;
             }
-
-            if ($manager_user) {
-                $new_reminder->user_id = $manager_user->id;
-                $new_reminder->user_type = $manager_user->account_type;
-            }
-
-            if ($staff_user) {
-                $new_reminder->user_id = $staff_user->id;
-                $new_reminder->user_type = $staff_user->account_type;
-            }
-
-            $new_reminder->provider_id = $update_contract->provider_id;
-            $new_reminder->facility_id = $update_contract->facility_id;
-            $new_reminder->contract_id = $update_contract->id;
-            $new_reminder->note_id = 0;
-            $new_reminder->followup_date = $update_contract->contract_followup_date;
-            $new_reminder->worked_date = null;
-            $new_reminder->is_note = 0;
-            $new_reminder->save();
-
+            $update_reminder_user->save();
         }
 
 
@@ -758,43 +757,34 @@ class BaseStaffProviderController extends Controller
         $new_reminder_user->worked_date = $new_note->worked_date;
         $new_reminder_user->status = $new_note->status;
         $new_reminder_user->is_note = 1;
-        $new_reminder_user->save();
-
-
         if ($request->note_assign_to_name != null || $request->note_assign_to_name != "") {
 
             $admin_user = Admin::where('name', $request->note_assign_to_name)->first();
             $manager_user = AccountManager::where('name', $request->note_assign_to_name)->first();
             $staff_user = BaseStaff::where('name', $request->note_assign_to_name)->first();
 
-            $new_reminder = new reminder();
-
+            $new_reminder_user->is_assign = 1;
             if ($admin_user) {
-                $new_reminder->user_id = $admin_user->id;
-                $new_reminder->user_type = $admin_user->account_type;
+                $new_reminder_user->assignedto_user_id = $admin_user->id;
+                $new_reminder_user->assignedto_user_type = $admin_user->account_type;
             }
 
             if ($manager_user) {
-                $new_reminder->user_id = $manager_user->id;
-                $new_reminder->user_type = $manager_user->account_type;
+                $new_reminder_user->assignedto_user_id = $manager_user->id;
+                $new_reminder_user->assignedto_user_type = $manager_user->account_type;
             }
 
             if ($staff_user) {
-                $new_reminder->user_id = $staff_user->id;
-                $new_reminder->user_type = $staff_user->account_type;
+                $new_reminder_user->assignedto_user_id = $staff_user->id;
+                $new_reminder_user->assignedto_user_type = $staff_user->account_type;
             }
 
-
-            $new_reminder->provider_id = $new_note->provider_id;
-            $new_reminder->facility_id = $new_note->facility_id;
-            $new_reminder->contract_id = $new_note->contract_id;
-            $new_reminder->note_id = $new_note->id;
-            $new_reminder->followup_date = $new_note->followup_date;
-            $new_reminder->worked_date = $new_note->worked_date;
-            $new_reminder->is_note = 1;
-            $new_reminder->save();
-
+        } else {
+            $new_reminder_user->is_assign = 0;
+            $new_reminder_user->assignedto_user_id = 0;
+            $new_reminder_user->assignedto_user_type = 0;
         }
+        $new_reminder_user->save();
 
 
         $new_act = new provider_activity();

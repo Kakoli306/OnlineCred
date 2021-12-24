@@ -22,6 +22,14 @@ class AdminUserController extends Controller
         if ($type == 0) {
             return back()->with('alert', 'Please select account type');
         } elseif ($type == 1) {
+
+
+            $check_user = Admin::where('name', $request->name)->first();
+            if ($check_user) {
+                return back()->with('alert', 'Username already exists. Please Choose another');
+                exit();
+            }
+
             $new_admin = new Admin();
             $new_admin->name = $request->name;
             $new_admin->actual_name = $request->actual_name;
@@ -33,6 +41,11 @@ class AdminUserController extends Controller
             $new_admin->save();
             return back()->with('success', 'Admin User Successfully Created');
         } elseif ($type == 2) {
+            $check_user = AccountManager::where('name', $request->name)->first();
+            if ($check_user) {
+                return back()->with('alert', 'Username already exists. Please Choose another');
+                exit();
+            }
             $new_admin = new AccountManager();
             $new_admin->name = $request->name;
             $new_admin->actual_name = $request->actual_name;
@@ -44,6 +57,11 @@ class AdminUserController extends Controller
             $new_admin->save();
             return back()->with('success', 'Account Manager User Successfully Created');
         } elseif ($type == 3) {
+            $check_user = BaseStaff::where('name', $request->name)->first();
+            if ($check_user) {
+                return back()->with('alert', 'Username already exists. Please Choose another');
+                exit();
+            }
             $new_admin = new BaseStaff();
             $new_admin->name = $request->name;
             $new_admin->actual_name = $request->actual_name;

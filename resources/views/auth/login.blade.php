@@ -31,14 +31,16 @@
         <div class="row no-gutters">
             <div class="col-lg-5 col-md-6">
                 <div class="sign-in-from">
-                    <img src="{{asset('assets/dashboard/')}}/images/logo.png" class="img-fluid d-block mx-auto mb-3" alt="">
-                    <form class="needs-validation mt-3" action="{{route('user.login.submit')}}" method="post" novalidate>
+                    <img src="{{asset('assets/dashboard/')}}/images/logo.png" class="img-fluid d-block mx-auto mb-3"
+                         alt="">
+                    <form class="needs-validation mt-3" action="{{route('user.login.submit')}}" method="post"
+                          novalidate>
                         @csrf
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email Address</label>
-                            <input type="email" name="email" class="form-control mb-0" id="exampleInputEmail1"
-                                   placeholder="Enter Email" required>
-                            <div class="invalid-feedback">Enter Email</div>
+                            <label for="exampleInputEmail1">Username</label>
+                            <input type="text" name="email" class="form-control mb-0" id="exampleInputEmail1"
+                                   placeholder="Enter username" required>
+                            <div class="invalid-feedback">Enter username</div>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>

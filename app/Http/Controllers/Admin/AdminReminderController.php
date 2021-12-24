@@ -16,8 +16,6 @@ class AdminReminderController extends Controller
     {
         $today_date = Carbon::now()->format('Y-m-d');
         $reminders = reminder::where('followup_date', $today_date)
-            ->where('user_id', Auth::user()->id)
-            ->where('user_type', Auth::user()->account_type)
             ->orderBy('id', 'desc')->paginate(20);
         return view('admin.reminder.reminderList', compact('reminders'));
     }

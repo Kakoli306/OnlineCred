@@ -13,6 +13,7 @@
                         <th>Contract Name</th>
                         <th>Followup Date</th>
                         <th>Status</th>
+                        <th>CreatedBy/AssignedTo</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -31,7 +32,8 @@
                             </td>
                             <td>
                                 @if ($prov_name)
-                                    <a href="{{route('admin.provider.contract',$notes->provider_id)}}" target="_blank">
+                                    <a href="{{route('account.manager.provider.contract',$notes->provider_id)}}"
+                                       target="_blank">
                                         {{$prov_name->full_name}}
                                     </a>
                                 @endif
@@ -45,6 +47,56 @@
                             <td>
                                 @if ($status_name)
                                     {{$status_name->contact_status}}
+                                @endif
+                            </td>
+                            <td>
+                                <?php
+                                $create_by_admin = \App\Models\Admin::where('id', $notes->user_id)->where('account_type', $notes->user_type)->first();
+                                $create_by_manager = \App\Models\AccountManager::where('id', $notes->user_id)->where('account_type', $notes->user_type)->first();
+                                $create_by_staff = \App\Models\BaseStaff::where('id', $notes->user_id)->where('account_type', $notes->user_type)->first();
+
+                                ?>
+                                @if ($create_by_admin)
+                                    CreatedBy- {{$create_by_admin->name}}
+                                @elseif($create_by_manager)
+                                    CreatedBy- {{$create_by_manager->name}}
+                                @elseif($create_by_staff)
+                                    CreatedBy- {{$create_by_staff->name}}
+                                @else
+                                @endif
+
+                                @if ($notes->is_assign == 1)
+                                    <?php
+                                    if ($notes->assignedto_user_type == 1) {
+                                        $assignto_admin = \App\Models\Admin::where('id', $notes->assignedto_user_id)->first();
+                                    } elseif ($notes->assignedto_user_type == 2) {
+                                        $assignto_manager = \App\Models\AccountManager::where('id', $notes->assignedto_user_id)->first();
+                                    } elseif ($notes->assignedto_user_type == 3) {
+                                        $assignto_staff = \App\Models\BaseStaff::where('id', $notes->assignedto_user_id)->first();
+                                    }
+
+                                    ?>
+
+                                    @if ($notes->assignedto_user_type == 1)
+                                        @if ($assignto_admin)
+                                            / AssignedTo-{{$assignto_admin->name}}
+                                        @endif
+
+                                    @elseif($notes->assignedto_user_type == 2)
+                                        @if ($assignto_manager)
+                                            / AssignedTo-{{$assignto_manager->name}}
+                                        @endif
+
+                                    @elseif($notes->assignedto_user_type == 3)
+                                        @if ($assignto_staff)
+                                            / AssignedTo-{{$assignto_staff->name}}
+                                        @endif
+
+                                    @else
+
+                                    @endif
+
+
                                 @endif
                             </td>
                         </tr>

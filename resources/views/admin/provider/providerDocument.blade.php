@@ -207,9 +207,16 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{asset($doc->file)}}" target="_blank" title="View">
-                                        <i class="ri-eye-line text-success mr-2"></i>
-                                    </a>
+                                    @if (!empty($doc->file) && file_exists($doc->file))
+                                        <a href="{{asset($doc->file)}}" target="_blank" title="View">
+                                            <i class="ri-eye-line text-success mr-2"></i>
+                                        </a>
+                                    @else
+                                        <a href="#" title="View">
+                                            <i class="ri-eye-line text-success mr-2"></i>
+                                        </a>
+                                    @endif
+
                                     <a href="#editdoc{{$doc->id}}" title="Edit" data-toggle="modal">
                                         <i class="ri-pencil-line mr-2"></i>
                                     </a>
