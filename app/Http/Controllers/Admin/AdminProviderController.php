@@ -647,6 +647,8 @@ class AdminProviderController extends Controller
         $update_contract->contract_name = $request->contract_name;
         if ($request->onset_date != null || $request->onset_date != "") {
             $update_contract->onset_date = Carbon::parse($request->onset_date)->format('Y-m-d');
+        } elseif ($request->onset_date == null || $request->onset_date == "") {
+            $update_contract->onset_date = null;
         } else {
             $update_contract->onset_date = $update_contract->onset_date;
         }
@@ -654,8 +656,10 @@ class AdminProviderController extends Controller
 
         if ($request->end_date != null || $request->end_date != "") {
             $update_contract->end_date = Carbon::parse($request->end_date)->format('Y-m-d');
+        } elseif ($request->end_date == null || $request->end_date == "") {
+            $update_contract->end_date = null;
         } else {
-            $update_contract->end_date = $update_contract->onset_date;
+            $update_contract->end_date = $update_contract->end_date;
         }
 
         if ($request->contract_followup_date != null || $request->contract_followup_date != "") {
