@@ -226,7 +226,6 @@
             //search provider
             $('.search_provider').keyup(function () {
                 getProFacId()
-
             });
 
 

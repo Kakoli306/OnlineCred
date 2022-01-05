@@ -154,6 +154,13 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
         //reminder
         Route::get('/reminder', [Controllers\Admin\AdminReminderController::class, 'reminder'])->name('admin.reminder');
+        Route::post('/reminder-get-all-prc', [Controllers\Admin\AdminReminderController::class, 'reminder_get_all_prc'])->name('admin.reminder.get.all.prc');
+        Route::post('/reminder-get-prov-by-prc', [Controllers\Admin\AdminReminderController::class, 'reminder_al_prov_by_prc'])->name('admin.reminder.prov.by.fac');
+        Route::post('/reminder-get-con-by-prov', [Controllers\Admin\AdminReminderController::class, 'reminder_con_by_prov'])->name('admin.reminder.con.by.prov');
+
+        //reminder by filter
+        Route::post('/reminder-show-all-record', [Controllers\Admin\AdminReminderController::class, 'reminder_show_all_record'])->name('admin.reminder.show.all');
+        Route::get('/reminder-show-all-record', [Controllers\Admin\AdminReminderController::class, 'reminder_show_all_record_get']);
 
         //setting contact name
         Route::get('/setting-contact-name', [Controllers\Admin\AdminSettingController::class, 'contact_name'])->name('admin.setting.contact.name');
@@ -260,6 +267,14 @@ Route::group(['middleware' => ['auth:accountmanager']], function () {
 
         //reminder
         Route::get('/reminder', [Controllers\Accountmanager\AccManReminderController::class, 'reminders'])->name('account.manager.reminder');
+        Route::post('/reminder-get-all-prc', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_get_all_prc'])->name('account.manager.reminder.get.all.prc');
+        Route::post('/reminder-get-prov-by-prc', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_al_prov_by_prc'])->name('account.manager.reminder.prov.by.fac');
+        Route::post('/reminder-get-con-by-prov', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_con_by_prov'])->name('account.manager.reminder.con.by.prov');
+
+
+        //reminder by filter
+        Route::post('/reminder-show-all-record', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_show_all_record'])->name('account.manager.reminder.show.all');
+        Route::get('/reminder-show-all-record', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_show_all_record_get']);
 
 
         //practice
@@ -337,6 +352,14 @@ Route::group(['middleware' => ['auth:basestaff']], function () {
 
         //reminder
         Route::get('/reminders', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminders'])->name('basestaff.reminder');
+        Route::post('/reminder-get-all-prc', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_get_all_prc'])->name('basestaff.reminder.get.all.prc');
+        Route::post('/reminder-get-prov-by-prc', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_al_prov_by_prc'])->name('basestaff.reminder.prov.by.fac');
+        Route::post('/reminder-get-con-by-prov', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_con_by_prov'])->name('basestaff.reminder.con.by.prov');
+
+
+        //reminder by filter
+        Route::post('/reminder-show-all-record', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_show_all_record'])->name('basestaff.reminder.show.all');
+        Route::get('/reminder-show-all-record', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_show_all_record_get']);
 
         //practice
         Route::get('/practice-list', [Controllers\BaseStaff\BaseStaffPracticeController::class, 'practice_list'])->name('basestaff.practice.lists');

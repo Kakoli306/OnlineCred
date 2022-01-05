@@ -236,6 +236,7 @@ class AdminSettingController extends Controller
         $new_status = new contract_status();
         $new_status->admin_id = Auth::user()->id;
         $new_status->contact_status = $request->contact_status;
+        $new_status->is_show_reminder = $request->is_show_reminder;
         $new_status->save();
         return back()->with('success', 'Contract Status Successfully Created');
     }
@@ -244,8 +245,7 @@ class AdminSettingController extends Controller
     {
         $update_status = contract_status::where('id', $request->contact_status_edit)->first();
 
-        $check_prov_con = provider_contract_note::where('admin_id', Auth::user()->id)
-            ->where('status', $update_status->contact_status)
+        $check_prov_con = provider_contract_note::where('status', $update_status->contact_status)
             ->get();
 
         foreach ($check_prov_con as $con) {
@@ -256,6 +256,7 @@ class AdminSettingController extends Controller
 
 
         $update_status->contact_status = $request->contact_status;
+        $update_status->is_show_reminder = $request->is_show_reminder;
         $update_status->save();
         return back()->with('success', 'Contract Status Successfully Updated');
     }

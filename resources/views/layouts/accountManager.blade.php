@@ -69,15 +69,20 @@
                         $today_date = \Carbon\Carbon::now()->format('Y-m-d');
                         $userid = Auth::user()->id;
                         $userType = Auth::user()->account_type;
-                        $reminders_count = \App\Models\reminder::where('followup_date', $today_date)
-                            ->where(function ($query) use ($userid, $userType) {
-                                $query->where('user_id', $userid);
-                                $query->where('user_type', $userType);
-                            })
-                            ->orWhere(function ($query) use ($userid, $userType) {
-                                $query->where('assignedto_user_id', $userid);
-                                $query->where('assignedto_user_type', $userType);
-                            })
+
+
+                        $assign_prc = \App\Models\assign_practice_user::where('user_id', Auth::user()->id)
+                            ->where('user_type', Auth::user()->account_type)->get();
+
+                        $fac_id = [];
+                        foreach ($assign_prc as $ass_prc) {
+                            array_push($fac_id, $ass_prc->practice_id);
+                        }
+                        $reminders_count = \App\Models\reminder::where('followup_date', "<=", $today_date)
+                            ->whereIn('facility_id', $fac_id)
+                            ->where('assignedto_user_id', $userid)
+                            ->where('assignedto_user_type', $userType)
+                            ->where('is_show', 1)
                             ->count();
                         ?>
                         <span

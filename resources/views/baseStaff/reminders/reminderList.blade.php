@@ -4,107 +4,48 @@
         <div class="iq-card-body">
 
             <h2 class="common-title">Reminder</h2>
-            <div class="table-responsive">
-                <table class="table table-sm table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Facility Name</th>
-                        <th>Provider Name</th>
-                        <th>Contract Name</th>
-                        <th>Followup Date</th>
-                        <th>Status</th>
-                        <th>CreatedBy/AssignedTo</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($reminders as $notes)
-                        <?php
-                        $fac_name = \App\Models\practice::select('id', 'business_name')->where('id', $notes->facility_id)->first();
-                        $prov_name = \App\Models\Provider::select('id', 'full_name')->where('id', $notes->provider_id)->first();
-                        $con_name = \App\Models\provider_contract::select('id', 'contract_name')->where('id', $notes->contract_id)->first();
-                        $status_name = \App\Models\contract_status::where('id', $notes->status)->first();
-                        ?>
-                        <tr>
-                            <td>
-                                @if ($fac_name)
-                                    {{$fac_name->business_name}}
-                                @endif
-                            </td>
-                            <td>
-                                @if ($prov_name)
-                                    <a href="{{route('basestaff.provider.contract',$notes->provider_id)}}"
-                                       target="_blank">
-                                        {{$prov_name->full_name}}
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($con_name)
-                                    {{$con_name->contract_name}}
-                                @endif
-                            </td>
-                            <td>{{\Carbon\Carbon::parse($notes->followup_date)->format('m/d/Y')}}</td>
-                            <td>
-                                @if ($status_name)
-                                    {{$status_name->contact_status}}
-                                @endif
-                            </td>
-                            <td>
-                                <?php
-                                $create_by_admin = \App\Models\Admin::where('id', $notes->user_id)->where('account_type', $notes->user_type)->first();
-                                $create_by_manager = \App\Models\AccountManager::where('id', $notes->user_id)->where('account_type', $notes->user_type)->first();
-                                $create_by_staff = \App\Models\BaseStaff::where('id', $notes->user_id)->where('account_type', $notes->user_type)->first();
 
-                                ?>
-                                @if ($create_by_admin)
-                                    CreatedBy- {{$create_by_admin->name}}
-                                @elseif($create_by_manager)
-                                    CreatedBy- {{$create_by_manager->name}}
-                                @elseif($create_by_staff)
-                                    CreatedBy- {{$create_by_staff->name}}
-                                @else
-                                @endif
+            <div class="d-flex mb-3">
+                <div class="mr-2">
+                    <label>Facility Name</label>
+                    <select class="form-control form-control-sm all_prc_data">
 
-                                @if ($notes->is_assign == 1)
-                                    <?php
-                                    if ($notes->assignedto_user_type == 1) {
-                                        $assignto_admin = \App\Models\Admin::where('id', $notes->assignedto_user_id)->first();
-                                    } elseif ($notes->assignedto_user_type == 2) {
-                                        $assignto_manager = \App\Models\AccountManager::where('id', $notes->assignedto_user_id)->first();
-                                    } elseif ($notes->assignedto_user_type == 3) {
-                                        $assignto_staff = \App\Models\BaseStaff::where('id', $notes->assignedto_user_id)->first();
-                                    }
+                    </select>
+                </div>
+                <div class="mr-2">
+                    <label>Provider Name</label>
+                    <select class="form-control form-control-sm all_prov_name">
 
-                                    ?>
+                    </select>
+                </div>
+                <div class="mr-2">
+                    <label>Contract Name</label>
+                    <select class="form-control form-control-sm all_con_data">
 
-                                    @if ($notes->assignedto_user_type == 1)
-                                        @if ($assignto_admin)
-                                            / AssignedTo-{{$assignto_admin->name}}
-                                        @endif
+                    </select>
+                </div>
+                <div class="mr-2">
+                    <label>Followup Date</label>
+                    <input type="date" class="form-control form-control-sm fowllowup_filter">
+                </div>
+                <div class="mr-2">
+                    <label>Status</label>
+                    <select class="form-control form-control-sm status_filter">
+                        <option value=""></option>
+                        @foreach($status as $sta)
+                            <option value="{{$sta->id}}">{{$sta->contact_status}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="align-self-end">
+                    <button type="button" class="btn btn-sm btn-primary" id="goBtn">Go</button>
+                </div>
+            </div>
 
-                                    @elseif($notes->assignedto_user_type == 2)
-                                        @if ($assignto_manager)
-                                            / AssignedTo-{{$assignto_manager->name}}
-                                        @endif
+            <div class="table-responsive reminderTable">
 
-                                    @elseif($notes->assignedto_user_type == 3)
-                                        @if ($assignto_staff)
-                                            / AssignedTo-{{$assignto_staff->name}}
-                                        @endif
-
-                                    @else
-
-                                    @endif
-
-
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-                {{$reminders->links()}}
             </div>
         </div>
     </div>
 @endsection
+@include('baseStaff.reminders.include.reminderIncjs')

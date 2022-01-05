@@ -164,10 +164,10 @@
                                             ?>
                                             <select class="form-control form-control-sm" name="assign_to_name">
                                                 <option value=""></option>
-                                                {{--                                                @foreach($admins_user as $admin)--}}
-                                                {{--                                                    <option--}}
-                                                {{--                                                        value="{{$admin->name}}">{{$admin->name}}</option>--}}
-                                                {{--                                                @endforeach--}}
+                                                @foreach($admins_user as $admin)
+                                                    <option
+                                                        value="{{$admin->name}}">{{$admin->name}}</option>
+                                                @endforeach
                                                 @foreach($assign_users as $assuser)
                                                     @if ($assuser->user_type == 2)
                                                         <?php
@@ -246,6 +246,7 @@
                             <th>End Date</th>
                             <th>Contract Type</th>
                             <th>Actions</th>
+                            <th>Assigned To</th>
                             <th>Status</th>
                         </tr>
                         </thead>
@@ -303,6 +304,11 @@
                                                     <button type="button" class="close" data-dismiss="modal">&times;
                                                     </button>
                                                 </div>
+                                                <?php
+                                                $exits_note = \App\Models\provider_contract_note::where('contract_id', $pcontract->id)
+                                                    ->orderBy('id', 'desc')
+                                                    ->first();
+                                                ?>
                                                 <form action="{{route('basestaff.provider.contract.add.note')}}"
                                                       method="post">
                                                     @csrf
@@ -317,7 +323,7 @@
                                                                     <option value=""></option>
                                                                     @foreach($contact_status as $constatus)
                                                                         <option
-                                                                            value="{{$constatus->id}}">{{$constatus->contact_status}}
+                                                                            value="{{$constatus->id}}" {{$pcontract->status == $constatus->id ? 'selected' :''}}>{{$constatus->contact_status}}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
@@ -335,11 +341,19 @@
                                                                 <select class="form-control form-control-sm"
                                                                         name="note_assign_to_name">
                                                                     <option value=""></option>
-                                                                    {{--                                                                    @foreach($admins_user as $admin)--}}
-                                                                    {{--                                                                        <option--}}
-                                                                    {{--                                                                            value="{{$admin->name}}">{{$admin->name}}</option>--}}
-                                                                    {{--                                                                    @endforeach--}}
+
+                                                                    @foreach($admins_user as $admin)
+                                                                        <option
+                                                                            value="{{$admin->name}}" {{$pcontract->assign_to_id == $admin->id ? 'selected' :''}}>{{$admin->name}}</option>
+                                                                    @endforeach
                                                                     @foreach($assign_users as $assuser)
+                                                                        @if ($assuser->user_type == 1)
+                                                                            @foreach($admins_user as $admin)
+                                                                                <option
+                                                                                    value="{{$admin->name}}" {{$pcontract->assign_to_id == $admin->id ? 'selected' :''}}>{{$admin->name}}</option>
+                                                                            @endforeach
+
+                                                                        @endif
                                                                         @if ($assuser->user_type == 2)
                                                                             <?php
                                                                             $manager_user = \App\Models\AccountManager::select('id', 'name')->where('id', $assuser->user_id)
@@ -348,7 +362,7 @@
                                                                             ?>
                                                                             @if ($manager_user)
                                                                                 <option
-                                                                                    value="{{$manager_user->name}}">{{$manager_user->name}}</option>
+                                                                                    value="{{$manager_user->name}}" {{$pcontract->assign_to_type == 2 && $pcontract->assign_to_id == $manager_user->id ? 'selected' :''}}>{{$manager_user->name}}</option>
                                                                             @endif
                                                                         @elseif($assuser->user_type == 3)
                                                                             <?php
@@ -358,7 +372,7 @@
                                                                             ?>
                                                                             @if ($staff_user)
                                                                                 <option
-                                                                                    value="{{$staff_user->name}}">{{$staff_user->name}}</option>
+                                                                                    value="{{$staff_user->name}}" {{$pcontract->assign_to_type == 3 && $pcontract->assign_to_id == $staff_user->id ? 'selected' :''}}>{{$staff_user->name}}</option>
                                                                             @endif
                                                                         @else
                                                                         @endif
@@ -372,7 +386,9 @@
                                                             </div>
                                                             <div class="col-md-8 mb-2">
                                                                 <input type="date" class="form-control form-control-sm"
-                                                                       name="worked_date" required>
+                                                                       name="worked_date"
+                                                                       value="{{isset($exits_note) ? $exits_note->worked_date : ''}}"
+                                                                       required>
                                                                 <input type="hidden"
                                                                        class="form-control form-control-sm"
                                                                        name="note_provider_id"
@@ -387,14 +403,23 @@
                                                             </div>
                                                             <div class="col-md-8 mb-2">
                                                                 <input type="date" class="form-control form-control-sm"
-                                                                       name="followup_date" required>
+                                                                       name="followup_date"
+                                                                       value="{{$pcontract->contract_followup_date}}"
+                                                                       required>
                                                             </div>
                                                             <div class="col-md-4 mb-2">
                                                                 <label>Notes <span class="text-danger">*</span></label>
                                                             </div>
                                                             <div class="col-md-8 mb-2">
-                                                                <textarea class="form-control form-control-sm"
-                                                                          name="note" required></textarea>
+                                                                @if ($exits_note)
+                                                                    <textarea class="form-control form-control-sm"
+                                                                              name="note"
+                                                                              required>{{isset($exits_note) ? $exits_note->note : ''}}</textarea>
+                                                                @else
+                                                                    <textarea class="form-control form-control-sm"
+                                                                              name="note"
+                                                                              required></textarea>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -513,10 +538,10 @@
                                                                 <select class="form-control form-control-sm"
                                                                         name="assign_to_name">
                                                                     <option value=""></option>
-                                                                    {{--                                                                    @foreach($admins_user as $admin)--}}
-                                                                    {{--                                                                        <option--}}
-                                                                    {{--                                                                            value="{{$admin->name}}" {{$admin->name == $pcontract->assign_to_name ? 'selected' : ''}}>{{$admin->name}}</option>--}}
-                                                                    {{--                                                                    @endforeach--}}
+                                                                    @foreach($admins_user as $admin)
+                                                                        <option
+                                                                            value="{{$admin->name}}" {{$admin->name == $pcontract->assign_to_name ? 'selected' : ''}}>{{$admin->name}}</option>
+                                                                    @endforeach
                                                                     @foreach($assign_users as $assuser)
                                                                         @if ($assuser->user_type == 2)
                                                                             <?php
@@ -626,6 +651,41 @@
                                         </div>
                                     </div>
                                     <!--/ editContract  -->
+                                </td>
+                                <td>
+                                    @if ($pcontract->is_assign == 1)
+                                        <?php
+                                        if ($pcontract->assign_to_type == 1) {
+                                            $assignto_admin = \App\Models\Admin::where('id', $pcontract->assign_to_id)->first();
+                                        } elseif ($pcontract->assign_to_type == 2) {
+                                            $assignto_manager = \App\Models\AccountManager::where('id', $pcontract->assign_to_id)->first();
+                                        } elseif ($pcontract->assign_to_type == 3) {
+                                            $assignto_staff = \App\Models\BaseStaff::where('id', $pcontract->assign_to_id)->first();
+                                        }
+
+                                        ?>
+
+                                        @if ($pcontract->assign_to_type == 1)
+                                            @if ($assignto_admin)
+                                                {{$assignto_admin->name}}
+                                            @endif
+
+                                        @elseif($pcontract->assign_to_type == 2)
+                                            @if ($assignto_manager)
+                                                {{$assignto_manager->name}}
+                                            @endif
+
+                                        @elseif($pcontract->assign_to_type == 3)
+                                            @if ($assignto_staff)
+                                                {{$assignto_staff->name}}
+                                            @endif
+
+                                        @else
+
+                                        @endif
+
+
+                                    @endif
                                 </td>
                                 <td>
                                     @if ($con_status)

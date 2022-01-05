@@ -25,7 +25,7 @@
                                                     </div>
                                                     <div class="col-md-10 mb-3">
                                                         <div class="talkbubble">
-                                                            <h6 class="overflow-hidden">Albert  <small class="text-muted float-right">(${value.followup_date})</small></h6>
+                                                            <h6 class="overflow-hidden">${value.user_name}   <small class="text-muted float-right">(${value.followup_date})</small></h6>
                                                             <hr>
                                                             <p>${value.note}</p>
                                                         </div>

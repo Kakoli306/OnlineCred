@@ -83,7 +83,11 @@
                         <?php
 
                         $today_date = \Carbon\Carbon::now()->format('Y-m-d');
-                        $reminders_count = \App\Models\reminder::where('followup_date', $today_date)
+                        $userid = Auth::user()->id;
+                        $userType = Auth::user()->account_type;
+
+                        $reminders_count = \App\Models\reminder::where('followup_date', "<=", $today_date)
+                            ->where('is_show', 1)
                             ->count();
                         ?>
                         <span

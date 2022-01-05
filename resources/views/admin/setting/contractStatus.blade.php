@@ -42,13 +42,23 @@
                                     @csrf
                                     <div class="modal-body">
                                         <div class="row">
-                                            <div class="col-md-12 mb-2">
+                                            <div class="col-md-8 mb-2">
                                                 <label>Contract Status Name
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <input type="text" name="contact_status"
                                                        class="form-control form-control-sm"
                                                        required>
+                                            </div>
+                                            <div class="col-md-4 mb-2">
+                                                <label>Is Show Reminder
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <select class="form-control form-control-sm" name="is_show_reminder">
+                                                    <option value="0"></option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="2">No</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -68,6 +78,7 @@
                             <thead>
                             <tr>
                                 <th>Contract Status Name</th>
+                                <th>Show Reminder</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -75,6 +86,15 @@
                             @foreach($all_contract_status as $status)
                                 <tr>
                                     <td>{{$status->contact_status}}</td>
+                                    <td>
+                                        @if ($status->is_show_reminder == 1)
+                                            Yes
+                                        @elseif($status->is_show_reminder == 2)
+                                            No
+                                        @else
+                                            Not Set
+                                        @endif
+                                    </td>
                                     <td>
                                         <a href="#editconstatus{{$status->id}}" title="Edit" data-toggle="modal">
                                             <i class="ri-pencil-line mr-2"></i>
@@ -101,7 +121,7 @@
                                                 @csrf
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-md-12 mb-2">
+                                                        <div class="col-md-8 mb-2">
                                                             <label>Contract Status Name
                                                                 <span class="text-danger">*</span>
                                                             </label>
@@ -113,6 +133,23 @@
                                                                    value="{{$status->id}}"
                                                                    class="form-control form-control-sm"
                                                                    required>
+                                                        </div>
+                                                        <div class="col-md-4 mb-2">
+                                                            <label>Is Show Reminder
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                            <select class="form-control form-control-sm"
+                                                                    name="is_show_reminder">
+                                                                <option value="0"></option>
+                                                                <option
+                                                                    value="1" {{$status->is_show_reminder == 1 ? 'selected' : ''}}>
+                                                                    Yes
+                                                                </option>
+                                                                <option
+                                                                    value="2" {{$status->is_show_reminder == 2 ? 'selected' : ''}}>
+                                                                    No
+                                                                </option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>

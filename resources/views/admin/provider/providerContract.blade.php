@@ -152,7 +152,7 @@
                                             <label>Assigned to<span class="text-danger">*</span></label>
                                             <?php
                                             $assign_users = \App\Models\assign_practice_user::where('practice_id', $provider->practice_id)->get();
-                                            $admins_user = \App\Models\Admin::select('id', 'name')->where('id', '!=', Auth::user()->id)->get();
+                                            $admins_user = \App\Models\Admin::select('id', 'name')->get();
 
                                             ?>
                                             <select class="form-control form-control-sm" name="assign_to_name">
@@ -239,6 +239,7 @@
                             <th>End Date</th>
                             <th>Contract Type</th>
                             <th>Actions</th>
+                            <th>Assigned To</th>
                             <th>Status</th>
                         </tr>
                         </thead>
@@ -246,7 +247,7 @@
                         @foreach($provider_contracts as $pcontract)
                             <?php
                             $con_status = \App\Models\contract_status::where('id', $pcontract->status)->first();
-                            $con_name = \App\Models\contact_name::where('contact_name', $pcontract->contract_name)->where('admin_id', Auth::user()->id)->first();
+                            $con_name = \App\Models\contact_name::where('contact_name', $pcontract->contract_name)->first();
                             $type_name = \App\Models\contact_type::where('id', $pcontract->contract_type)->first();
                             ?>
                             <tr>
@@ -295,6 +296,11 @@
                                                     <button type="button" class="close" data-dismiss="modal">&times;
                                                     </button>
                                                 </div>
+                                                <?php
+                                                $exits_note = \App\Models\provider_contract_note::where('contract_id', $pcontract->id)
+                                                    ->orderBy('id', 'desc')
+                                                    ->first();
+                                                ?>
                                                 <form action="{{route('admin.provider.contract.add.note')}}"
                                                       method="post">
                                                     @csrf
@@ -309,7 +315,7 @@
                                                                     <option value=""></option>
                                                                     @foreach($contact_status as $constatus)
                                                                         <option
-                                                                            value="{{$constatus->id}}">{{$constatus->contact_status}}
+                                                                            value="{{$constatus->id}}" {{$pcontract->status == $constatus->id ? 'selected' :''}}>{{$constatus->contact_status}}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
@@ -321,7 +327,7 @@
                                                             <div class="col-md-8 mb-2">
                                                                 <?php
                                                                 $assign_users = \App\Models\assign_practice_user::where('practice_id', $provider->practice_id)->get();
-                                                                $admins_user = \App\Models\Admin::select('id', 'name')->where('id', '!=', Auth::user()->id)->get();
+                                                                $admins_user = \App\Models\Admin::select('id', 'name')->get();
 
                                                                 ?>
                                                                 <select class="form-control form-control-sm"
@@ -329,9 +335,16 @@
                                                                     <option value=""></option>
                                                                     @foreach($admins_user as $admin)
                                                                         <option
-                                                                            value="{{$admin->name}}">{{$admin->name}}</option>
+                                                                            value="{{$admin->name}}" {{$pcontract->assign_to_id == $admin->id ? 'selected' :''}}>{{$admin->name}}</option>
                                                                     @endforeach
                                                                     @foreach($assign_users as $assuser)
+                                                                        @if ($assuser->user_type == 1)
+                                                                            @foreach($admins_user as $admin)
+                                                                                <option
+                                                                                    value="{{$admin->name}}" {{$pcontract->assign_to_id == $admin->id ? 'selected' :''}}>{{$admin->name}}</option>
+                                                                            @endforeach
+
+                                                                        @endif
                                                                         @if ($assuser->user_type == 2)
                                                                             <?php
                                                                             $manager_user = \App\Models\AccountManager::select('id', 'name')->where('id', $assuser->user_id)
@@ -340,7 +353,7 @@
                                                                             ?>
                                                                             @if ($manager_user)
                                                                                 <option
-                                                                                    value="{{$manager_user->name}}">{{$manager_user->name}}</option>
+                                                                                    value="{{$manager_user->name}}" {{$pcontract->assign_to_type == 2 && $pcontract->assign_to_id == $manager_user->id ? 'selected' :''}}>{{$manager_user->name}}</option>
                                                                             @endif
                                                                         @elseif($assuser->user_type == 3)
                                                                             <?php
@@ -350,7 +363,7 @@
                                                                             ?>
                                                                             @if ($staff_user)
                                                                                 <option
-                                                                                    value="{{$staff_user->name}}">{{$staff_user->name}}</option>
+                                                                                    value="{{$staff_user->name}}" {{$pcontract->assign_to_type == 3 && $pcontract->assign_to_id == $staff_user->id ? 'selected' :''}}>{{$staff_user->name}}</option>
                                                                             @endif
                                                                         @else
                                                                         @endif
@@ -363,8 +376,12 @@
                                                                         class="text-danger">*</span></label>
                                                             </div>
                                                             <div class="col-md-8 mb-2">
-                                                                <input type="date" class="form-control form-control-sm"
-                                                                       name="note_worked_date" required>
+                                                                <input type="date"
+                                                                       class="form-control form-control-sm"
+                                                                       name="note_worked_date"
+                                                                       value="{{isset($exits_note) ? $exits_note->worked_date : ''}}"
+                                                                       required>
+
                                                                 <input type="hidden"
                                                                        class="form-control form-control-sm"
                                                                        name="note_provider_id"
@@ -379,14 +396,23 @@
                                                             </div>
                                                             <div class="col-md-8 mb-2">
                                                                 <input type="date" class="form-control form-control-sm"
-                                                                       name="note_followup_date" required>
+                                                                       name="note_followup_date"
+                                                                       value="{{$pcontract->contract_followup_date}}"
+                                                                       required>
                                                             </div>
                                                             <div class="col-md-4 mb-2">
                                                                 <label>Notes <span class="text-danger">*</span></label>
                                                             </div>
                                                             <div class="col-md-8 mb-2">
-                                                                <textarea class="form-control form-control-sm"
-                                                                          name="note" required></textarea>
+                                                                @if ($exits_note)
+                                                                    <textarea class="form-control form-control-sm"
+                                                                              name="note"
+                                                                              required>{{isset($exits_note) ? $exits_note->note : ''}}</textarea>
+                                                                @else
+                                                                    <textarea class="form-control form-control-sm"
+                                                                              name="note"
+                                                                              required></textarea>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -458,18 +484,19 @@
                                                                        name="onset_date"
                                                                        value="{{$pcontract->onset_date}}">
                                                             </div>
+
+                                                            <div class="col-md-6 mb-2">
+                                                                <label>End Date<span
+                                                                        class="text-danger">*</span></label>
+                                                                <input type="date" class="form-control form-control-sm"
+                                                                       name="end_date" value="{{$pcontract->end_date}}">
+                                                            </div>
                                                             <div class="col-md-6 mb-2">
                                                                 <label>Followup Date<span
                                                                         class="text-danger">*</span></label>
                                                                 <input type="date" name="contract_followup_date"
                                                                        value="{{$pcontract->contract_followup_date}}"
                                                                        class="form-control form-control-sm">
-                                                            </div>
-                                                            <div class="col-md-6 mb-2">
-                                                                <label>End Date<span
-                                                                        class="text-danger">*</span></label>
-                                                                <input type="date" class="form-control form-control-sm"
-                                                                       name="end_date" value="{{$pcontract->end_date}}">
                                                             </div>
                                                             <div class="col-md-6 mb-2">
                                                                 <label>Contract Type<span
@@ -499,7 +526,7 @@
                                                                         class="text-danger">*</span></label>
                                                                 <?php
                                                                 $assign_users = \App\Models\assign_practice_user::where('practice_id', $provider->practice_id)->get();
-                                                                $admins_user = \App\Models\Admin::select('id', 'name')->where('id', '!=', Auth::user()->id)->get();
+                                                                $admins_user = \App\Models\Admin::select('id', 'name')->get();
 
                                                                 ?>
                                                                 <select class="form-control form-control-sm"
@@ -617,6 +644,41 @@
                                         </div>
                                     </div>
                                     <!--/ editContract  -->
+                                </td>
+                                <td>
+                                    @if ($pcontract->is_assign == 1)
+                                        <?php
+                                        if ($pcontract->assign_to_type == 1) {
+                                            $assignto_admin = \App\Models\Admin::where('id', $pcontract->assign_to_id)->first();
+                                        } elseif ($pcontract->assign_to_type == 2) {
+                                            $assignto_manager = \App\Models\AccountManager::where('id', $pcontract->assign_to_id)->first();
+                                        } elseif ($pcontract->assign_to_type == 3) {
+                                            $assignto_staff = \App\Models\BaseStaff::where('id', $pcontract->assign_to_id)->first();
+                                        }
+
+                                        ?>
+
+                                        @if ($pcontract->assign_to_type == 1)
+                                            @if ($assignto_admin)
+                                                {{$assignto_admin->name}}
+                                            @endif
+
+                                        @elseif($pcontract->assign_to_type == 2)
+                                            @if ($assignto_manager)
+                                                {{$assignto_manager->name}}
+                                            @endif
+
+                                        @elseif($pcontract->assign_to_type == 3)
+                                            @if ($assignto_staff)
+                                                {{$assignto_staff->name}}
+                                            @endif
+
+                                        @else
+
+                                        @endif
+
+
+                                    @endif
                                 </td>
                                 <td>
                                     @if ($con_status)

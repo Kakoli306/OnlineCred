@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\AccountManager;
 use App\Models\Admin;
+use App\Models\BaseStaff;
 use App\Models\contact_type;
 use App\Models\contract_status;
 use App\Models\insurance;
@@ -67,8 +69,7 @@ class ReportGenerate extends Command
 
 
             $contracts = provider_contract_note::distinct()
-                ->select('admin_id', 'facility_id', 'provider_id', 'contract_id', 'status')
-                ->where('admin_id', $single_report->admin_id)
+                ->select('facility_id', 'provider_id', 'contract_id', 'status')
                 ->where('facility_id', $single_report->facility_id)
                 ->whereIn('status', $array_status)
                 ->where('followup_date', '>=', $single_report->form_date)
@@ -77,11 +78,18 @@ class ReportGenerate extends Command
 
 
             $report_data = (new FastExcel($contracts))->export($name, function ($line) {
-                $con_status = contract_status::where('admin_id', $line->admin_id)
-                    ->where('id', $line->status)
+                $con_status = contract_status::where('id', $line->status)
                     ->first();
 
-                $admin_name = Admin::where('id', $line->admin_id)->first();
+                if ($report->user_type == 1) {
+                    $admin_name = Admin::where('id', $line->user_id)->first();
+                } elseif ($report->user_type == 1) {
+                    $admin_name = AccountManager::where('id', $line->user_id)->first();
+                } elseif ($report->user_type == 3) {
+                    $admin_name = BaseStaff::where('id', $line->user_id)->first();
+                } else {
+                    $admin_name = "";
+                }
 
 
                 $fac = practice::where('id', $line->facility_id)->first();
@@ -94,26 +102,22 @@ class ReportGenerate extends Command
                 if ($con) {
                     $con_type = contact_type::where('id', $con->contract_type)->first();
 
-                    $notes = provider_contract_note::where('admin_id', $line->admin_id)
-                        ->where('contract_id', $con->id)
+                    $notes = provider_contract_note::where('contract_id', $con->id)
                         ->where('status', $con_status->id)
                         ->get();
 
-                    $single_note_last_followup = provider_contract_note::where('admin_id', $line->admin_id)
-                        ->where('contract_id', $con->id)
+                    $single_note_last_followup = provider_contract_note::where('contract_id', $con->id)
                         ->where('status', $con_status->id)
                         ->orderBy('followup_date', 'desc')
                         ->first();
                 } else {
                     $con_type = contact_type::where('id', 0)->first();
 
-                    $notes = provider_contract_note::where('admin_id', $line->admin_id)
-                        ->where('contract_id', 0)
+                    $notes = provider_contract_note::where('contract_id', 0)
                         ->where('status', 0)
                         ->get();
 
-                    $single_note_last_followup = provider_contract_note::where('admin_id', $line->admin_id)
-                        ->where('contract_id', 0)
+                    $single_note_last_followup = provider_contract_note::where('contract_id', 0)
                         ->where('status', '000none')
                         ->orderBy('followup_date', 'desc')
                         ->first();
