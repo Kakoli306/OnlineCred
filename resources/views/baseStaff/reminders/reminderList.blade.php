@@ -1,5 +1,8 @@
 @extends('layouts.baseStaff')
 @section('basestaff')
+    <div class="loading2">
+        <div class="table-loading"></div>
+    </div>
     <div class="iq-card">
         <div class="iq-card-body">
 

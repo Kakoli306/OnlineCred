@@ -4,12 +4,18 @@
         <div class="row">
             <div class="col-md-6">
                 <?php
-                $all_facility = \App\Models\practice::all();
+                $assn_prc = \App\Models\assign_practice_user::where('user_id', Auth::user()->id)->where('user_type', Auth::user()->account_type)->get();
                 ?>
                 <select class="form-control form-control-sm fac_id">
                     <option value="0">----- Select Facility -----</option>
-                    @foreach($all_facility as $fac)
-                        <option value="{{$fac->id}}">{{$fac->business_name}}</option>
+                    @foreach($assn_prc as $assprc)
+                        <?php
+                        $prc = \App\Models\practice::where('id', $assprc->practice_id)->first();
+                        ?>
+                        @if ($prc)
+                            <option value="{{$prc->id}}">{{$prc->business_name}}</option>
+                        @endif
+
                     @endforeach
                 </select>
             </div>

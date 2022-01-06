@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccountManager;
+use App\Models\Admin;
 use App\Models\assign_practice;
 use App\Models\assign_practice_user;
 use App\Models\BaseStaff;
@@ -16,7 +17,9 @@ class AdminAssignPracticeController extends Controller
     public function practice_assign_get_all_user(Request $request)
     {
         $type = $request->type_id;
-        if ($type == 2) {
+        if ($type == 1) {
+            $user = Admin::all();
+        } elseif ($type == 2) {
             $user = AccountManager::all();
         } elseif ($type == 3) {
             $user = BaseStaff::all();
@@ -80,7 +83,10 @@ class AdminAssignPracticeController extends Controller
         $user_id = $request->user_id;
 
         foreach ($assign_prac as $prc) {
-            $del_ass_prc = assign_practice_user::where('user_id', $user_id)->where('user_type', $account_type_user)->where('practice_id', $prc)->first();
+            $del_ass_prc = assign_practice_user::where('user_id', $user_id)
+                ->where('user_type', $account_type_user)
+                ->where('practice_id', $prc)
+                ->first();
             if ($del_ass_prc) {
                 $del_ass_prc->delete();
             }

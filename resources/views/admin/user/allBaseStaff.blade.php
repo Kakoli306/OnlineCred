@@ -2,7 +2,7 @@
 @section('admin')
     <div class="iq-card">
         <div class="iq-card-body">
-            <h2 class="common-title">Account Manager</h2>
+            <h2 class="common-title">Base Staff</h2>
             <div class="table-responsive">
                 <table class="table table-sm table-bordered c_table">
                     <thead>
@@ -41,23 +41,27 @@
                                                         data-dismiss="modal">&times;
                                                 </button>
                                             </div>
-                                            <form action="#">
+                                            <form action="{{route('admin.user.type.change')}}" method="post">
+                                                @csrf
                                                 <div class="modal-body">
                                                     <div class="d-flex">
                                                         <div class="mr-2 align-self-center"><label>Select
                                                                 Type</label></div>
                                                         <div class="align-self-center">
-                                                            <select class="form-control form-control-sm">
+                                                            <select class="form-control form-control-sm"
+                                                                    name="acc_type_change">
                                                                 <option value="0">Select Any</option>
+                                                                <option value="1">Admin</option>
                                                                 <option value="2">Account Manager</option>
-                                                                <option value="3">Base Staff</option>
-                                                                <option value="4">Mis</option>
                                                             </select>
+                                                            <input type="hidden" name="user_id" value="{{$admin->id}}">
+                                                            <input type="hidden" name="acc_type"
+                                                                   value="{{$admin->account_type}}">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button"
+                                                    <button type="submit"
                                                             class="btn btn-secondary">Save
                                                     </button>
                                                     <button type="button" class="btn btn-danger"

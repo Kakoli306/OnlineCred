@@ -86,6 +86,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
         Route::get('/all-basestaff-users', [Controllers\Admin\AdminUserController::class, 'all_basestaff_users'])->name('admin.all.basestaff.users');
         Route::get('/user-edit/{id}/{type}', [Controllers\Admin\AdminUserController::class, 'user_edit'])->name('admin.user.edit');
         Route::post('/user-update', [Controllers\Admin\AdminUserController::class, 'user_update'])->name('admin.create.user.update');
+        Route::post('/change-user-type', [Controllers\Admin\AdminUserController::class, 'change_user_type'])->name('admin.user.type.change');
 
 
         //provider

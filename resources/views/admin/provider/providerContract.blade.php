@@ -152,15 +152,10 @@
                                             <label>Assigned to<span class="text-danger">*</span></label>
                                             <?php
                                             $assign_users = \App\Models\assign_practice_user::where('practice_id', $provider->practice_id)->get();
-                                            $admins_user = \App\Models\Admin::select('id', 'name')->get();
 
                                             ?>
                                             <select class="form-control form-control-sm" name="assign_to_name">
                                                 <option value=""></option>
-                                                @foreach($admins_user as $admin)
-                                                    <option
-                                                        value="{{$admin->name}}">{{$admin->name}}</option>
-                                                @endforeach
                                                 @foreach($assign_users as $assuser)
                                                     @if ($assuser->user_type == 2)
                                                         <?php
@@ -181,6 +176,16 @@
                                                         @if ($staff_user)
                                                             <option
                                                                 value="{{$staff_user->name}}">{{$staff_user->name}}</option>
+                                                        @endif
+                                                    @elseif($assuser->user_type == 1)
+                                                        <?php
+                                                        $admin_user = \App\Models\Admin::select('id', 'name')->where('id', $assuser->user_id)
+                                                            ->where('account_type', $assuser->user_type)
+                                                            ->first();
+                                                        ?>
+                                                        @if ($admin_user)
+                                                            <option
+                                                                value="{{$admin_user->name}}">{{$admin_user->name}}</option>
                                                         @endif
                                                     @else
                                                     @endif
@@ -325,26 +330,10 @@
                                                                         class="text-danger"></span></label>
                                                             </div>
                                                             <div class="col-md-8 mb-2">
-                                                                <?php
-                                                                $assign_users = \App\Models\assign_practice_user::where('practice_id', $provider->practice_id)->get();
-                                                                $admins_user = \App\Models\Admin::select('id', 'name')->get();
-
-                                                                ?>
                                                                 <select class="form-control form-control-sm"
                                                                         name="note_assign_to_name">
                                                                     <option value=""></option>
-                                                                    @foreach($admins_user as $admin)
-                                                                        <option
-                                                                            value="{{$admin->name}}" {{$pcontract->assign_to_id == $admin->id ? 'selected' :''}}>{{$admin->name}}</option>
-                                                                    @endforeach
                                                                     @foreach($assign_users as $assuser)
-                                                                        @if ($assuser->user_type == 1)
-                                                                            @foreach($admins_user as $admin)
-                                                                                <option
-                                                                                    value="{{$admin->name}}" {{$pcontract->assign_to_id == $admin->id ? 'selected' :''}}>{{$admin->name}}</option>
-                                                                            @endforeach
-
-                                                                        @endif
                                                                         @if ($assuser->user_type == 2)
                                                                             <?php
                                                                             $manager_user = \App\Models\AccountManager::select('id', 'name')->where('id', $assuser->user_id)
@@ -364,6 +353,16 @@
                                                                             @if ($staff_user)
                                                                                 <option
                                                                                     value="{{$staff_user->name}}" {{$pcontract->assign_to_type == 3 && $pcontract->assign_to_id == $staff_user->id ? 'selected' :''}}>{{$staff_user->name}}</option>
+                                                                            @endif
+                                                                        @elseif($assuser->user_type == 1)
+                                                                            <?php
+                                                                            $admin_user = \App\Models\Admin::select('id', 'name')->where('id', $assuser->user_id)
+                                                                                ->where('account_type', $assuser->user_type)
+                                                                                ->first();
+                                                                            ?>
+                                                                            @if ($admin_user)
+                                                                                <option
+                                                                                    value="{{$admin_user->name}}" {{$pcontract->assign_to_type == 1 && $pcontract->assign_to_id == $admin_user->id ? 'selected' :''}}>{{$admin_user->name}}</option>
                                                                             @endif
                                                                         @else
                                                                         @endif
@@ -524,18 +523,9 @@
                                                             <div class="col-md-6 mb-2">
                                                                 <label>Assigned to<span
                                                                         class="text-danger">*</span></label>
-                                                                <?php
-                                                                $assign_users = \App\Models\assign_practice_user::where('practice_id', $provider->practice_id)->get();
-                                                                $admins_user = \App\Models\Admin::select('id', 'name')->get();
-
-                                                                ?>
                                                                 <select class="form-control form-control-sm"
                                                                         name="assign_to_name">
                                                                     <option value=""></option>
-                                                                    @foreach($admins_user as $admin)
-                                                                        <option
-                                                                            value="{{$admin->name}}" {{$admin->name == $pcontract->assign_to_name ? 'selected' : ''}}>{{$admin->name}}</option>
-                                                                    @endforeach
                                                                     @foreach($assign_users as $assuser)
                                                                         @if ($assuser->user_type == 2)
                                                                             <?php
@@ -556,6 +546,16 @@
                                                                             @if ($staff_user)
                                                                                 <option
                                                                                     value="{{$staff_user->name}}" {{$staff_user->name == $pcontract->assign_to_name ? 'selected' : ''}}>{{$staff_user->name}}</option>
+                                                                            @endif
+                                                                        @elseif($assuser->user_type == 1)
+                                                                            <?php
+                                                                            $admin_user = \App\Models\Admin::select('id', 'name')->where('id', $assuser->user_id)
+                                                                                ->where('account_type', $assuser->user_type)
+                                                                                ->first();
+                                                                            ?>
+                                                                            @if ($admin_user)
+                                                                                <option
+                                                                                    value="{{$admin_user->name}}" {{$admin_user->name == $pcontract->assign_to_name ? 'selected' : ''}}>{{$admin_user->name}}</option>
                                                                             @endif
                                                                         @else
                                                                         @endif

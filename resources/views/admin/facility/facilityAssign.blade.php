@@ -5,6 +5,7 @@
             <div class="col-md-6">
                 <select class="form-control form-control-sm account_type_user">
                     <option value="0">Account Type</option>
+                    <option value="1">Admin</option>
                     <option value="2">Account Manager</option>
                     <option value="3">Base Sraff</option>
                 </select>
@@ -62,9 +63,11 @@
 
 
             $('.account_type_user').change(function () {
+                $('.loading2').show();
                 let type_id = $(this).val();
                 if (type_id == 0) {
                     toastr["error"]("Please Select User Type ", 'ALERT!');
+                    $('.loading2').hide();
                 } else {
                     $.ajax({
                         type: "POST",
@@ -84,6 +87,8 @@
                                 )
                             });
 
+                            $('.loading2').hide();
+
                         }
                     });
                 }
@@ -92,6 +97,7 @@
 
             //add facility
             $('#addbtn').click(function () {
+                $('.loading2').show();
                 let account_type_user = $('.account_type_user').val();
                 let user_id = $('.user_id').val();
                 let fac_id = $('.all_practice').val();
@@ -103,11 +109,17 @@
 
 
                 if (account_type_user == 0) {
+                    $('.loading2').hide();
                     toastr["error"]("Please Select User Type ", 'ALERT!');
+
                 } else if (user_id == 0) {
+                    $('.loading2').hide();
                     toastr["error"]("Please Select User ", 'ALERT!');
+
                 } else if (fac_id == null || fac_id == "") {
+                    $('.loading2').hide();
                     toastr["error"]("Please Select Practice ", 'ALERT!');
+
                 } else {
                     $.ajax({
                         type: "POST",
@@ -128,12 +140,15 @@
 
             //remove practice
             $('#removebtn').click(function () {
+                $('.loading2').show();
                 let account_type_user = $('.account_type_user').val();
                 let user_id = $('.user_id').val();
                 let assign_prac = $('.assign_prac').val();
                 if (account_type_user == 0) {
+                    $('.loading2').hide();
                     toastr["error"]("Please Select User Type ", 'ALERT!');
                 } else if (user_id == 0) {
+                    $('.loading2').hide();
                     toastr["error"]("Please Select User ", 'ALERT!');
                 } else {
                     $.ajax({

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\AccountManager;
 use App\Models\Admin;
 use App\Models\assign_practice;
+use App\Models\assign_practice_user;
 use App\Models\BaseStaff;
 use App\Models\contract_status;
+use App\Models\practice;
 use App\Models\Provider;
 use App\Models\provider_contract;
 use App\Models\provider_contract_note;
@@ -22,30 +24,16 @@ class FrontendController extends Controller
     {
 
 
-        $notes = provider_contract_note::all();
-        foreach ($notes as $note) {
-            $single_note = provider_contract_note::where('id', $note->id)->first();
+        $practice = practice::all();
 
-            if ($single_note->user_type == 1) {
-                $admin = Admin::where('id', $single_note->user_id)->first();
-                if ($admin) {
-                    $single_note->user_name = $admin->name;
-                    $single_note->save();
-                }
-            } elseif ($single_note->user_type == 2) {
-                $admin = AccountManager::where('id', $single_note->user_id)->first();
-                if ($admin) {
-                    $single_note->user_name = $admin->name;
-                    $single_note->save();
-                }
-            } elseif ($single_note->user_type == 3) {
-                $admin = BaseStaff::where('id', $single_note->user_id)->first();
-                if ($admin) {
-                    $single_note->user_name = $admin->name;
-                    $single_note->save();
-                }
-            } else {
-
+        foreach ($practice as $pc) {
+            $single_prc = practice::where('id', $pc->id)->first();
+            if ($single_prc) {
+                $ass_prc = new assign_practice_user();
+                $ass_prc->user_id = 1;
+                $ass_prc->user_type = 1;
+                $ass_prc->practice_id = $single_prc->id;
+                $ass_prc->save();
             }
 
         }
