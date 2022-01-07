@@ -478,7 +478,7 @@ class AdminProviderController extends Controller
         if ($request->contract_followup_date != null || $request->contract_followup_date != "") {
             $new_contract->contract_followup_date = Carbon::parse($request->contract_followup_date)->format('Y-m-d');
         } else {
-            $new_contract->contract_followup_date = null;
+            $new_contract->contract_followup_date = Carbon::now()->format('Y-m-d');
         }
         $new_contract->contract_type = $request->contract_type;
 
@@ -859,7 +859,7 @@ class AdminProviderController extends Controller
         if ($request->note_followup_date != null || $request->note_followup_date != "") {
             $new_note->followup_date = $request->note_followup_date;
         } else {
-            $new_note->followup_date = null;
+            $new_note->followup_date = Carbon::now()->format('Y-m-d');
         }
 
         $new_note->note = $request->note;

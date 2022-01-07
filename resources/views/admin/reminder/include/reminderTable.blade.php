@@ -38,7 +38,11 @@
                         {{$con_name->contract_name}}
                     @endif
                 </td>
-                <td>{{\Carbon\Carbon::parse($notes->followup_date)->format('m/d/Y')}}</td>
+                <td>
+                    @if ($notes->followup_date != null || $notes->followup_date != "")
+                        {{\Carbon\Carbon::parse($notes->followup_date)->format('m/d/Y')}}
+                    @endif
+                </td>
                 <td>
                     @if ($status_name)
                         {{$status_name->contact_status}}

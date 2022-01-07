@@ -188,21 +188,21 @@ class AdminUserController extends Controller
                 if ($assign_prc_count > 0) {
                     $assign_prc = assign_practice_user::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $prov_con_count = provider_contract_note::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($prov_con_count > 0) {
                     $prov_con_count = provider_contract_note::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $reminder_count = reminder::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($reminder_count > 0) {
                     reminder::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $user->delete();
@@ -210,6 +210,7 @@ class AdminUserController extends Controller
                 return back()->with('success', 'Successfully Account Changed to Admin');
 
             } elseif ($type == 2) {
+
                 $new_user = new AccountManager();
                 $new_user->name = $user->name;
                 $new_user->actual_name = $user->actual_name;
@@ -227,21 +228,21 @@ class AdminUserController extends Controller
                 if ($assign_prc_count > 0) {
                     $assign_prc = assign_practice_user::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $prov_con_count = provider_contract_note::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($prov_con_count > 0) {
                     $prov_con_count = provider_contract_note::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $reminder_count = reminder::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($reminder_count > 0) {
                     reminder::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $user->delete();
@@ -264,21 +265,21 @@ class AdminUserController extends Controller
                 if ($assign_prc_count > 0) {
                     $assign_prc = assign_practice_user::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $prov_con_count = provider_contract_note::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($prov_con_count > 0) {
                     $prov_con_count = provider_contract_note::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $reminder_count = reminder::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($reminder_count > 0) {
                     reminder::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $user->delete();
@@ -308,21 +309,21 @@ class AdminUserController extends Controller
                 if ($assign_prc_count > 0) {
                     $assign_prc = assign_practice_user::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $prov_con_count = provider_contract_note::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($prov_con_count > 0) {
                     $prov_con_count = provider_contract_note::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $reminder_count = reminder::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($reminder_count > 0) {
                     reminder::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $user->delete();
@@ -345,21 +346,21 @@ class AdminUserController extends Controller
                 if ($assign_prc_count > 0) {
                     $assign_prc = assign_practice_user::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $prov_con_count = provider_contract_note::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($prov_con_count > 0) {
                     $prov_con_count = provider_contract_note::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $reminder_count = reminder::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($reminder_count > 0) {
                     reminder::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $user->delete();
@@ -382,21 +383,21 @@ class AdminUserController extends Controller
                 if ($assign_prc_count > 0) {
                     $assign_prc = assign_practice_user::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $prov_con_count = provider_contract_note::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($prov_con_count > 0) {
                     $prov_con_count = provider_contract_note::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $reminder_count = reminder::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($reminder_count > 0) {
                     reminder::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $user->delete();
@@ -429,21 +430,21 @@ class AdminUserController extends Controller
                 if ($assign_prc_count > 0) {
                     $assign_prc = assign_practice_user::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $prov_con_count = provider_contract_note::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($prov_con_count > 0) {
                     $prov_con_count = provider_contract_note::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $reminder_count = reminder::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($reminder_count > 0) {
                     reminder::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $user->delete();
@@ -466,21 +467,21 @@ class AdminUserController extends Controller
                 if ($assign_prc_count > 0) {
                     $assign_prc = assign_practice_user::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $prov_con_count = provider_contract_note::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($prov_con_count > 0) {
                     $prov_con_count = provider_contract_note::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $reminder_count = reminder::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($reminder_count > 0) {
                     reminder::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $user->delete();
@@ -503,21 +504,21 @@ class AdminUserController extends Controller
                 if ($assign_prc_count > 0) {
                     $assign_prc = assign_practice_user::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $prov_con_count = provider_contract_note::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($prov_con_count > 0) {
                     $prov_con_count = provider_contract_note::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $reminder_count = reminder::where('user_id', $user->id)->where('user_type', $user->account_type)->count();
                 if ($reminder_count > 0) {
                     reminder::where('user_id', $user->id)
                         ->where('user_type', $user->account_type)
-                        ->update(['user_id' => $new_user, 'user_type' => $new_user->account_type]);
+                        ->update(['user_id' => $new_user->id, 'user_type' => $new_user->account_type]);
                 }
 
                 $user->delete();

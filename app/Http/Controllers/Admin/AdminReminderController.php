@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\assign_practice_user;
 use App\Models\contract_status;
 use App\Models\practice;
 use App\Models\Provider;
@@ -64,10 +65,26 @@ class AdminReminderController extends Controller
         $status_filter = $request->status_filter;
 
 
+        $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
+            ->where('user_type', Auth::user()->account_type)
+            ->get();
+
+
+        $array = [];
+        foreach ($assign_prc as $acprc) {
+            array_push($array, $acprc->practice_id);
+        }
+
+
         $query = "SELECT * FROM reminders WHERE is_show=1 ";
 
-        if (isset($all_prc_data)) {
+        if (isset($all_prc_data) && $all_prc_data != null || $all_prc_data != '') {
             $query .= "AND facility_id=$all_prc_data ";
+        }
+
+        if ($all_prc_data == null || $all_prc_data == '') {
+            $CAT_filter = implode("','", $array);
+            $query .= "AND facility_id IN('" . $CAT_filter . "')   ";
         }
 
         if (isset($all_prov_name)) {
@@ -79,7 +96,7 @@ class AdminReminderController extends Controller
         }
 
         if (isset($fowllowup_filter)) {
-            $query .= "AND followup_date='$fowllowup_filter' ";
+            $query .= "AND followup_date<='$fowllowup_filter' ";
         }
 
         if (isset($status_filter)) {
@@ -88,7 +105,6 @@ class AdminReminderController extends Controller
 
         $query .= "ORDER BY id DESC";
         $query_exe = DB::select($query);
-
 
         $reminders = $this->arrayPaginator($query_exe, $request);
 
@@ -111,10 +127,26 @@ class AdminReminderController extends Controller
         $status_filter = $request->status_filter;
 
 
+        $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
+            ->where('user_type', Auth::user()->account_type)
+            ->get();
+
+
+        $array = [];
+        foreach ($assign_prc as $acprc) {
+            array_push($array, $acprc->practice_id);
+        }
+
+
         $query = "SELECT * FROM reminders WHERE is_show=1 ";
 
-        if (isset($all_prc_data)) {
+        if (isset($all_prc_data) && $all_prc_data != null || $all_prc_data != '') {
             $query .= "AND facility_id=$all_prc_data ";
+        }
+
+        if ($all_prc_data == null || $all_prc_data == '') {
+            $CAT_filter = implode("','", $array);
+            $query .= "AND facility_id IN('" . $CAT_filter . "')   ";
         }
 
         if (isset($all_prov_name)) {
@@ -126,7 +158,7 @@ class AdminReminderController extends Controller
         }
 
         if (isset($fowllowup_filter)) {
-            $query .= "AND followup_date='$fowllowup_filter' ";
+            $query .= "AND followup_date<='$fowllowup_filter' ";
         }
 
         if (isset($status_filter)) {

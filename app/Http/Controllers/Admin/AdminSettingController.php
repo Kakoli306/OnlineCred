@@ -21,7 +21,7 @@ class AdminSettingController extends Controller
 
     public function speciality()
     {
-        $all_scpec = speciality::where('admin_id', Auth::user()->id)->paginate(10);
+        $all_scpec = speciality::paginate(10);
         return view('admin.setting.speciality', compact('all_scpec'));
     }
 
@@ -58,7 +58,7 @@ class AdminSettingController extends Controller
 
     public function contact_name()
     {
-        $all_contact_name = contact_name::where('admin_id', Auth::user()->id)->paginate(10);
+        $all_contact_name = contact_name::paginate(10);
         return view('admin.setting.contactName', compact('all_contact_name'));
     }
 
@@ -76,7 +76,7 @@ class AdminSettingController extends Controller
         $new_contact = contact_name::where('id', $request->contact_name_edit)->first();
 
 
-        $prov_cons = provider_contract::where('admin_id', Auth::user()->id)->where('contract_name', $new_contact->contact_name)->get();
+        $prov_cons = provider_contract::where('contract_name', $new_contact->contact_name)->get();
         if (count($prov_cons) > 0) {
             foreach ($prov_cons as $pcons) {
                 $cons_first = provider_contract::where('id', $pcons->id)->first();
@@ -103,7 +103,7 @@ class AdminSettingController extends Controller
 
     public function contact_type()
     {
-        $contact_types = contact_type::where('admin_id', Auth::user()->id)->paginate(10);
+        $contact_types = contact_type::paginate(10);
         return view('admin.setting.contactType', compact('contact_types'));
     }
 
@@ -137,7 +137,7 @@ class AdminSettingController extends Controller
 
     public function insurance()
     {
-        $all_insurnace = insurance::where('admin_id', Auth::user()->id)->paginate(10);
+        $all_insurnace = insurance::paginate(10);
         return view('admin.setting.insurance', compact('all_insurnace'));
     }
 
@@ -186,8 +186,7 @@ class AdminSettingController extends Controller
 
     public function document_type()
     {
-        $all_documents = provider_document_type::where('admin_id', Auth::user()->id)
-            ->orderBy('id', 'desc')
+        $all_documents = provider_document_type::orderBy('id', 'desc')
             ->paginate(10);
         return view('admin.setting.documentType', compact('all_documents'));
     }
@@ -227,7 +226,7 @@ class AdminSettingController extends Controller
 
     public function contract_status()
     {
-        $all_contract_status = contract_status::where('admin_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(10);
+        $all_contract_status = contract_status::orderBy('id', 'desc')->paginate(10);
         return view('admin.setting.contractStatus', compact('all_contract_status'));
     }
 

@@ -15,6 +15,7 @@ use App\Models\provider_contract_note;
 use App\Models\provider_document;
 use App\Models\provider_document_type;
 use App\Models\reminder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,20 +24,22 @@ class FrontendController extends Controller
     public function test_update_data()
     {
 
+        $date = Carbon::now()->subDay(1)->format('Y-m-d');
+        $practice = reminder::where('followup_date', null)
+            ->count();
 
-        $practice = practice::all();
+        return $practice;
+        exit();
+//        foreach ($practice as $prc) {
+//            $sing_prc = reminder::where('id', $prc->id)->first();
+//            if ($sing_prc) {
+//                if ($sing_prc->followup_date == null || $sing_prc->followup_date == '') {
+//                    $sing_prc->followup_date = Carbon::parse($sing_prc->created_at)->format('Y-m-d');
+//                    $sing_prc->save();
+//                }
+//            }
+//        }
 
-        foreach ($practice as $pc) {
-            $single_prc = practice::where('id', $pc->id)->first();
-            if ($single_prc) {
-                $ass_prc = new assign_practice_user();
-                $ass_prc->user_id = 1;
-                $ass_prc->user_type = 1;
-                $ass_prc->practice_id = $single_prc->id;
-                $ass_prc->save();
-            }
-
-        }
 
         return 'done';
         exit();

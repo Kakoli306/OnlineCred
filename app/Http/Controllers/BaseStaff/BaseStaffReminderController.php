@@ -93,13 +93,29 @@ class BaseStaffReminderController extends Controller
         $status_filter = $request->status_filter;
 
 
+        $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
+            ->where('user_type', Auth::user()->account_type)
+            ->get();
+
+
+        $array = [];
+        foreach ($assign_prc as $acprc) {
+            array_push($array, $acprc->practice_id);
+        }
+
+
         $userid = Auth::user()->id;
         $userType = Auth::user()->account_type;
 
         $query = "SELECT * FROM reminders WHERE is_show=1 AND assignedto_user_id=$userid AND assignedto_user_type=$userType ";
 
-        if (isset($all_prc_data)) {
+        if (isset($all_prc_data) && $all_prc_data != null || $all_prc_data != '') {
             $query .= "AND facility_id=$all_prc_data ";
+        }
+
+        if ($all_prc_data == null || $all_prc_data == '') {
+            $CAT_filter = implode("','", $array);
+            $query .= "AND facility_id IN('" . $CAT_filter . "')   ";
         }
 
         if (isset($all_prov_name)) {
@@ -111,7 +127,7 @@ class BaseStaffReminderController extends Controller
         }
 
         if (isset($fowllowup_filter)) {
-            $query .= "AND followup_date='$fowllowup_filter' ";
+            $query .= "AND followup_date <= '$fowllowup_filter' ";
         }
 
         if (isset($status_filter)) {
@@ -127,7 +143,7 @@ class BaseStaffReminderController extends Controller
 
         return response()->json([
             'notices' => $reminders,
-            'view' => View::make('basestaff.reminders.include.reminderTable', compact('reminders'))->render(),
+            'view' => View::make('baseStaff.reminders.include.reminderTable', compact('reminders'))->render(),
             'pagination' => (string)$reminders->links()
         ]);
     }
@@ -143,10 +159,29 @@ class BaseStaffReminderController extends Controller
         $status_filter = $request->status_filter;
 
 
-        $query = "SELECT * FROM reminders WHERE is_show=1 ";
+        $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
+            ->where('user_type', Auth::user()->account_type)
+            ->get();
 
-        if (isset($all_prc_data)) {
+
+        $array = [];
+        foreach ($assign_prc as $acprc) {
+            array_push($array, $acprc->practice_id);
+        }
+
+
+        $userid = Auth::user()->id;
+        $userType = Auth::user()->account_type;
+
+        $query = "SELECT * FROM reminders WHERE is_show=1 AND assignedto_user_id=$userid AND assignedto_user_type=$userType ";
+
+        if (isset($all_prc_data) && $all_prc_data != null || $all_prc_data != '') {
             $query .= "AND facility_id=$all_prc_data ";
+        }
+
+        if ($all_prc_data == null || $all_prc_data == '') {
+            $CAT_filter = implode("','", $array);
+            $query .= "AND facility_id IN('" . $CAT_filter . "')   ";
         }
 
         if (isset($all_prov_name)) {
@@ -158,7 +193,7 @@ class BaseStaffReminderController extends Controller
         }
 
         if (isset($fowllowup_filter)) {
-            $query .= "AND followup_date='$fowllowup_filter' ";
+            $query .= "AND followup_date <= '$fowllowup_filter' ";
         }
 
         if (isset($status_filter)) {
@@ -174,7 +209,7 @@ class BaseStaffReminderController extends Controller
 
         return response()->json([
             'notices' => $reminders,
-            'view' => View::make('basestaff.reminders.include.reminderTable', compact('reminders'))->render(),
+            'view' => View::make('baseStaff.reminders.include.reminderTable', compact('reminders'))->render(),
             'pagination' => (string)$reminders->links()
         ]);
     }
