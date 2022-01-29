@@ -10,6 +10,10 @@ use App\Models\Provider;
 use App\Models\provider_contract;
 use App\Models\provider_contract_note;
 use App\Models\reminder;
+use App\Models\report;
+use App\Models\report_contract;
+use App\Models\report_provider;
+use App\Models\report_status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -83,6 +87,13 @@ class AccManReminderController extends Controller
     }
 
 
+    public function reminder_get_all_status(Request $request)
+    {
+        $all_status = contract_status::all();
+        return response()->json($all_status, 200);
+    }
+
+
     public function reminder_show_all_record(Request $request)
     {
         $today_date = Carbon::now()->format('Y-m-d');
@@ -120,11 +131,23 @@ class AccManReminderController extends Controller
         }
 
         if (isset($all_prov_name)) {
-            $query .= "AND provider_id=$all_prov_name ";
+            $prov_array = [];
+            foreach ($all_prov_name as $all_provname) {
+                array_push($prov_array, $all_provname);
+            }
+
+            $PROV_filter = implode("','", $prov_array);
+            $query .= "AND provider_id IN('" . $PROV_filter . "') ";
         }
 
         if (isset($all_con_data)) {
-            $query .= "AND contract_id=$all_con_data ";
+            $con_array = [];
+            foreach ($all_con_data as $all_condata) {
+                array_push($con_array, $all_condata);
+            }
+
+            $CON_filter = implode("','", $con_array);
+            $query .= "AND contract_id IN('" . $CON_filter . "') ";
         }
 
         if (isset($fowllowup_filter)) {
@@ -132,7 +155,12 @@ class AccManReminderController extends Controller
         }
 
         if (isset($status_filter)) {
-            $query .= "AND status='$status_filter' ";
+            $status_array = [];
+            foreach ($status_filter as $statusdata) {
+                array_push($status_array, $statusdata);
+            }
+            $STATUS_filter_DATA = implode("','", $status_array);
+            $query .= "AND status IN('" . $STATUS_filter_DATA . "') ";
         }
 
         $query .= "ORDER BY id DESC";
@@ -186,11 +214,23 @@ class AccManReminderController extends Controller
         }
 
         if (isset($all_prov_name)) {
-            $query .= "AND provider_id=$all_prov_name ";
+            $prov_array = [];
+            foreach ($all_prov_name as $all_provname) {
+                array_push($prov_array, $all_provname);
+            }
+
+            $PROV_filter = implode("','", $prov_array);
+            $query .= "AND provider_id IN('" . $PROV_filter . "') ";
         }
 
         if (isset($all_con_data)) {
-            $query .= "AND contract_id=$all_con_data ";
+            $con_array = [];
+            foreach ($all_con_data as $all_condata) {
+                array_push($con_array, $all_condata);
+            }
+
+            $CON_filter = implode("','", $con_array);
+            $query .= "AND contract_id IN('" . $CON_filter . "') ";
         }
 
         if (isset($fowllowup_filter)) {
@@ -198,7 +238,12 @@ class AccManReminderController extends Controller
         }
 
         if (isset($status_filter)) {
-            $query .= "AND status='$status_filter' ";
+            $status_array = [];
+            foreach ($status_filter as $statusdata) {
+                array_push($status_array, $statusdata);
+            }
+            $STATUS_filter_DATA = implode("','", $status_array);
+            $query .= "AND status IN('" . $STATUS_filter_DATA . "') ";
         }
 
         $query .= "ORDER BY id DESC";
@@ -213,6 +258,66 @@ class AccManReminderController extends Controller
             'view' => View::make('accountManager.reminders.include.reminderTable', compact('reminders'))->render(),
             'pagination' => (string)$reminders->links()
         ]);
+    }
+
+
+    public function reminder_export(Request $request)
+    {
+        $last_report_id = report::orderBy('id', 'desc')->first();
+        if ($last_report_id) {
+            $report_id = Auth::user()->id . Auth::user()->account_type . $last_report_id->id;
+        } else {
+            $report_id = Auth::user()->id . Auth::user()->account_type . '0';
+        }
+        $new_report = new report();
+        $new_report->user_id = Auth::user()->id;
+        $new_report->user_type = Auth::user()->account_type;
+        $new_report->report_type = 1;
+        $new_report->report_name = 'Reminder-' . $report_id;
+        $new_report->facility_id = $request->all_prc_data;
+        $new_report->is_completed = 1;
+        $new_report->save();
+
+
+        $providers = $request->all_prov_name;
+
+        if (count($providers) > 0) {
+            for ($i = 0; $i < count($providers); $i++) {
+                $new_reminder_provider = new report_provider();
+                $new_reminder_provider->report_id = $new_report->id;
+                $new_reminder_provider->provider_id = $providers[$i];
+                $new_reminder_provider->save();
+            }
+        }
+
+
+        $contracts = $request->all_con_data;
+
+        if (count($contracts) > 0) {
+            for ($i = 0; $i < count($contracts); $i++) {
+                $new_reminder_contract = new report_contract();
+                $new_reminder_contract->report_id = $new_report->id;
+                $new_reminder_contract->contract_id = $contracts[$i];
+                $new_reminder_contract->save();
+            }
+        }
+
+
+        $status = $request->all_status_data;
+
+        if (count($status) > 0) {
+            for ($i = 0; $i < count($status); $i++) {
+                $new_reminder_status = new report_status();
+                $new_reminder_status->report_id = $new_report->id;
+                $new_reminder_status->status_id = $status[$i];
+                $new_reminder_status->save();
+            }
+        }
+
+
+        return back()->with('success', 'Reminder Export Added Successfully');
+
+
     }
 
 

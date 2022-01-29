@@ -125,6 +125,13 @@ Route::group(['middleware' => ['auth:admin']], function () {
         Route::post('/provider-document-type-get-all', [Controllers\Admin\AdminProviderController::class, 'provider_document_type_get_all'])->name('admin.provider.get.all.doc.type');
         Route::post('/provider-document-type-save', [Controllers\Admin\AdminProviderController::class, 'provider_document_type_save'])->name('admin.provider.document.type.save');
 
+        //insurance document
+        Route::get('/provider-insurance-document/{id}', [Controllers\Admin\AdminProviderController::class, 'provider_insurance_document'])->name('admin.provider.insurance.document');
+        Route::post('/provider-insurance-document-save', [Controllers\Admin\AdminProviderController::class, 'provider_insurance_document_save'])->name('admin.provider.insurance.document.save');
+        Route::post('/provider-insurance-document-update', [Controllers\Admin\AdminProviderController::class, 'provider_insurance_document_update'])->name('admin.provider.insurance.document.update');
+        Route::get('/provider-insurance-document-delete/{id}', [Controllers\Admin\AdminProviderController::class, 'provider_insurance_document_delete'])->name('admin.provider.insurance.document.delete');
+
+
         //provider portal
         Route::get('/provider-portal/{id}', [Controllers\Admin\AdminProviderController::class, 'provider_portal'])->name('admin.provider.portal');
         Route::post('/provider-portal-save', [Controllers\Admin\AdminProviderController::class, 'provider_portal_save'])->name('admin.provider.portal.save');
@@ -158,10 +165,22 @@ Route::group(['middleware' => ['auth:admin']], function () {
         Route::post('/reminder-get-all-prc', [Controllers\Admin\AdminReminderController::class, 'reminder_get_all_prc'])->name('admin.reminder.get.all.prc');
         Route::post('/reminder-get-prov-by-prc', [Controllers\Admin\AdminReminderController::class, 'reminder_al_prov_by_prc'])->name('admin.reminder.prov.by.fac');
         Route::post('/reminder-get-con-by-prov', [Controllers\Admin\AdminReminderController::class, 'reminder_con_by_prov'])->name('admin.reminder.con.by.prov');
+        Route::post('/reminder-get-all-status', [Controllers\Admin\AdminReminderController::class, 'reminder_get_all_status'])->name('admin.reminder.get.all.status');
 
         //reminder by filter
         Route::post('/reminder-show-all-record', [Controllers\Admin\AdminReminderController::class, 'reminder_show_all_record'])->name('admin.reminder.show.all');
         Route::get('/reminder-show-all-record', [Controllers\Admin\AdminReminderController::class, 'reminder_show_all_record_get']);
+        Route::get('/reminder-all-data-get', [Controllers\Admin\AdminReminderController::class, 'reminder_all_data_get'])->name('admin.get.reminder.all.data');
+        Route::get('/reminder-all-data-get-filter', [Controllers\Admin\AdminReminderController::class, 'reminder_all_data_get_filter'])->name('admin.get.reminder.all.data.filter');
+
+        //reminder export
+        Route::post('/reminder-export', [Controllers\Admin\AdminReminderController::class, 'reminder_export'])->name('admin.reminder.export');
+
+
+        //download files
+        Route::get('/download-files', [Controllers\Admin\AdminDownloadController::class, 'download_files'])->name('admin.download.files');
+        Route::get('/download-reminder-files/{id}', [Controllers\Admin\AdminDownloadController::class, 'download_reminder_files'])->name('admin.reminder.download.file');
+
 
         //setting contact name
         Route::get('/setting-contact-name', [Controllers\Admin\AdminSettingController::class, 'contact_name'])->name('admin.setting.contact.name');
@@ -241,6 +260,12 @@ Route::group(['middleware' => ['auth:accountmanager']], function () {
         Route::get('/provider-document-delete/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_document_delete'])->name('account.manager.provider.document.delete');
         Route::post('/provider-document-all-doc-type', [Controllers\Accountmanager\AccManProviderController::class, 'provider_document_type_get_all'])->name('account.manager.provider.get.all.doc.type');
 
+        //provider insurnace document
+        Route::get('/provider-insurance-document/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_insurance_document'])->name('account.manager.provider.insurance.document');
+        Route::post('/provider-insurance-document-save', [Controllers\Accountmanager\AccManProviderController::class, 'provider_insurance_document_save'])->name('account.manager.insurance.document.save');
+        Route::post('/provider-insurance-document-update', [Controllers\Accountmanager\AccManProviderController::class, 'provider_insurance_document_update'])->name('account.manager.insurance.document.update');
+        Route::get('/provider-insurance-document-delete/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_insurance_document_delete'])->name('account.manager.insurance.document.delete');
+
         //provider portal
         Route::get('/provider-portal/{id}', [Controllers\Accountmanager\AccManProviderController::class, 'provider_portal'])->name('account.manager.provider.portal');
         Route::post('/provider-portal-save', [Controllers\Accountmanager\AccManProviderController::class, 'provider_portal_save'])->name('account.manager.provider.portal.save');
@@ -271,12 +296,19 @@ Route::group(['middleware' => ['auth:accountmanager']], function () {
         Route::post('/reminder-get-all-prc', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_get_all_prc'])->name('account.manager.reminder.get.all.prc');
         Route::post('/reminder-get-prov-by-prc', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_al_prov_by_prc'])->name('account.manager.reminder.prov.by.fac');
         Route::post('/reminder-get-con-by-prov', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_con_by_prov'])->name('account.manager.reminder.con.by.prov');
+        Route::post('/reminder-get-all-status', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_get_all_status'])->name('account.manager.reminder.get.all.status');
+
+        //reminder expoty
+        Route::post('/reminder-export', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_export'])->name('account.manager.reminder.export');
 
 
         //reminder by filter
         Route::post('/reminder-show-all-record', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_show_all_record'])->name('account.manager.reminder.show.all');
         Route::get('/reminder-show-all-record', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_show_all_record_get']);
 
+        //download files
+        Route::get('/download-files', [Controllers\Accountmanager\AccManDownloadController::class, 'download_files'])->name('account.manager.download.files');
+        Route::get('/download-reminder-files/{id}', [Controllers\Accountmanager\AccManDownloadController::class, 'download_reminder_files'])->name('account.manager.reminder.download.file');
 
         //practice
         Route::post('/practice-save', [Controllers\Accountmanager\AccManPracticeController::class, 'practice_save'])->name('account.manager.practice.save');
@@ -325,6 +357,12 @@ Route::group(['middleware' => ['auth:basestaff']], function () {
         Route::get('/provider-document-delete/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_document_delete'])->name('basestaff.provider.document.delete');
         Route::post('/provider-document-all-doc-type', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_document_all_doc_type'])->name('basestaff.provider.get.all.doc.type');
 
+        //provider insurance docoument
+        Route::get('/provider-insurance-document/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_insurance_document'])->name('basestaff.insurance.document');
+        Route::post('/provider-insurance-document-save', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_insurance_document_save'])->name('basestaff.provider.insurance.document.save');
+        Route::post('/provider-insurance-document-update', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_insurance_document_update'])->name('basestaff.insurance.document.update');
+        Route::get('/provider-insurance-document-delete/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_insurance_document_delete'])->name('basestaff.provider.insurance.document.delete');
+
         //provider portal
         Route::get('/provider-portal/{id}', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_portal'])->name('basestaff.provider.portal');
         Route::post('/provider-portal-save', [Controllers\BaseStaff\BaseStaffProviderController::class, 'provider_portal_save'])->name('basestaff.provider.portal.save');
@@ -356,11 +394,19 @@ Route::group(['middleware' => ['auth:basestaff']], function () {
         Route::post('/reminder-get-all-prc', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_get_all_prc'])->name('basestaff.reminder.get.all.prc');
         Route::post('/reminder-get-prov-by-prc', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_al_prov_by_prc'])->name('basestaff.reminder.prov.by.fac');
         Route::post('/reminder-get-con-by-prov', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_con_by_prov'])->name('basestaff.reminder.con.by.prov');
+        Route::post('/reminder-get-all-status', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_get_all_status'])->name('basestaff.reminder.get.all.status');
+        Route::post('/reminder-export', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_export'])->name('basestaff.reminder.export');
 
 
         //reminder by filter
         Route::post('/reminder-show-all-record', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_show_all_record'])->name('basestaff.reminder.show.all');
         Route::get('/reminder-show-all-record', [Controllers\BaseStaff\BaseStaffReminderController::class, 'reminder_show_all_record_get']);
+
+
+        //download files
+        Route::get('/download-files', [Controllers\BaseStaff\BaseStaffDownloadController::class, 'download_files'])->name('basestaff.download.files');
+        Route::get('/download-reminder-files/{id}', [Controllers\BaseStaff\BaseStaffDownloadController::class, 'download_reminder_files'])->name('basestaff.reminder.download.file');
+
 
         //practice
         Route::get('/practice-list', [Controllers\BaseStaff\BaseStaffPracticeController::class, 'practice_list'])->name('basestaff.practice.lists');

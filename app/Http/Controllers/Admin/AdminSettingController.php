@@ -21,7 +21,7 @@ class AdminSettingController extends Controller
 
     public function speciality()
     {
-        $all_scpec = speciality::paginate(10);
+        $all_scpec = speciality::orderBy('speciality_name', 'asc')->paginate(10);
         return view('admin.setting.speciality', compact('all_scpec'));
     }
 
@@ -58,7 +58,7 @@ class AdminSettingController extends Controller
 
     public function contact_name()
     {
-        $all_contact_name = contact_name::paginate(10);
+        $all_contact_name = contact_name::orderBy('contact_name', 'asc')->paginate(10);
         return view('admin.setting.contactName', compact('all_contact_name'));
     }
 
@@ -103,7 +103,7 @@ class AdminSettingController extends Controller
 
     public function contact_type()
     {
-        $contact_types = contact_type::paginate(10);
+        $contact_types = contact_type::orderBy('contact_type', 'asc')->paginate(10);
         return view('admin.setting.contactType', compact('contact_types'));
     }
 
@@ -137,7 +137,7 @@ class AdminSettingController extends Controller
 
     public function insurance()
     {
-        $all_insurnace = insurance::paginate(10);
+        $all_insurnace = insurance::orderBy('insurnace_name', 'asc')->paginate(10);
         return view('admin.setting.insurance', compact('all_insurnace'));
     }
 
@@ -186,7 +186,7 @@ class AdminSettingController extends Controller
 
     public function document_type()
     {
-        $all_documents = provider_document_type::orderBy('id', 'desc')
+        $all_documents = provider_document_type::orderBy('doc_type_name', 'asc')
             ->paginate(10);
         return view('admin.setting.documentType', compact('all_documents'));
     }
@@ -226,7 +226,7 @@ class AdminSettingController extends Controller
 
     public function contract_status()
     {
-        $all_contract_status = contract_status::orderBy('id', 'desc')->paginate(10);
+        $all_contract_status = contract_status::orderBy('contact_status', 'asc')->paginate(10);
         return view('admin.setting.contractStatus', compact('all_contract_status'));
     }
 

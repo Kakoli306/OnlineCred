@@ -2,25 +2,37 @@
 @section('headerselect')
     <div class="iq-search-bar">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <?php
-                $assn_prc = \App\Models\assign_practice_user::where('user_id', Auth::user()->id)->where('user_type', Auth::user()->account_type)->get();
+                $assn_prc_datats = \App\Models\assign_practice_user::where('user_id', Auth::user()->id)->where('user_type', Auth::user()->account_type)->get();
+                $array = [];
+                foreach ($assn_prc_datats as $prc_data) {
+                    array_push($array, $prc_data->practice_id);
+                }
+                $assn_prc = \App\Models\practice::whereIn('id', $array)->orderBy('business_name', 'asc')->get();
+
                 ?>
                 <select class="form-control form-control-sm fac_id">
                     <option value="0">----- Select Facility -----</option>
-                    @foreach($assn_prc as $assprc)
-                        <?php
-                        $prc = \App\Models\practice::where('id', $assprc->practice_id)->first();
-                        ?>
-                        @if ($prc)
-                            <option value="{{$prc->id}}">{{$prc->business_name}}</option>
+                @foreach($assn_prc as $assprc)
+                    <!--                        --><?php
+                        //                        $prc = \App\Models\practice::where('id', $assprc->id)->first();
+                        //                        ?>
+                        @if ($assprc)
+                            <option value="{{$assprc->id}}">{{$assprc->business_name}}</option>
                         @endif
 
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <input type="text" class="form-control form-control-sm search_provider" placeholder="Search Provider">
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm search_tax" placeholder="Search TAX ID">
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm search_npi" placeholder="Search NPI">
             </div>
         </div>
 
@@ -204,6 +216,8 @@
                 $('.loading2').show();
                 let f_id = $('.fac_id').val();
                 let search_name = $('.search_provider').val();
+                let search_tax = $('.search_tax').val();
+                let search_npi = $('.search_npi').val();
                 $.ajax({
                     type: "POST",
                     url: "{{route('admin.provider.list.all.get.fid')}}",
@@ -211,6 +225,8 @@
                         '_token': "{{csrf_token()}}",
                         'f_id': f_id,
                         'search_name': search_name,
+                        'search_tax': search_tax,
+                        'search_npi': search_npi,
                     },
                     success: function (data) {
                         console.log(data);
@@ -234,6 +250,16 @@
                 getProFacId()
             });
 
+            //search tax
+            $('.search_tax').keyup(function () {
+                getProFacId()
+            });
+
+            //search npi
+            $('.search_npi').keyup(function () {
+                getProFacId()
+            });
+
 
         });
 
@@ -242,6 +268,8 @@
             $('.loading2').show();
             let f_id = $('.fac_id').val();
             let search_name = $('.search_provider').val();
+            let search_tax = $('.search_tax').val();
+            let search_npi = $('.search_npi').val();
             $.ajax(
                 {
                     url: myurl,
@@ -250,6 +278,8 @@
                         '_token': "{{csrf_token()}}",
                         'f_id': f_id,
                         'search_name': search_name,
+                        'search_tax': search_tax,
+                        'search_npi': search_npi,
                     },
                     datatype: "html"
                 }).done(function (data) {

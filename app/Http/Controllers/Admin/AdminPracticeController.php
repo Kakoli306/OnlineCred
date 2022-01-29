@@ -36,7 +36,7 @@ class AdminPracticeController extends Controller
 
     public function practice_lists()
     {
-        $all_practices = practice::paginate(20);
+        $all_practices = practice::orderBy('business_name', 'asc')->paginate(20);
         return view('admin.facility.facilityLists', compact('all_practices'));
     }
 

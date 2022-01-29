@@ -20,6 +20,7 @@ use App\Models\provider_document;
 use App\Models\provider_document_type;
 use App\Models\provider_email;
 use App\Models\Provider_info;
+use App\Models\provider_insurance_document;
 use App\Models\provider_online_access;
 use App\Models\provider_phone;
 use App\Models\provider_portal;
@@ -78,15 +79,43 @@ class BaseStaffProviderController extends Controller
     {
         $fid = $request->f_id;
         $search_name = $request->search_name;
+        $search_tax = $request->search_tax;
+        $search_npi = $request->search_npi;
+
+
         $query = "SELECT * FROM providers WHERE id IS NOT NULL ";
 
+        $query = "SELECT providers.id,providers.practice_id,providers.full_name,providers.phone,providers.dob,providers.gender,providers.is_active FROM providers ";
+        $query .= "LEFT JOIN provider_infos ON providers.id = provider_infos.provider_id ";
+        $query .= "WHERE providers.id IS NOT NULL ";
+
         if (isset($fid) && $fid != 0) {
-            $query .= "AND practice_id=$fid ";
+            $query .= "AND providers.practice_id=$fid ";
         }
 
         if (isset($search_name)) {
-            $query .= "AND full_name LIKE '%$search_name%' ";
+            if ($search_name != null || $search_name != "") {
+                $query .= "AND providers.full_name LIKE '%$search_name%' ";
+            }
+
         }
+
+        if (isset($search_tax)) {
+            if ($search_tax != null || $search_tax != "") {
+                $query .= "AND provider_infos.tax_id LIKE '%$search_tax%' ";
+            }
+
+        }
+
+
+        if (isset($search_npi)) {
+            if ($search_npi != null || $search_npi != "") {
+                $query .= "AND provider_infos.npi LIKE '%$search_npi%' ";
+            }
+
+        }
+
+        $query .= "ORDER BY providers.full_name ASC";
 
 
         $query_exe = DB::select($query);
@@ -104,15 +133,43 @@ class BaseStaffProviderController extends Controller
     {
         $fid = $request->f_id;
         $search_name = $request->search_name;
+        $search_tax = $request->search_tax;
+        $search_npi = $request->search_npi;
+
+
         $query = "SELECT * FROM providers WHERE id IS NOT NULL ";
 
+        $query = "SELECT providers.id,providers.practice_id,providers.full_name,providers.phone,providers.dob,providers.gender,providers.is_active FROM providers ";
+        $query .= "LEFT JOIN provider_infos ON providers.id = provider_infos.provider_id ";
+        $query .= "WHERE providers.id IS NOT NULL ";
+
         if (isset($fid) && $fid != 0) {
-            $query .= "AND practice_id=$fid ";
+            $query .= "AND providers.practice_id=$fid ";
         }
 
         if (isset($search_name)) {
-            $query .= "AND full_name LIKE '%$search_name%' ";
+            if ($search_name != null || $search_name != "") {
+                $query .= "AND providers.full_name LIKE '%$search_name%' ";
+            }
+
         }
+
+        if (isset($search_tax)) {
+            if ($search_tax != null || $search_tax != "") {
+                $query .= "AND provider_infos.tax_id LIKE '%$search_tax%' ";
+            }
+
+        }
+
+
+        if (isset($search_npi)) {
+            if ($search_npi != null || $search_npi != "") {
+                $query .= "AND provider_infos.npi LIKE '%$search_npi%' ";
+            }
+
+        }
+
+        $query .= "ORDER BY providers.full_name ASC";
 
 
         $query_exe = DB::select($query);
@@ -167,6 +224,7 @@ class BaseStaffProviderController extends Controller
         $proider->working_hours = $request->working_hours;
         $proider->country_name = $request->country_name;
         $proider->contract_manager = $request->contract_manager;
+        $proider->caqh_id = $request->caqh_id;
         $proider->save();
 
 
@@ -1047,6 +1105,55 @@ class BaseStaffProviderController extends Controller
     {
         $all_doc_type = provider_document_type::all();
         return response()->json($all_doc_type, 200);
+    }
+
+
+    public function provider_insurance_document($id)
+    {
+        $provider = Provider::where('id', $id)->first();
+        $contract_name = contact_name::orderBy('contact_name', 'asc')->get();
+        $document_types = provider_document_type::orderBy('doc_type_name', 'asc')->get();
+        $all_ins_dcouments = provider_insurance_document::where('provider_id', $id)->orderBy('id', 'desc')->paginate(10);
+        return view('baseStaff.provider.providerInsuranceDocument', compact('provider', 'contract_name', 'document_types', 'all_ins_dcouments'));
+    }
+
+
+    public function provider_insurance_document_save(Request $request)
+    {
+        $new_pro_ins_doc = new provider_insurance_document();
+        $new_pro_ins_doc->provider_id = $request->provider_id;
+        $new_pro_ins_doc->contract_name_id = $request->contract_name_id;
+        $new_pro_ins_doc->document_type_id = $request->document_type_id;
+        $new_pro_ins_doc->description = $request->description;
+        $new_pro_ins_doc->created_on = Carbon::now()->format('Y-m-d');
+        $new_pro_ins_doc->created_by = Auth::user()->name;
+        $new_pro_ins_doc->user_id = Auth::user()->id;
+        $new_pro_ins_doc->user_type = 1;
+        $new_pro_ins_doc->save();
+        return back()->with('success', 'Provider Insurance Document Successfully Created');
+    }
+
+
+    public function provider_insurance_document_update(Request $request)
+    {
+        $new_pro_ins_doc = provider_insurance_document::where('id', $request->edit_ins_doc)->first();
+        $new_pro_ins_doc->contract_name_id = $request->contract_name_id;
+        $new_pro_ins_doc->document_type_id = $request->document_type_id;
+        $new_pro_ins_doc->description = $request->description;
+        $new_pro_ins_doc->save();
+        return back()->with('success', 'Provider Insurance Document Successfully Updated');
+    }
+
+
+    public function provider_insurance_document_delete($id)
+    {
+        $pro_ins_doc_del = provider_insurance_document::where('id', $id)->first();
+        if ($pro_ins_doc_del) {
+            $pro_ins_doc_del->delete();
+            return back()->with('success', 'Provider Insurance Document Successfully Deleted');
+        } else {
+            return back()->with('alert', 'Provider Insurance Document Not Found');
+        }
     }
 
 

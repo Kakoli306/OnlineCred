@@ -4,6 +4,7 @@
         <th>Facility Name</th>
         <th>Provider Name</th>
         <th>Contract Name</th>
+        <th>Worked Date</th>
         <th>Followup Date</th>
         <th>Status</th>
         <th>CreatedBy/AssignedTo</th>
@@ -36,6 +37,11 @@
                 <td>
                     @if ($con_name)
                         {{$con_name->contract_name}}
+                    @endif
+                </td>
+                <td>
+                    @if ($notes->worked_date != null || $notes->worked_date != "")
+                        {{\Carbon\Carbon::parse($notes->worked_date)->format('m/d/Y')}}
                     @endif
                 </td>
                 <td>

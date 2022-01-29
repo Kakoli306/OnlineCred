@@ -66,6 +66,11 @@
                     <a class="nav-link active" href="{{route('account.manager.provider.document',$provider->id)}}">Documents</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{route('account.manager.provider.insurance.document',$provider->id)}}">Insurnace
+                        Documents</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{route('account.manager.provider.portal',$provider->id)}}">Provider
                         Portal</a>
                 </li>

@@ -90,6 +90,10 @@
                             class="badge badge-danger">({{$reminders_count}})</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('basestaff.download.files')}}" class="iq-waves-effect"><i
+                            class="ri-water-flash-line"></i><span>Download Files</span></a>
+                </li>
                 <li><a href="{{route('basestaff.practice.lists')}}" class="iq-waves-effect"><i
                             class="ri-settings-line"></i><span>Update Practice</span></a>
                 </li>

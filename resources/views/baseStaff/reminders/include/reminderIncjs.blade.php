@@ -1,4 +1,13 @@
 @section('js')
+    <script src="{{asset('assets/multisel/bootstrap-multiselect.js')}}"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('#all_prov_name').multiselect();
+            $('#all_con_data').multiselect();
+            $('#all_status_data').multiselect();
+        });
+    </script>
     <script>
         $(document).ready(function () {
             $('.loading2').show();
@@ -40,14 +49,17 @@
                     },
                     success: function (data) {
                         $('.all_prov_name').empty();
-                        $('.all_prov_name').append(
-                            `<option value="">select facility</option>`
-                        );
+
                         $.each(data, function (index, value) {
                             $('.all_prov_name').append(
                                 `<option value="${value.id}">${value.full_name}</option>`
                             );
-                        })
+                        });
+
+                        $('#all_prov_name').multiselect({includeSelectAllOption: true});
+                        $("#all_prov_name").multiselect('rebuild');
+                        $('.loading2').hide();
+
                         $('.loading2').hide();
                     }
 
@@ -69,18 +81,43 @@
                     },
                     success: function (data) {
                         $('.all_con_data').empty();
-                        $('.all_con_data').append(
-                            `<option value="">select facility</option>`
-                        );
+
                         $.each(data, function (index, value) {
                             $('.all_con_data').append(
                                 `<option value="${value.id}">${value.contract_name}</option>`
                             );
-                        })
+                        });
+                        $('#all_con_data').multiselect({includeSelectAllOption: true});
+                        $("#all_con_data").multiselect('rebuild');
+
                         $('.loading2').hide();
                     }
                 });
             });
+
+
+            //all status
+            $.ajax({
+                type: "POST",
+                url: "{{route('basestaff.reminder.get.all.status')}}",
+                data: {
+                    '_token': "{{csrf_token()}}",
+
+                },
+                success: function (data) {
+                    $('.all_status_data').empty();
+
+                    $.each(data, function (index, value) {
+                        $('.all_status_data').append(
+                            `<option value="${value.id}">${value.contact_status}</option>`
+                        );
+                    })
+                    $('#all_status_data').multiselect({includeSelectAllOption: true});
+                    $("#all_status_data").multiselect('rebuild');
+                    $('.loading2').hide();
+                }
+            });
+
 
         })
     </script>
@@ -141,7 +178,7 @@
                 let all_prov_name = $('.all_prov_name').val();
                 let all_con_data = $('.all_con_data').val();
                 let fowllowup_filter = $('.fowllowup_filter').val();
-                let status_filter = $('.status_filter').val();
+                let status_filter = $('.all_status_data').val();
 
                 $('.loading2').show();
                 $.ajax({
@@ -176,7 +213,7 @@
             let all_prov_name = $('.all_prov_name').val();
             let all_con_data = $('.all_con_data').val();
             let fowllowup_filter = $('.fowllowup_filter').val();
-            let status_filter = $('.status_filter').val();
+            let status_filter = $('.all_status_data').val();
             $.ajax(
                 {
                     url: myurl,

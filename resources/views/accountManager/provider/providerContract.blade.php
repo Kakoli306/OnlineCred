@@ -66,6 +66,11 @@
                        href="{{route('account.manager.provider.document',$provider->id)}}">Documents</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{route('account.manager.provider.insurance.document',$provider->id)}}">Insurnace
+                        Documents</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{route('account.manager.provider.portal',$provider->id)}}">Provider
                         Portal</a>
                 </li>
@@ -333,7 +338,7 @@
                                                                         class="text-danger"></span></label>
                                                             </div>
                                                             <div class="col-md-8 mb-2">
-                                                               
+
                                                                 <select class="form-control form-control-sm"
                                                                         name="note_assign_to_name">
                                                                     <option value=""></option>

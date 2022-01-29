@@ -64,9 +64,14 @@
                     <a class="nav-link" href="{{route('admin.provider.document',$provider->id)}}">Documents</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{route('admin.provider.insurance.document',$provider->id)}}">Insurance
+                        Documents</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" href="{{route('admin.provider.portal',$provider->id)}}">Provider
                         Portal</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('admin.provider.online.access',$provider->id)}}">Online Access</a>
                 </li>

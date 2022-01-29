@@ -65,6 +65,10 @@
                         <a class="nav-link" href="{{route('basestaff.provider.document',$provider->id)}}">Documents</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{route('basestaff.insurance.document',$provider->id)}}">Insurance
+                            Documents</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{route('basestaff.provider.portal',$provider->id)}}">Provider
                             Portal</a>
                     </li>
@@ -248,10 +252,16 @@
                                    value="{{$provider->country_name}}">
                         </div>
 
-                        <div class="col-md-3 col-xl-3 mb-2">
+                        <div class="col-md-6 col-xl-6 mb-2">
                             <label class="font-weight-bold">Contact Manager </label>
                             <input type="text" class="form-control form-control-sm" name="contract_manager"
                                    value="{{$provider->contract_manager}}">
+                        </div>
+
+                        <div class="col-md-6 col-xl-6 mb-2">
+                            <label class="font-weight-bold">CAQH ID </label>
+                            <input type="text" class="form-control form-control-sm" name="caqh_id"
+                                   value="{{$provider->caqh_id}}">
                         </div>
 
 
