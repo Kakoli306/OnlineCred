@@ -52,6 +52,23 @@
 
                         </select>
                     </div>
+
+                    <!-- <div class="mr-2">
+                    <label>Account Type</label>
+                    <br>
+                        <select class="form-control form-control-sm account_type_user user_type">
+                            <option value="0">Account Type</option>
+
+                            <option value="2">Account Manager</option>
+                          
+                        </select>
+                    </div> -->
+                    <!-- <div class="mr-2">
+                    <label>Select User</label>
+                        <select class="form-control form-control-sm user_id">
+                            <option value="0">Select User</option>
+                        </select>
+                    </div> -->
                     <div class="align-self-end">
                         <button type="button" class="btn btn-sm btn-primary" id="goBtn">Go</button>
                     </div>

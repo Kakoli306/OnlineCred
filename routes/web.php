@@ -166,6 +166,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
         Route::post('/reminder-get-prov-by-prc', [Controllers\Admin\AdminReminderController::class, 'reminder_al_prov_by_prc'])->name('admin.reminder.prov.by.fac');
         Route::post('/reminder-get-con-by-prov', [Controllers\Admin\AdminReminderController::class, 'reminder_con_by_prov'])->name('admin.reminder.con.by.prov');
         Route::post('/reminder-get-all-status', [Controllers\Admin\AdminReminderController::class, 'reminder_get_all_status'])->name('admin.reminder.get.all.status');
+        Route::post('/reminder-get-all-users', [Controllers\Admin\AdminReminderController::class, 'reminder_get_all_users'])->name('admin.reminder.get.all.users');
+
 
         //reminder by filter
         Route::post('/reminder-show-all-record', [Controllers\Admin\AdminReminderController::class, 'reminder_show_all_record'])->name('admin.reminder.show.all');
@@ -292,6 +294,8 @@ Route::group(['middleware' => ['auth:accountmanager']], function () {
         Route::get('/account-activity', [Controllers\Accountmanager\AccManAccActivityController::class, 'account_activity'])->name('account.manager.account.activity');
 
         //reminder
+        Route::post('/get-all-account', [Controllers\Accountmanager\AccManReminderController::class, 'get_all_account'])->name('account.manager.get.all.account');
+
         Route::get('/reminder', [Controllers\Accountmanager\AccManReminderController::class, 'reminders'])->name('account.manager.reminder');
         Route::post('/reminder-get-all-prc', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_get_all_prc'])->name('account.manager.reminder.get.all.prc');
         Route::post('/reminder-get-prov-by-prc', [Controllers\Accountmanager\AccManReminderController::class, 'reminder_al_prov_by_prc'])->name('account.manager.reminder.prov.by.fac');
@@ -385,6 +389,7 @@ Route::group(['middleware' => ['auth:basestaff']], function () {
         Route::post('/report-contract-by-provider', [Controllers\BaseStaff\BaseStaffReportController::class, 'report_contract_by_provider'])->name('basestaff.report.contract.by.provider');
         Route::post('/report-save', [Controllers\BaseStaff\BaseStaffReportController::class, 'report_save'])->name('basestaff.report.save');
 
+        Route::get('/report-export/{id}', [Controllers\Admin\BaseStaffReportController::class, 'report_export'])->name('basestaff.report.export');
 
         //account activity
         Route::get('/account-activity', [Controllers\BaseStaff\BaseStaffAccActivityController::class, 'account_activity'])->name('basestaff.activity');

@@ -12,10 +12,10 @@ class AdminDownloadController extends Controller
 {
     public function download_files()
     {
-        $reports = report::where('user_id', Auth::user()->id)->where('user_type', Auth::user()->account_type)->paginate(10);
+        $reports = report::where('user_id', Auth::user()->id)->where('user_type', Auth::user()->account_type)->orderBy('id', 'desc')->paginate(10);
         return view('admin.download.downloadFiles', compact('reports'));
     }
-
+   
 
     public function download_reminder_files($id)
     {

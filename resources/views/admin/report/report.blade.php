@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 @section('headerselect')
+<link rel="stylesheet"
+      href="{{asset('assets/multisel/bootstrap-multiselect.css')}}">
     <div class="iq-search-bar">
         <h5>ABC Behavioral Therapy Center</h5>
     </div>
@@ -12,41 +14,74 @@
                 @csrf
                 <div class="d-flex">
                     <div class="mr-2 mb-2">
-                        <label>Facility</label>
-                        <select class="form-control form-control-sm all_faciity" name="facility_id" required>
-                            <option value=""></option>
+                        <label>Facility Name</label>
+                        <!-- <select class="form-control form-control-sm all_faciity" name="facility_id" required>
+                            <option value=""></option> -->
+                            <select class="form-control form-control-sm all_prc_data" name="all_prc_data">
+
                         </select>
                     </div>
                     <div class="mr-2 mb-2">
-                        <label>Provider</label>
-                        <select class="form-control form-control-sm all_provider" name="provider_id" required>
-                            <option value=""></option>
+                        <label>Select Provider</label>
+                        <!-- <select class="form-control form-control-sm all_provider" name="provider_id" required>
+                            <option value=""></option> -->
+                            <br>
+                            <select id="all_prov_name" name="all_prov_name[]"
+                                    class="all_prov_name form-control form-control-sm"
+                                    multiple="multiple">
                         </select>
                     </div>
                     <div class="mr-2 mb-2">
-                        <label>Contracts</label>
-                        <select class="form-control form-control-sm all_cotract" name="contact_id" required>
-                            <option value=""></option>
+                        <label>Contract Name</label>
+                        <br>
+                        <!-- <select class="form-control form-control-sm all_cotract" name="contact_id" required>
+                            <option value=""></option> -->
+                            <select id="all_con_data" name="all_con_data[]"
+                                    class="form-control form-control-sm all_con_data" multiple="multiple">
                         </select>
+                    </div>
+                    <div class="mr-2">
+                        <label>Followup Date</label>
+                        <input type="date" class="form-control form-control-sm fowllowup_filter">
                     </div>
                     <div class="mr-2 mb-2">
                         <label>Status</label>
                         <br>
-                        <select class="form-control form-control-sm custom-select" name="report_status[]" multiple>
+                        <!-- <select class="form-control form-control-sm custom-select" name="report_status[]" multiple>
                             @foreach($all_status as $status)
                                 <option value="{{$status->id}}">{{$status->contact_status}}</option>
-                            @endforeach
+                            @endforeach -->
+                            <select id="all_status_data" name="all_status_data[]"
+                                    class="form-control form-control-sm all_status_data"
+                                    multiple="multiple">
                         </select>
 
                     </div>
+
                     <div class="mr-2 mb-2">
+            <label>Account Type</label>
+            <br>
+                <select class="form-control form-control-sm account_type_user user_type">
+                    <option value="0">Account Type</option>
+                    <option value="1">Admin</option>
+                    <option value="2">Account Manager</option>
+                    <option value="3">Base Staff</option>
+                </select>
+            </div>
+            <div class="mr-2">
+            <label>Select User</label>
+                <select class="form-control form-control-sm user_id">
+                    <option value="0">Select User</option>
+                </select>
+            </div>
+                    <!-- <div class="mr-2 mb-2">
                         <label>From Date</label>
                         <input type="date" class="form-control form-control-sm" name="form_date" required>
                     </div>
                     <div class="mr-2 mb-2">
                         <label>To Date</label>
                         <input type="date" class="form-control form-control-sm" name="to_date" required>
-                    </div>
+                    </div> -->
                     <div class="align-self-end mb-2">
                         <button type="submit" class="btn btn-sm btn-primary">Export</button>
                     </div>
@@ -98,4 +133,4 @@
         </div>
     </div>
 @endsection
-@include('admin.report.include.reportinc')
+@include('admin.report.include.reportIncjs')

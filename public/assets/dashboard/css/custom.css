@@ -602,10 +602,16 @@ tfoot td {
     text-transform: capitalize;
     border-bottom: 0;
     text-shadow: 0 0 2px #000;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .c_table tbody td {
     padding: 4px;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .statement_table thead {
@@ -709,9 +715,7 @@ body.sidebar-main .iq-sidebar {
     min-height: 100px;
 }
 
-
 @media (min-width: 1000px) {
-
     body.sidebar-main-menu .iq-sidebar-menu .iq-menu li a .badge {
         opacity: 1 !important;
         display: block !important;
@@ -727,42 +731,23 @@ body.sidebar-main .iq-sidebar {
     font-size: 12px;
 }
 
-/*.multiple_select {*/
-/*    !* height: 18px; *!*/
-/*    width: 90%;*/
-/*    overflow: hidden;*/
-/*    -webkit-appearance: menulist;*/
-/*    position: relative;*/
-/*    padding: 0.25rem 0.5rem;*/
-/*    height: calc(1.5em + 0.5rem + 2px);*/
-/*    border: 1px solid #ced4da;*/
-/*}*/
+.multiselect-native-select .btn-group {
+    display: block;
+    text-align: left;
+}
 
-/*.multiple_select::before {*/
-/*    content: var(--text);*/
-/*    display: block;*/
-/*    margin-left: 5px;*/
-/*    margin-bottom: 2px;*/
-/*}*/
+.custom-select {
+    text-align: left !important;
+    font-size: 12px;
+    display: block;
+    padding: 4px 30px 4px 8px;
+    background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 4px center/7px 8px;
+    height: calc(1.5em + .5rem + 2px);
+}
 
-/*.multiple_select_active {*/
-/*    overflow: visible !important;*/
-/*}*/
-
-/*.multiple_select option {*/
-/*    display: none;*/
-/*    height: 18px;*/
-/*    background-color: white;*/
-/*}*/
-
-/*.multiple_select_active option {*/
-/*    display: block;*/
-/*}*/
-
-/*.multiple_select option::before {*/
-/*    content: "\2610";*/
-/*}*/
-
-/*.multiple_select option:checked::before {*/
-/*    content: "\2611";*/
-/*}*/
+.d-flex .form-control-sm,
+.custom-select {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

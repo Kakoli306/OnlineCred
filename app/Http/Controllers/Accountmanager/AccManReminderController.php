@@ -20,9 +20,21 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
+use App\Models\AccountManager;
 
 class AccManReminderController extends Controller
 {
+
+  public function get_all_account(Request $request)
+  {
+      $type = $request->type_id;
+       if ($type == 2) {
+          $user = AccountManager::all();
+      }
+      return response()->json($user, 200);
+
+  }
+
     public function reminders()
     {
         $today_date = Carbon::now()->format('Y-m-d');
@@ -103,7 +115,8 @@ class AccManReminderController extends Controller
         $all_con_data = $request->all_con_data;
         $fowllowup_filter = $request->fowllowup_filter;
         $status_filter = $request->status_filter;
-
+        $user_type = $request->user_type;
+        $user_id = $request->user_id;
 
         $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
             ->where('user_type', Auth::user()->account_type)
@@ -161,6 +174,13 @@ class AccManReminderController extends Controller
             }
             $STATUS_filter_DATA = implode("','", $status_array);
             $query .= "AND status IN('" . $STATUS_filter_DATA . "') ";
+        }
+
+        if (isset($user_type) && isset($user_id)){
+            if($user_type != null && $user_id != null){
+                $query .= "AND assignedto_user_type = $user_type ";
+                $query .= "AND assignedto_user_id = $user_id ";
+            }
         }
 
         $query .= "ORDER BY id DESC";

@@ -8,6 +8,8 @@
         <th>Followup Date</th>
         <th>Status</th>
         <th>CreatedBy/AssignedTo</th>
+       
+      
     </tr>
     </thead>
     <tbody>
@@ -105,7 +107,7 @@
                 </td>
             </tr>
         @endif
-
+    
 
     @endforeach
     </tbody>

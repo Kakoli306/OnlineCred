@@ -29,15 +29,21 @@ class AdminReminderController extends Controller
 {
     public function reminder()
     {
-
-
-        return view('admin.reminder.reminderList');
+      return view('admin.reminder.reminderList');
     }
 
     public function reminder_get_all_prc(Request $request)
     {
         $all_prc = practice::all();
         return response()->json($all_prc, 200);
+    }
+
+    public function reminder_get_all_users(Request $request)
+    {
+        $reminder_users = reminder::where('user_id', $request->user_id)->get();
+
+        return response()->json($reminder_users, 200);
+
     }
 
     public function reminder_al_prov_by_prc(Request $request)
@@ -51,8 +57,6 @@ class AdminReminderController extends Controller
 
         $provs = Provider::whereIn('id', $array)->get();
         return response()->json($provs, 200);
-
-
     }
 
 
@@ -61,6 +65,8 @@ class AdminReminderController extends Controller
         $con = provider_contract::where('provider_id', $request->prov_id)->get();
         return response()->json($con, 200);
     }
+
+
 
     public function reminder_get_all_status(Request $request)
     {
@@ -78,7 +84,8 @@ class AdminReminderController extends Controller
         $all_con_data = $request->all_con_data;
         $fowllowup_filter = $request->fowllowup_filter;
         $status_filter = $request->status_filter;
-
+        $user_type = $request->user_type;
+        $user_id = $request->user_id;
 
         $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
             ->where('user_type', Auth::user()->account_type)
@@ -96,6 +103,7 @@ class AdminReminderController extends Controller
         if (isset($all_prc_data) && $all_prc_data != null || $all_prc_data != '') {
             $query .= "AND facility_id=$all_prc_data ";
         }
+
 
         if ($all_prc_data == null || $all_prc_data == '') {
             $CAT_filter = implode("','", $array);
@@ -135,6 +143,13 @@ class AdminReminderController extends Controller
             }
             $STATUS_filter_DATA = implode("','", $status_array);
             $query .= "AND status IN('" . $STATUS_filter_DATA . "') ";
+        }
+
+        if (isset($user_type) && isset($user_id)){
+            if($user_type != null && $user_id != null){
+                $query .= "AND assignedto_user_type = $user_type ";
+                $query .= "AND assignedto_user_id = $user_id ";
+            }
         }
 
         $query .= "ORDER BY id DESC";
@@ -162,6 +177,8 @@ class AdminReminderController extends Controller
         $all_con_data = $request->all_con_data;
         $fowllowup_filter = $request->fowllowup_filter;
         $status_filter = $request->status_filter;
+        $user_type = $request->user_type;
+        $user_id = $request->user_id;
 
 
         $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
@@ -180,6 +197,8 @@ class AdminReminderController extends Controller
         if (isset($all_prc_data) && $all_prc_data != null || $all_prc_data != '') {
             $query .= "AND facility_id=$all_prc_data ";
         }
+
+
 
         if ($all_prc_data == null || $all_prc_data == '') {
             $CAT_filter = implode("','", $array);
@@ -219,6 +238,13 @@ class AdminReminderController extends Controller
             }
             $STATUS_filter_DATA = implode("','", $status_array);
             $query .= "AND status IN('" . $STATUS_filter_DATA . "') ";
+        }
+
+        if (isset($user_type) && isset($user_id)){
+            if($user_type != null && $user_id != null){
+                $query .= "AND assignedto_user_type = $user_type ";
+                $query .= "AND assignedto_user_id = $user_id ";
+            }
         }
 
         $query .= "ORDER BY id DESC";
@@ -356,6 +382,7 @@ class AdminReminderController extends Controller
 
 
             })
+
             ->rawColumns(['facility_id', 'provider_id', 'contract_id', 'followup_date', 'status'])
             ->make(true);
     }
@@ -518,8 +545,9 @@ class AdminReminderController extends Controller
         $new_report->is_completed = 1;
         $new_report->save();
 
-
+//dd($new_report);
         $providers = $request->all_prov_name;
+      //  dd($providers);
 
         if ($providers) {
             if (count($providers) > 0) {
@@ -531,10 +559,10 @@ class AdminReminderController extends Controller
                 }
             }
         }
-
+       
 
         $contracts = $request->all_con_data;
-
+       // dd($contracts);
         if ($contracts) {
             if (count($contracts) > 0) {
                 for ($i = 0; $i < count($contracts); $i++) {
@@ -546,6 +574,7 @@ class AdminReminderController extends Controller
             }
         }
 
+       
 
         $status = $request->all_status_data;
         if ($status) {
@@ -559,6 +588,7 @@ class AdminReminderController extends Controller
             }
         }
 
+       // dd($status);
 
         return back()->with('success', 'Reminder Export Added Successfully');
 

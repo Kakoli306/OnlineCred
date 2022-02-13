@@ -37,6 +37,38 @@
 
             });
 
+            $('.account_type_user').change(function () {
+                $('.loading2').show();
+                let type_id = $(this).val();
+                if (type_id == 0) {
+                    toastr["error"]("Please Select User Type ", 'ALERT!');
+                    $('.loading2').hide();
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{route('admin.get.all.user')}}",
+                        data: {
+                            '_token': "{{csrf_token()}}",
+                            'type_id': type_id
+                        },
+                        success: function (data) {
+                            $('.user_id').empty();
+                            $('.user_id').append(
+                                `<option value="0">select user</option>`
+                            )
+                            $.each(data, function (index, value) {
+                                $('.user_id').append(
+                                    `<option value="${value.id}">${value.name}</option>`
+                                )
+                            });
+
+                            $('.loading2').hide();
+
+                        }
+                    });
+                }
+            })
+
 
             $('.all_prc_data').change(function () {
                 $('.loading2').show();
@@ -169,6 +201,9 @@
                 let all_con_data = $('.all_con_data').val();
                 let fowllowup_filter = $('.fowllowup_filter').val();
                 let status_filter = $('.all_status_data').val();
+                let user_type = $('.user_type').val();
+                let user_id = $('.user_id').val();
+                
                 $('.loading2').show();
                 $.ajax({
                     type: "POST",
@@ -180,6 +215,9 @@
                         'all_con_data': all_con_data,
                         'fowllowup_filter': fowllowup_filter,
                         'status_filter': status_filter,
+                        'user_type': user_type,
+                        'user_id' : user_id
+                       
                     },
                     success: function (data) {
                         console.log(data)
@@ -197,6 +235,8 @@
             let all_con_data = $('.all_con_data').val();
             let fowllowup_filter = $('.fowllowup_filter').val();
             let status_filter = $('.all_status_data').val();
+            let user_type = $('.user_type').val();
+                let user_id = $('.user_id').val();
             $.ajax(
                 {
                     url: myurl,
@@ -208,6 +248,8 @@
                         'all_con_data': all_con_data,
                         'fowllowup_filter': fowllowup_filter,
                         'status_filter': status_filter,
+                        'user_type': user_type,
+                        'user_id' : user_id
                     },
                     datatype: "html"
                 }).done(function (data) {
