@@ -82,14 +82,18 @@
                         <label>To Date</label>
                         <input type="date" class="form-control form-control-sm" name="to_date" required>
                     </div> -->
-                    <div class="align-self-end mb-2">
-                        <button type="submit" class="btn btn-sm btn-primary">Export</button>
+
+                    <div class="align-self-end">
+                        <button type="button" class="btn btn-sm btn-primary" id="goBtn">Go</button>
+                    </div>
+                    <div class="align-self-end" style="margin-left: 10px;">
+                        <button type="submit" class="btn btn-sm btn-primary" id="goBtn">Export Excel</button>
                     </div>
                 </div>
             </form>
             <!--/ Filter -->
-            <h2 class="common-title">Download History</h2>
-            <div class="table-responsive">
+            <!-- <h2 class="common-title">Download History</h2> -->
+            <!-- <div class="table-responsive">
                 <table class="table table-sm table-bordered">
                     <thead>
                     <tr>
@@ -129,6 +133,24 @@
                     </tbody>
                 </table>
                 {{$all_reports->links()}}
+            </div> -->
+            <div class="table-responsive reminderTable">
+                <table class="table table-sm table-bordered" >
+                    <thead style="background-color: #375EB7 !important;color: white">
+                    <tr>
+                        <th>Facility Name</th>
+                        <th>Provider Name</th>
+                        <th>Contract Name</th>
+                        <th>Followup Date</th>
+                        <th>Status</th>
+                        <th>CreatedBy/AssignedTo</th>
+                      
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>

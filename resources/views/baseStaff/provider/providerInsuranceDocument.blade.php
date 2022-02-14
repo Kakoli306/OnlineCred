@@ -134,6 +134,11 @@
                                             <input type="hidden" class="form-control form-control-sm" name="provider_id"
                                                    value="{{$provider->id}}">
                                         </div>
+                                        <div class="col-md-4 pr-2">
+                                            <label>File</label>
+                                            <input type="file" class="form-control form-control-sm" name="prov_ins_file" id="prov_ins_file">
+                                           
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -249,6 +254,14 @@
                                                                        class="form-control form-control-sm"
                                                                        name="edit_ins_doc"
                                                                        value="{{$ins_doc->id}}">
+                                                            </div>
+
+                                                            <div class="col-md-4 pr-2">
+                                                                <label>File</label>
+                                                                <input type="file" class="form-control form-control-sm"
+                                                                       name="prov_ins_file" id="prov_ins_file"
+                                                                       value="{{$ins_doc->prov_ins_file}}">
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>

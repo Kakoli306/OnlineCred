@@ -1105,6 +1105,7 @@ class AccManProviderController extends Controller
 
     public function provider_insurance_document_save(Request $request)
     {
+       
         $new_pro_ins_doc = new provider_insurance_document();
         $new_pro_ins_doc->provider_id = $request->provider_id;
         $new_pro_ins_doc->contract_name_id = $request->contract_name_id;
@@ -1114,6 +1115,16 @@ class AccManProviderController extends Controller
         $new_pro_ins_doc->created_by = Auth::user()->name;
         $new_pro_ins_doc->user_id = Auth::user()->id;
         $new_pro_ins_doc->user_type = 1;
+
+        if ($request->hasFile('prov_ins_file')) {
+            $image = $request->file('prov_ins_file');
+            $name = $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/provider_insurance/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $new_pro_ins_doc->prov_ins_file = $imageUrl;
+        }
         $new_pro_ins_doc->save();
         return back()->with('success', 'Provider Insurance Document Successfully Created');
     }
@@ -1125,6 +1136,17 @@ class AccManProviderController extends Controller
         $new_pro_ins_doc->contract_name_id = $request->contract_name_id;
         $new_pro_ins_doc->document_type_id = $request->document_type_id;
         $new_pro_ins_doc->description = $request->description;
+        $update_doc = provider_document::where('id', $request->doc_edit_id)->first();
+       
+        if ($request->hasFile('prov_ins_file')) {
+            $image = $request->file('prov_ins_file');
+            $name = $image->getClientOriginalName();
+            $uploadPath = 'assets/dashboard/provider_insurance/';
+            $image->move($uploadPath, $name);
+            $imageUrl = $uploadPath . $name;
+
+            $new_pro_ins_doc->prov_ins_file = $imageUrl;
+        }
         $new_pro_ins_doc->save();
         return back()->with('success', 'Provider Insurance Document Successfully Updated');
     }

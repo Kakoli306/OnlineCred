@@ -156,7 +156,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
         Route::post('/report-get-contact-by-provider', [Controllers\Admin\AdminReportController::class, 'report_get_contact_by_provider'])->name('admin.report.contract.by.provider');
         Route::post('/report-save', [Controllers\Admin\AdminReportController::class, 'report_save'])->name('admin.report.save');
         Route::get('/report-export/{id}', [Controllers\Admin\AdminReportController::class, 'report_export'])->name('admin.report.export');
-
+        Route::post('/report-show-all-record', [Controllers\Admin\AdminReportController::class, 'report_show_all_record'])->name('admin.report.show.all');
+        Route::get('/report-show-all-record', [Controllers\Admin\AdminReportController::class, 'report_show_all_record_get']);
         //account activity
         Route::get('/account-activity', [Controllers\Admin\AdminActivityController::class, 'account_activity'])->name('admin.account.activity');
 

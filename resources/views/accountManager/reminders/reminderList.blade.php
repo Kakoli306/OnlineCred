@@ -79,6 +79,21 @@
             </form>
 
             <div class="table-responsive reminderTable">
+                <table class="table table-sm table-bordered" id="all_rem_table">
+                    <thead style="background-color: #375EB7 !important;color: white">
+                    <tr>
+                        <th>Facility Name</th>
+                        <th>Provider Name</th>
+                        <th>Contract Name</th>
+                        <th>Followup Date</th>
+                        <th>Status</th>
+                        <th>CreatedBy/AssignedTo</th>
+                      
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
 
             </div>
         </div>

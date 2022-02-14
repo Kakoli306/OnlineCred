@@ -169,6 +169,191 @@ return back()->with('success', 'Report Submitted');
         return Response::download(public_path("report/" . $report->report_name . ".csv"));
     }
 
+    public function report_show_all_record(Request $request)
+    {
+        $today_date = Carbon::now()->format('Y-m-d');
+
+        $all_prc_data = $request->all_prc_data;
+        $all_prov_name = $request->all_prov_name;
+        $all_con_data = $request->all_con_data;
+        $fowllowup_filter = $request->fowllowup_filter;
+        $status_filter = $request->status_filter;
+        $user_type = $request->user_type;
+        $user_id = $request->user_id;
+
+        $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
+            ->where('user_type', Auth::user()->account_type)
+            ->get();
+
+
+        $array = [];
+        foreach ($assign_prc as $acprc) {
+            array_push($array, $acprc->practice_id);
+        }
+
+
+        $query = "SELECT * FROM reminders WHERE is_show=1 ";
+
+        if (isset($all_prc_data) && $all_prc_data != null || $all_prc_data != '') {
+            $query .= "AND facility_id=$all_prc_data ";
+        }
+
+
+        if ($all_prc_data == null || $all_prc_data == '') {
+            $CAT_filter = implode("','", $array);
+            $query .= "AND facility_id IN('" . $CAT_filter . "') ";
+        }
+
+        if (isset($all_prov_name)) {
+
+            $prov_array = [];
+            foreach ($all_prov_name as $all_provname) {
+                array_push($prov_array, $all_provname);
+            }
+
+            $PROV_filter = implode("','", $prov_array);
+            $query .= "AND provider_id IN('" . $PROV_filter . "') ";
+        }
+
+        if (isset($all_con_data)) {
+
+            $con_array = [];
+            foreach ($all_con_data as $all_condata) {
+                array_push($con_array, $all_condata);
+            }
+
+            $CON_filter = implode("','", $con_array);
+            $query .= "AND contract_id IN('" . $CON_filter . "') ";
+        }
+
+        if (isset($fowllowup_filter)) {
+            $query .= "AND followup_date<='$fowllowup_filter' ";
+        }
+
+        if (isset($status_filter)) {
+            $status_array = [];
+            foreach ($status_filter as $statusdata) {
+                array_push($status_array, $statusdata);
+            }
+            $STATUS_filter_DATA = implode("','", $status_array);
+            $query .= "AND status IN('" . $STATUS_filter_DATA . "') ";
+        }
+
+        if (isset($user_type) && isset($user_id)){
+            if($user_type != null && $user_id != null){
+                $query .= "AND assignedto_user_type = $user_type ";
+                $query .= "AND assignedto_user_id = $user_id ";
+            }
+        }
+
+        $query .= "ORDER BY id DESC";
+        $query_exe = DB::select($query);
+
+
+        $reminders = $this->arrayPaginator($query_exe, $request);
+
+
+        return response()->json([
+            'notices' => $reminders,
+            'view' => View::make('admin.report.include.reportTable', compact('reminders'))->render(),
+            'pagination' => (string)$reminders->links()
+        ]);
+    }
+
+
+    public function report_show_all_record_get(Request $request)
+    {
+        $today_date = Carbon::now()->format('Y-m-d');
+
+
+        $all_prc_data = $request->all_prc_data;
+        $all_prov_name = $request->all_prov_name;
+        $all_con_data = $request->all_con_data;
+        $fowllowup_filter = $request->fowllowup_filter;
+        $status_filter = $request->status_filter;
+        $user_type = $request->user_type;
+        $user_id = $request->user_id;
+
+
+        $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
+            ->where('user_type', Auth::user()->account_type)
+            ->get();
+
+
+        $array = [];
+        foreach ($assign_prc as $acprc) {
+            array_push($array, $acprc->practice_id);
+        }
+
+
+        $query = "SELECT * FROM reminders WHERE is_show=1 ";
+
+        if (isset($all_prc_data) && $all_prc_data != null || $all_prc_data != '') {
+            $query .= "AND facility_id=$all_prc_data ";
+        }
+
+
+
+        if ($all_prc_data == null || $all_prc_data == '') {
+            $CAT_filter = implode("','", $array);
+            $query .= "AND facility_id IN('" . $CAT_filter . "') ";
+        }
+
+        if (isset($all_prov_name)) {
+
+            $prov_array = [];
+            foreach ($all_prov_name as $all_provname) {
+                array_push($prov_array, $all_provname);
+            }
+
+            $PROV_filter = implode("','", $prov_array);
+            $query .= "AND provider_id IN('" . $PROV_filter . "') ";
+        }
+
+        if (isset($all_con_data)) {
+
+            $con_array = [];
+            foreach ($all_con_data as $all_condata) {
+                array_push($con_array, $all_condata);
+            }
+
+            $CON_filter = implode("','", $con_array);
+            $query .= "AND contract_id IN('" . $CON_filter . "') ";
+        }
+
+        if (isset($fowllowup_filter)) {
+            $query .= "AND followup_date<='$fowllowup_filter' ";
+        }
+
+        if (isset($status_filter)) {
+            $status_array = [];
+            foreach ($status_filter as $statusdata) {
+                array_push($status_array, $statusdata);
+            }
+            $STATUS_filter_DATA = implode("','", $status_array);
+            $query .= "AND status IN('" . $STATUS_filter_DATA . "') ";
+        }
+
+        if (isset($user_type) && isset($user_id)){
+            if($user_type != null && $user_id != null){
+                $query .= "AND assignedto_user_type = $user_type ";
+                $query .= "AND assignedto_user_id = $user_id ";
+            }
+        }
+
+        $query .= "ORDER BY id DESC";
+        $query_exe = DB::select($query);
+
+
+        $reminders = $this->arrayPaginator($query_exe, $request);
+
+
+        return response()->json([
+            'notices' => $reminders,
+            'view' => View::make('admin.report.include.reportTable', compact('reminders'))->render(),
+            'pagination' => (string)$reminders->links()
+        ]);
+    }
     
 
 }

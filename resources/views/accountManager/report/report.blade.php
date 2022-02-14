@@ -94,7 +94,9 @@
                         </select>
                     </div>
 
-                   
+                    <div class="align-self-end">
+                        <button type="button" class="btn btn-sm btn-primary" id="goBtn">Go</button>
+                    </div>
                    
                     <div class="align-self-end" style="margin-left: 10px;">
                         <button type="submit" class="btn btn-sm btn-primary">Export Excel</button>
@@ -102,7 +104,7 @@
                 </div>
             </form>
             <!--/ Filter -->
-            <h2 class="common-title">Download History</h2>
+            <!-- <h2 class="common-title">Download History</h2>
             <div class="table-responsive">
                 <table class="table table-sm table-bordered">
                     <thead>
@@ -143,6 +145,24 @@
                     </tbody>
                 </table>
                 {{$all_reports->links()}}
+            </div> -->
+            <div class="table-responsive reminderTable">
+                <table class="table table-sm table-bordered" id="all_rem_table">
+                    <thead style="background-color: #375EB7 !important;color: white">
+                    <tr>
+                        <th>Facility Name</th>
+                        <th>Provider Name</th>
+                        <th>Contract Name</th>
+                        <th>Followup Date</th>
+                        <th>Status</th>
+                        <th>CreatedBy/AssignedTo</th>
+                      
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>

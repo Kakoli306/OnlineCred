@@ -166,30 +166,30 @@
             }
         });
         $(document).ready(function () {
-            // $(document).on('click', '.pagination a', function (event) {
-            //     event.preventDefault();
-            //     $('li').removeClass('active');
-            //     $(this).parent('li').addClass('active');
-            //     var myurl = $(this).attr('href');
-            //      console.log(myurl);
-            //     var newurl = myurl.substr(0, myurl.length - 1);
-            //     var page = $(this).attr('href').split('page=')[1];
-            //     var newurldata = (newurl + page);
-            //     // console.log(newurldata);
-            //     getData(myurl);
-            // });
+            $(document).on('click', '.pagination a', function (event) {
+                event.preventDefault();
+                $('li').removeClass('active');
+                $(this).parent('li').addClass('active');
+                var myurl = $(this).attr('href');
+                 console.log(myurl);
+                var newurl = myurl.substr(0, myurl.length - 1);
+                var page = $(this).attr('href').split('page=')[1];
+                var newurldata = (newurl + page);
+                // console.log(newurldata);
+                getData(myurl);
+            });
 
             function showAllReminder() {
                 $('.loading2').show();
                 $.ajax({
                     type: "POST",
-                    url: "{{route('admin.reminder.show.all')}}",
+                    url: "{{route('admin.report.show.all')}}",
                     data: {
                         '_token': "{{csrf_token()}}",
                     },
                     success: function (data) {
                         console.log(data)
-                        $('.reportTable').empty().html(data.view)
+                        $('.reminderTable').empty().html(data.view)
                         $('.loading2').hide();
                     }
                 });
@@ -207,7 +207,7 @@
                 $('.loading2').show();
                 $.ajax({
                     type: "POST",
-                    url: "{{route('admin.reminder.show.all')}}",
+                    url: "{{route('admin.report.show.all')}}",
                     data: {
                         '_token': "{{csrf_token()}}",
                         'all_prc_data': all_prc_data,
@@ -221,7 +221,7 @@
                     },
                     success: function (data) {
                         console.log(data)
-                        $('.reportTable').empty().html(data.view)
+                        $('.reminderTable').empty().html(data.view)
                         $('.loading2').hide();
                     }
                 });
@@ -254,7 +254,7 @@
                     datatype: "html"
                 }).done(function (data) {
                 // console.log(data)
-                $('.reportTable').empty().html(data.view)
+                $('.reminderTable').empty().html(data.view)
                 $('.loading2').hide();
                 // location.hash = myurl;
             }).fail(function (jqXHR, ajaxOptions, thrownError) {
