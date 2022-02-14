@@ -175,7 +175,7 @@
                 var newurl = myurl.substr(0, myurl.length - 1);
                 var page = $(this).attr('href').split('page=')[1];
                 var newurldata = (newurl + page);
-                // console.log(newurldata);
+                 console.log(newurldata);
                 getData(myurl);
             });
 

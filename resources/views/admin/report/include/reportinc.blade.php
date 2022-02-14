@@ -183,7 +183,7 @@
                 $('.loading2').show();
                 $.ajax({
                     type: "POST",
-                    url: "{{route('admin.reminder.show.all')}}",
+                    url: "{{route('admin.report.show.all')}}",
                     data: {
                         '_token': "{{csrf_token()}}",
                     },
@@ -207,7 +207,7 @@
                 $('.loading2').show();
                 $.ajax({
                     type: "POST",
-                    url: "{{route('admin.reminder.show.all')}}",
+                    url: "{{route('admin.report.show.all')}}",
                     data: {
                         '_token': "{{csrf_token()}}",
                         'all_prc_data': all_prc_data,

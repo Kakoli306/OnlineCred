@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 
 class AdminReportController extends Controller
 {
@@ -353,6 +355,16 @@ return back()->with('success', 'Report Submitted');
             'view' => View::make('admin.report.include.reportTable', compact('reminders'))->render(),
             'pagination' => (string)$reminders->links()
         ]);
+    }
+
+    public function arrayPaginator($array, $request)
+    {
+        $page = $request->input('page', 1);
+        $perPage = 15;
+        $offset = ($page * $perPage) - $perPage;
+        return new LengthAwarePaginator(array_slice($array, $offset, $perPage, true), count($array), $perPage, $page,
+            ['path' => $request->url(), 'query' => $request->query()]);
+
     }
     
 
