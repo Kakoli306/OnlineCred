@@ -179,6 +179,7 @@ return back()->with('success', 'Report Submitted');
         $all_prov_name = $request->all_prov_name;
         $all_con_data = $request->all_con_data;
         $fowllowup_filter = $request->fowllowup_filter;
+        $worked_filter = $request->worked_filter;
         $status_filter = $request->status_filter;
         $user_type = $request->user_type;
         $user_id = $request->user_id;
@@ -231,6 +232,9 @@ return back()->with('success', 'Report Submitted');
         if (isset($fowllowup_filter)) {
             $query .= "AND followup_date<='$fowllowup_filter' ";
         }
+        if (isset($worked_filter)) {
+            $query .= "AND worked_date<='$worked_filter' ";
+        }
 
         if (isset($status_filter)) {
             $status_array = [];
@@ -242,7 +246,7 @@ return back()->with('success', 'Report Submitted');
         }
 
         if (isset($user_type) && isset($user_id)){
-            if($user_type != null && $user_id != null){
+            if($user_type != 0 && $user_id != 0){
                 $query .= "AND assignedto_user_type = $user_type ";
                 $query .= "AND assignedto_user_id = $user_id ";
             }
@@ -250,7 +254,7 @@ return back()->with('success', 'Report Submitted');
 
         $query .= "ORDER BY id DESC";
         $query_exe = DB::select($query);
-
+        
 
         $reminders = $this->arrayPaginator($query_exe, $request);
 
@@ -337,7 +341,7 @@ return back()->with('success', 'Report Submitted');
         }
 
         if (isset($user_type) && isset($user_id)){
-            if($user_type != null && $user_id != null){
+            if($user_type != 0 && $user_id != 0){
                 $query .= "AND assignedto_user_type = $user_type ";
                 $query .= "AND assignedto_user_id = $user_id ";
             }

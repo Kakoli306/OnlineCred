@@ -146,7 +146,7 @@ class AdminReminderController extends Controller
         }
 
         if (isset($user_type) && isset($user_id)){
-            if($user_type != null && $user_id != null){
+            if($user_type != 0 && $user_id != 0){
                 $query .= "AND assignedto_user_type = $user_type ";
                 $query .= "AND assignedto_user_id = $user_id ";
             }
@@ -241,7 +241,7 @@ class AdminReminderController extends Controller
         }
 
         if (isset($user_type) && isset($user_id)){
-            if($user_type != null && $user_id != null){
+            if($user_type != 0 && $user_id != 0){
                 $query .= "AND assignedto_user_type = $user_type ";
                 $query .= "AND assignedto_user_id = $user_id ";
             }

@@ -40,6 +40,12 @@
                                     class="form-control form-control-sm all_con_data" multiple="multiple">
                         </select>
                     </div>
+                    <div class="mr-2 mb-2">
+                        <label>Worked Date</label>
+                        <br>
+                        <input type="date" class="form-control form-control-sm worked_filter">
+
+                    </div>
                     <div class="mr-2">
                         <label>Followup Date</label>
                         <input type="date" class="form-control form-control-sm fowllowup_filter">
