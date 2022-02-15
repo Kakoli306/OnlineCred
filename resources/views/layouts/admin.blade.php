@@ -35,10 +35,10 @@
 <!-- Sidebar  -->
 <div class="iq-sidebar">
     <div class="iq-sidebar-logo d-flex justify-content-between">
-        <a href="{{route('admin.dashboard')}}">
+         <a href="{{route('admin.dashboard')}}">
             <img src="{{asset('assets/dashboard/')}}/images/plus.png" class="img-fluid align-middle" alt="aba+">
 
-        </a>
+        </a> 
         <div class="iq-menu-bt-sidebar">
             <div class="iq-menu-bt align-self-center">
                 <div class="wrapper-menu">
@@ -52,8 +52,9 @@
         <nav class="iq-sidebar-menu">
             <ul id="iq-sidebar-toggle" class="iq-menu">
                 <li>
-                    <a href="{{route('admin.dashboard')}}" class="iq-waves-effect"><i
-                            class="ri-home-4-line"></i><span>Dashboard </span></a>
+                     <a href="{{route('admin.dashboard')}}" class="iq-waves-effect"><i
+                            class="ri-home-4-line"></i><span>Dashboard </span></a> 
+                            
                 </li>
                 <li>
                     <a href="#mailbox" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i

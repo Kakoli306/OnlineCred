@@ -54,9 +54,9 @@ Route::prefix('admin')->group(function () {
 
 Route::group(['middleware' => ['auth:admin']], function () {
     Route::prefix('admin')->group(function () {
-        Route::get('/', [Controllers\Admin\AdminController::class, 'index'])->name('admin.dashboard');
+        Route::get('/dashboard', [Controllers\Admin\AdminController::class, 'index'])->name('admin.dashboard');
 
-        //preactice
+        //practice
         Route::post('/practice-save', [Controllers\Admin\AdminPracticeController::class, 'practice_save'])->name('admin.practice.save');
         Route::get('/practice-lists', [Controllers\Admin\AdminPracticeController::class, 'practice_lists'])->name('admin.practice.lists');
         Route::post('/practice-update', [Controllers\Admin\AdminPracticeController::class, 'practice_update'])->name('admin.practice.update');
@@ -91,7 +91,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
         //provider
         Route::post('/provider-save', [Controllers\Admin\AdminProviderController::class, 'provider_save'])->name('admin.provider.save');
-        Route::get('/provider-list', [Controllers\Admin\AdminProviderController::class, 'provider_list'])->name('admin.providers');
+        Route::get('/', [Controllers\Admin\AdminProviderController::class, 'provider_list'])->name('admin.providers');
         Route::get('/provider-list-facility/{id}', [Controllers\Admin\AdminProviderController::class, 'provider_list_by_faiclity'])->name('admin.providers.list');
         Route::get('/provider-delete/{id}', [Controllers\Admin\AdminProviderController::class, 'provider_delete'])->name('admin.provider.delete');
 

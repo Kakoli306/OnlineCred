@@ -32,8 +32,10 @@ class CustomLoginController extends Controller
             'email' => 'required',
             'password' => 'required|min:8'
         ]);
-        if (Auth::guard('admin')->attempt(['name' => $request->email, 'password' => $request->password], $request->remember)) {
-            return redirect(route('admin.dashboard'));
+        // if (Auth::guard('admin')->attempt(['name' => $request->email, 'password' => $request->password], $request->remember)) {
+        //     return redirect(route('admin.dashboard'));
+            if (Auth::guard('admin')->attempt(['name' => $request->email, 'password' => $request->password], $request->remember)) {
+                return redirect(route('admin.providers'));
         } elseif (Auth::guard('accountmanager')->attempt(['name' => $request->email, 'password' => $request->password], $request->remember)) {
             return redirect(route('account.manager.dashboard'));
         } elseif (Auth::guard('basestaff')->attempt(['name' => $request->email, 'password' => $request->password], $request->remember)) {
