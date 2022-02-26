@@ -122,6 +122,7 @@
                         })
                         $('#all_con_data').multiselect({includeSelectAllOption: true});
                         $("#all_con_data").multiselect('rebuild');
+                        
                         $('.loading2').hide();
                     }
                 });
@@ -146,6 +147,7 @@
                     })
                     $('#all_status_data').multiselect({includeSelectAllOption: true});
                     $("#all_status_data").multiselect('rebuild');
+                    
                     $('.loading2').hide();
                 }
             });

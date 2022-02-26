@@ -24,7 +24,7 @@
                                                     <div class="col-md-10 mb-3">
                                                         <div class="talkbubble">
                                                             <h6 class="overflow-hidden">Albert <span class="badge badge-secondary">To
-                                                                                        Call</span> <small class="text-muted float-right">(${value.followup_date})</small></h6>
+                                                                                        Call</span> <small class="text-muted float-right">(${value.worked_date})</small></h6>
                                                             <hr>
                                                             <p>${value.note}</p>
                                                         </div>

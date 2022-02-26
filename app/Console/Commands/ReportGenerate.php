@@ -236,6 +236,20 @@ foreach ($reminders as $reminder) {
 
                 $fac_name = practice::select('id', 'business_name')->where('id', $line->facility_id)->first();
                 $prov_name = Provider::select('id', 'full_name')->where('id', $line->provider_id)->first();
+                if($prov_name)
+                {
+                    if($prov_name->is_active = 1)
+                    {
+                        $star = '';
+                    }
+                    else{
+                        $star = '*';
+                    }
+                }
+                else 
+                {
+                    $star = '';
+                }
                 $con_name = provider_contract::select('id', 'contract_name')->where('id', $line->contract_id)->first();
                 $st_name = contract_status::where('id', $line->status)->first();
 
@@ -320,7 +334,7 @@ foreach ($reminders as $reminder) {
 
                 return [
                     'Facility' => isset($fac_name) ? $fac_name->business_name : "",
-                    'Provider Name' => isset($prov_name) ? $prov_name->full_name : "",
+                    'Provider Name' => isset($prov_name) ? $prov_name->full_name : "".$star,
                     'Contract Name' => isset($con_name) ? $con_name->contract_name : "",
                     'Followup Data' => $follow_date,
                     'Worked Data' => $worked_date,

@@ -41,7 +41,8 @@ class BaseStaffReportController extends Controller
             array_push($array, $asspc->practice_id);
         }
 
-        $all_fac = practice::select('id', 'business_name')->whereIn('id', $array)->get();
+        $all_fac = practice::select('id', 'business_name')->whereIn('id', $array)
+        ->orderBy('business_name','asc')->get();
         return response()->json($all_fac, 200);
     }
 

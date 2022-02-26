@@ -26,7 +26,7 @@
                         <label>Select Provider</label>
                         <br>
                         <select id="all_prov_name" name="all_prov_name[]"
-                                class="all_prov_name form-control form-control-sm"
+                                class="all_prov_name form-control form-control-sm custom-select"
                                 multiple="multiple">
 
                         </select>
@@ -36,7 +36,7 @@
                         <label>Contract Name</label>
                         <br>
                         <select id="all_con_data" name="all_con_data[]"
-                                class="form-control form-control-sm all_con_data" multiple="multiple">
+                                class="form-control form-control-sm all_con_data custom-select" multiple="multiple">
 
                         </select>
                     </div>
@@ -49,7 +49,7 @@
                         <br>
 
                         <select id="all_status_data" name="all_status_data[]"
-                                class="form-control form-control-sm all_status_data"
+                                class="form-control form-control-sm all_status_data custom-select"
                                 multiple="multiple">
 
                         </select>
@@ -67,7 +67,7 @@
                 </select>
             </div>
             <div class="mr-2">
-            <label>Select User</label>
+            <label>Assigned To</label>
                 <select class="form-control form-control-sm user_id">
                     <option value="0">Select User</option>
                 </select>

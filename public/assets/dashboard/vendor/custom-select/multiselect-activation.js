@@ -1,3 +1,4 @@
 $(function() {
-    $('.custom-select').multiselect();
+    $('.custom-select').multiselect({includeSelectAllOption: true,
+});
 });

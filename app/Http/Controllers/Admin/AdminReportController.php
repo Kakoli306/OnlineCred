@@ -32,14 +32,25 @@ class AdminReportController extends Controller
     {
         $all_status = contract_status::all();
         $all_reports = report::orderBy('id', 'desc')->paginate(15);
-        //dd($all_reports);
+       
         return view('admin.report.report', compact('all_reports', 'all_status'));
     }
 
     public function report_get_all_facility(Request $request)
     {
-        $all_fac = practice::select('id', 'business_name')->get();
-        return response()->json($all_fac, 200);
+        // $all_fac = practice::select('id', 'business_name')->get();
+        $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
+        ->where('user_type', Auth::user()->account_type)
+        ->get();
+
+
+    $array = [];
+    foreach ($assign_prc as $acprc) {
+        array_push($array, $acprc->practice_id);
+    }
+    $all_prc = practice::whereIn('id',$array)->orderBy('business_name','asc')->get();
+
+         return response()->json($all_fac, 200);
     }
 
     public function report_get_provider_by_facility(Request $request)

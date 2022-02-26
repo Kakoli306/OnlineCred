@@ -34,7 +34,22 @@ class AdminReminderController extends Controller
 
     public function reminder_get_all_prc(Request $request)
     {
-        $all_prc = practice::all();
+
+
+        $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
+            ->where('user_type', Auth::user()->account_type)
+            ->get();
+
+
+        $array = [];
+        foreach ($assign_prc as $acprc) {
+            array_push($array, $acprc->practice_id);
+        }
+
+
+
+         $all_prc = practice::whereIn('id',$array)->orderBy('business_name','asc')->get();
+        
         return response()->json($all_prc, 200);
     }
 
@@ -55,7 +70,7 @@ class AdminReminderController extends Controller
             array_push($array, $prc->provider_id);
         }
 
-        $provs = Provider::whereIn('id', $array)->get();
+        $provs = Provider::whereIn('id', $array)->where('is_active', 1)->get();
         return response()->json($provs, 200);
     }
 
@@ -99,6 +114,7 @@ class AdminReminderController extends Controller
 
 
         $query = "SELECT * FROM reminders WHERE is_show=1 ";
+      
 
         if (isset($all_prc_data) && $all_prc_data != null || $all_prc_data != '') {
             $query .= "AND facility_id=$all_prc_data ";
@@ -110,6 +126,8 @@ class AdminReminderController extends Controller
             $query .= "AND facility_id IN('" . $CAT_filter . "') ";
         }
 
+       
+     //   $all_prov_name = Provider::where('is_active', 1)->get();
         if (isset($all_prov_name)) {
 
             $prov_array = [];
@@ -119,7 +137,10 @@ class AdminReminderController extends Controller
 
             $PROV_filter = implode("','", $prov_array);
             $query .= "AND provider_id IN('" . $PROV_filter . "') ";
+          
+           
         }
+    
 
         if (isset($all_con_data)) {
 

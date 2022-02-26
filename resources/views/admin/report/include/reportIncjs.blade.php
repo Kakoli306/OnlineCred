@@ -91,21 +91,25 @@
                                 );
                             });
                         }
-                        $('#all_prov_name').multiselect({
-                            SelectedAllText:'All',
-                            maxHeight:300,
-                            includeSelectAllOption: true
-                            });
+                        // $('#all_prov_name').multiselect({
+                        //     SelectedAllText:'All',
+                        //     maxHeight:300,
+                        //     includeSelectAllOption: true
+                        //     });
 
-                            $('#all_prov_name').multiselect('selectAll',true)
+                        //     $('#all_prov_name').multiselect('selectAll',true)
 
-                        $("#all_prov_name").multiselect('destroy').multiselect('rebuild');
+                        // $("#all_prov_name").multiselect('destroy').multiselect('rebuild');
+                        $('#all_prov_name').multiselect({includeSelectAllOption: true});
+                        $("#all_prov_name").multiselect('rebuild');
                         $('.loading2').hide();
                     }
 
 
                 });
+               
             });
+
 
 
             $('.all_prov_name').change(function () {
@@ -127,15 +131,22 @@
                                 `<option value="${value.id}">${value.contract_name}</option>`
                             );
                         })
-                        $('#all_con_data').multiselect({
-                            allSelectedText:'All',
-                            maxHeight:300,
-                            includeSelectAllOption: true
-                            }).multiselect('selectAll',false);
-                        $("#all_con_data").multiselect('destroy').multiselect('rebuild');
-                        $('.loading2').hide();
+
+
+                        // $('#all_con_data').multiselect({
+                        //     allSelectedText:'All',
+                        //     maxHeight:300,
+                        //     includeSelectAllOption: true
+                        //     }).multiselect('selectAll',true);
+                        // $("#all_con_data").multiselect('destroy').multiselect('rebuild');
+
+                        $('#all_con_data').multiselect({includeSelectAllOption: true});
+                        $("#all_con_data").multiselect('rebuild');
+                         $('.loading2').hide();
+                        
                     }
                 });
+               
             });
 
 
@@ -157,6 +168,7 @@
                     })
                     $('#all_status_data').multiselect({includeSelectAllOption: true});
                     $("#all_status_data").multiselect('rebuild');
+                    
                     $('.loading2').hide();
                 }
             });
