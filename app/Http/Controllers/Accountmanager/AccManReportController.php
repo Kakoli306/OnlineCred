@@ -44,7 +44,13 @@ class AccManReportController extends Controller
         foreach ($ass_prc as $asspc) {
             array_push($array, $asspc->practice_id);
         }
+<<<<<<< HEAD
         $all_fac = practice::select('id', 'business_name')->whereIn('id', $array)->orderBy('business_name','asc')->get();
+=======
+        $all_fac = practice::select('id', 'business_name')->whereIn('id', $array)->orderBy('business_name','asc')
+        ->get();
+        return response()->json($all_prc, 200);
+>>>>>>> 66cee114dba548922cc5070c3a4dd4cbb5049534
         return response()->json($all_fac, 200);
     }
 

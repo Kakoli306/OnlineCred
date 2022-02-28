@@ -27,7 +27,7 @@
                             <option value=""></option> -->
                             <br>
                             <select id="all_prov_name" name="all_prov_name[]"
-                                    class="all_prov_name form-control form-control-sm"
+                                    class="all_prov_name form-control form-control-sm custom-select"
                                     multiple="multiple">
                         </select>
                     </div>
@@ -37,8 +37,14 @@
                         <!-- <select class="form-control form-control-sm all_cotract" name="contact_id" required>
                             <option value=""></option> -->
                             <select id="all_con_data" name="all_con_data[]"
-                                    class="form-control form-control-sm all_con_data" multiple="multiple">
+                                    class="form-control form-control-sm all_con_data custom-select" multiple="multiple">
                         </select>
+                    </div>
+                    <div class="mr-2 mb-2">
+                        <label>Worked Date</label>
+                        <br>
+                        <input type="date" class="form-control form-control-sm worked_filter">
+
                     </div>
                     <div class="mr-2">
                         <label>Followup Date</label>
@@ -52,7 +58,7 @@
                                 <option value="{{$status->id}}">{{$status->contact_status}}</option>
                             @endforeach -->
                             <select id="all_status_data" name="all_status_data[]"
-                                    class="form-control form-control-sm all_status_data"
+                                    class="form-control form-control-sm all_status_data custom-select"
                                     multiple="multiple">
                         </select>
 
@@ -62,14 +68,14 @@
             <label>Account Type</label>
             <br>
                 <select class="form-control form-control-sm account_type_user user_type">
-                    <option value="0">Account Type</option>
+                    <label>Assigned To</label>
                     <option value="1">Admin</option>
                     <option value="2">Account Manager</option>
                     <option value="3">Base Staff</option>
                 </select>
             </div>
-            <div class="mr-2">
-            <label>Select User</label>
+            <div class="mr-2 mb-2">
+            <label>Assigned To</label>
                 <select class="form-control form-control-sm user_id">
                     <option value="0">Select User</option>
                 </select>

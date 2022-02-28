@@ -29,7 +29,7 @@
                             `<option value="${value.id}">${value.business_name}</option>`
                         );
                     });
-
+                   
                     $('.loading2').hide();
 
                 }
@@ -91,6 +91,15 @@
                                 );
                             });
                         }
+                        // $('#all_prov_name').multiselect({
+                        //     SelectedAllText:'All',
+                        //     maxHeight:300,
+                        //     includeSelectAllOption: true
+                        //     });
+
+                        //     $('#all_prov_name').multiselect('selectAll',true)
+
+                        // $("#all_prov_name").multiselect('destroy').multiselect('rebuild');
                         $('#all_prov_name').multiselect({includeSelectAllOption: true});
                         $("#all_prov_name").multiselect('rebuild');
                         $('.loading2').hide();
@@ -98,7 +107,9 @@
 
 
                 });
+               
             });
+
 
 
             $('.all_prov_name').change(function () {
@@ -120,11 +131,22 @@
                                 `<option value="${value.id}">${value.contract_name}</option>`
                             );
                         })
+
+
+                        // $('#all_con_data').multiselect({
+                        //     allSelectedText:'All',
+                        //     maxHeight:300,
+                        //     includeSelectAllOption: true
+                        //     }).multiselect('selectAll',true);
+                        // $("#all_con_data").multiselect('destroy').multiselect('rebuild');
+
                         $('#all_con_data').multiselect({includeSelectAllOption: true});
                         $("#all_con_data").multiselect('rebuild');
-                        $('.loading2').hide();
+                         $('.loading2').hide();
+                        
                     }
                 });
+               
             });
 
 
@@ -146,6 +168,7 @@
                     })
                     $('#all_status_data').multiselect({includeSelectAllOption: true});
                     $("#all_status_data").multiselect('rebuild');
+                    
                     $('.loading2').hide();
                 }
             });
@@ -200,6 +223,7 @@
                 let all_prov_name = $('.all_prov_name').val();
                 let all_con_data = $('.all_con_data').val();
                 let fowllowup_filter = $('.fowllowup_filter').val();
+                let worked_filter = $('.worked_filter').val();
                 let status_filter = $('.all_status_data').val();
                 let user_type = $('.user_type').val();
                 let user_id = $('.user_id').val();
@@ -214,6 +238,7 @@
                         'all_prov_name': all_prov_name,
                         'all_con_data': all_con_data,
                         'fowllowup_filter': fowllowup_filter,
+                        'worked_filter': worked_filter,
                         'status_filter': status_filter,
                         'user_type': user_type,
                         'user_id' : user_id
@@ -234,6 +259,7 @@
             let all_prov_name = $('.all_prov_name').val();
             let all_con_data = $('.all_con_data').val();
             let fowllowup_filter = $('.fowllowup_filter').val();
+            let worked_filter = $('.worked_filter').val();
             let status_filter = $('.all_status_data').val();
             let user_type = $('.user_type').val();
                 let user_id = $('.user_id').val();
@@ -247,6 +273,7 @@
                         'all_prov_name': all_prov_name,
                         'all_con_data': all_con_data,
                         'fowllowup_filter': fowllowup_filter,
+                        'worked_filter': worked_filter,
                         'status_filter': status_filter,
                         'user_type': user_type,
                         'user_id' : user_id

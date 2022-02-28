@@ -79,6 +79,7 @@ class AdminAssignPracticeController extends Controller
     public function practice_assign_remove_prc_for_user(Request $request)
     {
         $assign_prac = $request->assign_prac;
+       
         $account_type_user = $request->account_type_user;
         $user_id = $request->user_id;
 

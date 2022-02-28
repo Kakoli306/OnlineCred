@@ -379,11 +379,17 @@
                                                                         class="text-danger">*</span></label>
                                                             </div>
                                                             <div class="col-md-8 mb-2">
-                                                                <input type="date"
+                                                                <!-- <input type="date"
                                                                        class="form-control form-control-sm"
                                                                        name="note_worked_date"
                                                                        value="{{isset($exits_note) ? $exits_note->worked_date : ''}}"
-                                                                       required>
+                                                                       required> -->
+                                                                       <input type="date" 
+                                                                       class="form-control form-control-sm"
+                                                                       name="note_worked_date"
+                                                                       value="{{Carbon\Carbon::now()->format('Y-m-d')}}"
+                                                                       required />
+
 
                                                                 <input type="hidden"
                                                                        class="form-control form-control-sm"
@@ -397,20 +403,37 @@
                                                             <div class="col-md-4 mb-2">
                                                                 <label>Follow Up Date <span class="text-danger">*</span></label>
                                                             </div>
-                                                            <div class="col-md-8 mb-2">
+                                                            <!-- <div class="col-md-8 mb-2">
                                                                 <input type="date" class="form-control form-control-sm"
                                                                        name="note_followup_date"
                                                                        value="{{$pcontract->contract_followup_date}}"
+                                                                       required>
+                                                            </div> -->
+                                                            <div class="col-md-8 mb-2">
+                                                                <input type="date" class="form-control form-control-sm"
+                                                                       name="note_followup_date"
+                                                                       value=""
                                                                        required>
                                                             </div>
                                                             <div class="col-md-4 mb-2">
                                                                 <label>Notes <span class="text-danger">*</span></label>
                                                             </div>
-                                                            <div class="col-md-8 mb-2">
+                                                            <!-- <div class="col-md-8 mb-2">
                                                                 @if ($exits_note)
                                                                     <textarea class="form-control form-control-sm"
                                                                               name="note"
                                                                               required>{{isset($exits_note) ? $exits_note->note : ''}}</textarea>
+                                                                @else
+                                                                    <textarea class="form-control form-control-sm"
+                                                                              name="note"
+                                                                              required></textarea>
+                                                                @endif
+                                                            </div> -->
+                                                            <div class="col-md-8 mb-2">
+                                                                @if ($exits_note)
+                                                                    <textarea class="form-control form-control-sm"
+                                                                              name="note"
+                                                                              required></textarea>
                                                                 @else
                                                                     <textarea class="form-control form-control-sm"
                                                                               name="note"

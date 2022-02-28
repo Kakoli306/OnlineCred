@@ -32,14 +32,17 @@ class AdminReportController extends Controller
     {
         $all_status = contract_status::all();
         $all_reports = report::orderBy('id', 'desc')->paginate(15);
-        //dd($all_reports);
+       
         return view('admin.report.report', compact('all_reports', 'all_status'));
     }
 
     public function report_get_all_facility(Request $request)
     {
         // $all_fac = practice::select('id', 'business_name')->get();
+<<<<<<< HEAD
         // return response()->json($all_fac, 200);
+=======
+>>>>>>> 66cee114dba548922cc5070c3a4dd4cbb5049534
         $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
         ->where('user_type', Auth::user()->account_type)
         ->get();
@@ -192,7 +195,10 @@ return back()->with('success', 'Report Submitted');
         $all_con_data = $request->all_con_data;
         $fowllowup_filter = $request->fowllowup_filter;
         $worked_filter = $request->worked_filter;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 66cee114dba548922cc5070c3a4dd4cbb5049534
         $status_filter = $request->status_filter;
         $user_type = $request->user_type;
         $user_id = $request->user_id;
@@ -267,7 +273,7 @@ return back()->with('success', 'Report Submitted');
 
         $query .= "ORDER BY id DESC";
         $query_exe = DB::select($query);
-
+        
 
         $reminders = $this->arrayPaginator($query_exe, $request);
 
@@ -354,7 +360,7 @@ return back()->with('success', 'Report Submitted');
         }
 
         if (isset($user_type) && isset($user_id)){
-            if($user_type != null && $user_id != null){
+            if($user_type != 0 && $user_id != 0){
                 $query .= "AND assignedto_user_type = $user_type ";
                 $query .= "AND assignedto_user_id = $user_id ";
             }

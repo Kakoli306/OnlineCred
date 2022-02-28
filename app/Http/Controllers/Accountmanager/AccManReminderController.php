@@ -72,9 +72,13 @@ class AccManReminderController extends Controller
             array_push($fac_id, $ass_prc->practice_id);
         }
 
+<<<<<<< HEAD
        // $all_prc = practice::whereIn('id', $fac_id)->get();
        $all_prc = practice::whereIn('id', $fac_id)->orderBy('business_name','asc')->get();
 
+=======
+        $all_prc = practice::whereIn('id', $fac_id)->orderBy('business_name','asc')->get();
+>>>>>>> 66cee114dba548922cc5070c3a4dd4cbb5049534
         return response()->json($all_prc, 200);
     }
 
