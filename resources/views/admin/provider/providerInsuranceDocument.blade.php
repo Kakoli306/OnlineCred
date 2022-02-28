@@ -135,7 +135,7 @@
                                         </div>
                                         <div class="col-md-4 pr-2">
                                             <label>File</label>
-                                            <input type="file" class="form-control form-control-sm" name="prov_ins_file" id="prov_ins_file">
+                                            <input type="file" class="form-control form-control-sm" name="prov_ins_file" >
                                            
                                         </div>
                                     </div>
@@ -193,6 +193,15 @@
                                 </td>
 
                                 <td>
+                                @if (!empty($ins_doc->prov_ins_file) && file_exists($ins_doc->prov_ins_file))
+                                        <a href="{{asset($ins_doc->prov_ins_file)}}" target="_blank" title="View">
+                                            <i class="ri-eye-line text-success mr-2"></i>
+                                        </a>
+                                    @else
+                                        <a href="#" title="View">
+                                            <i class="ri-eye-line text-success mr-2"></i>
+                                        </a>
+                                    @endif
 
                                     <a href="#editinsdoc{{$ins_doc->id}}" title="Edit" data-toggle="modal">
                                         <i class="ri-pencil-line mr-2"></i>

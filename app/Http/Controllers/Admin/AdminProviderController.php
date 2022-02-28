@@ -1222,6 +1222,7 @@ class AdminProviderController extends Controller
         $new_pro_ins_doc->user_id = Auth::user()->id;
         $new_pro_ins_doc->user_type = 1;
 
+
         if ($request->hasFile('prov_ins_file')) {
             $image = $request->file('prov_ins_file');
             $name = $image->getClientOriginalName();
@@ -1242,7 +1243,7 @@ class AdminProviderController extends Controller
         $new_pro_ins_doc->contract_name_id = $request->contract_name_id;
         $new_pro_ins_doc->document_type_id = $request->document_type_id;
         $new_pro_ins_doc->description = $request->description;
-        
+
         if ($request->hasFile('prov_ins_file')) {
             $image = $request->file('prov_ins_file');
             $name = $image->getClientOriginalName();
@@ -1252,7 +1253,7 @@ class AdminProviderController extends Controller
 
             $new_pro_ins_doc->prov_ins_file = $imageUrl;
         }
-       
+
         $new_pro_ins_doc->save();
         return back()->with('success', 'Provider Insurance Document Successfully Updated');
     }
