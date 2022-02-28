@@ -38,8 +38,20 @@ class AdminReportController extends Controller
 
     public function report_get_all_facility(Request $request)
     {
-        $all_fac = practice::select('id', 'business_name')->get();
-        return response()->json($all_fac, 200);
+        // $all_fac = practice::select('id', 'business_name')->get();
+        // return response()->json($all_fac, 200);
+        $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
+        ->where('user_type', Auth::user()->account_type)
+        ->get();
+
+
+    $array = [];
+    foreach ($assign_prc as $acprc) {
+        array_push($array, $acprc->practice_id);
+    }
+    $all_prc = practice::whereIn('id',$array)->orderBy('business_name','asc')->get();
+
+         return response()->json($all_fac, 200);
     }
 
     public function report_get_provider_by_facility(Request $request)
@@ -179,6 +191,8 @@ return back()->with('success', 'Report Submitted');
         $all_prov_name = $request->all_prov_name;
         $all_con_data = $request->all_con_data;
         $fowllowup_filter = $request->fowllowup_filter;
+        $worked_filter = $request->worked_filter;
+
         $status_filter = $request->status_filter;
         $user_type = $request->user_type;
         $user_id = $request->user_id;
@@ -231,6 +245,9 @@ return back()->with('success', 'Report Submitted');
         if (isset($fowllowup_filter)) {
             $query .= "AND followup_date<='$fowllowup_filter' ";
         }
+        if (isset($worked_filter)) {
+            $query .= "AND worked_date<='$worked_filter' ";
+        }
 
         if (isset($status_filter)) {
             $status_array = [];
@@ -242,7 +259,7 @@ return back()->with('success', 'Report Submitted');
         }
 
         if (isset($user_type) && isset($user_id)){
-            if($user_type != null && $user_id != null){
+            if($user_type != 0 && $user_id != 0){
                 $query .= "AND assignedto_user_type = $user_type ";
                 $query .= "AND assignedto_user_id = $user_id ";
             }

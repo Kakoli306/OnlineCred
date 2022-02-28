@@ -421,7 +421,8 @@ class AdminProviderController extends Controller
         $contact_name = contact_name::all();
         $contact_type = contact_type::all();
         $contact_status = contract_status::all();
-        return view('admin.provider.providerContract', compact('provider', 'provider_contracts', 'contact_name', 'contact_type', 'contact_status'));
+        $todayDate = Carbon::now();
+        return view('admin.provider.providerContract', compact('provider', 'provider_contracts', 'contact_name', 'contact_type', 'contact_status','todayDate'));
     }
 
 

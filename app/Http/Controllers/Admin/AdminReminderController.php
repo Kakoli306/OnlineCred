@@ -35,6 +35,16 @@ class AdminReminderController extends Controller
     public function reminder_get_all_prc(Request $request)
     {
         $all_prc = practice::all();
+        $assign_prc = assign_practice_user::where('user_id', Auth::user()->id)
+            ->where('user_type', Auth::user()->account_type)
+            ->get();
+        $array = [];
+        foreach ($assign_prc as $acprc) {
+            array_push($array, $acprc->practice_id);
+        }
+
+        $all_prc = practice::whereIn('id',$array)->orderBy('business_name','asc')->get();
+
         return response()->json($all_prc, 200);
     }
 
@@ -55,7 +65,7 @@ class AdminReminderController extends Controller
             array_push($array, $prc->provider_id);
         }
 
-        $provs = Provider::whereIn('id', $array)->get();
+        $provs = Provider::whereIn('id', $array)->where('is_active', 1)->get();
         return response()->json($provs, 200);
     }
 
@@ -146,7 +156,7 @@ class AdminReminderController extends Controller
         }
 
         if (isset($user_type) && isset($user_id)){
-            if($user_type != null && $user_id != null){
+            if($user_type != 0 && $user_id != 0){
                 $query .= "AND assignedto_user_type = $user_type ";
                 $query .= "AND assignedto_user_id = $user_id ";
             }
@@ -241,7 +251,7 @@ class AdminReminderController extends Controller
         }
 
         if (isset($user_type) && isset($user_id)){
-            if($user_type != null && $user_id != null){
+            if($user_type != 0 && $user_id != 0){
                 $query .= "AND assignedto_user_type = $user_type ";
                 $query .= "AND assignedto_user_id = $user_id ";
             }
